@@ -39,6 +39,7 @@ function App() {
         <Route path='/' element={<Login/>}/>
         <Route path='register' element={<Register/>}/>
         <Route path='/profile/:id' element={<Profile/>}/>
+        
       </Routes>
     </Router>
    
