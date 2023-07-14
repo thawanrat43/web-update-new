@@ -22,7 +22,7 @@ const Login = () => {
         password: data.get('password'),
     };
     const token = localStorage.getItem('token')
-    fetch("http://localhost:3333/login", {
+    fetch("https://successful-handbag-toad.cyclic.app/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const Login = () => {
         if (data.status ==='ok'){
             alert('login success')
             localStorage.setItem('token',data.token)
-            window.location ='/'
+            window.location ='/home'
 
         } else {
             alert('login failed')
