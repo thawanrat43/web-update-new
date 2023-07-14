@@ -35,8 +35,8 @@ function App() {
                 </Container>
             </Navbar>
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/login' element={<Login/>}/>
+        <Route path='/home' element={<Home/>}/>
+        <Route path='/' element={<Login/>}/>
         <Route path='register' element={<Register/>}/>
         <Route path='/profile/:id' element={<Profile/>}/>
       </Routes>

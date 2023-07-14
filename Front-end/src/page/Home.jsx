@@ -16,17 +16,17 @@ import Barprofile from "../compament/Barprofile";
 import TextField from '@mui/material/TextField';
 import {useParams} from 'react-router-dom';
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+
 const Home =() =>{
-    const [listOfPosts, setListOfPosts] = useState([]);
-    let history = useHistory();
+    // const [listOfPosts, setListOfPosts] = useState([]);
+    // let history = useHistory();
 
     
-    useEffect(() => {
-        axios.get("http://localhost:3306/home").then((response) => {
-            setListOfPosts(response.data);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios.get("http://localhost:3306/home").then((response) => {
+    //         setListOfPosts(response.data);
+    //         });
+    // }, []);
         
     const handlelogout =(event)=>{
         event.preventDefault();
@@ -69,13 +69,11 @@ const Home =() =>{
         });
     }
     return (
-        
-            {listOfPosts.map((value, key) => {
-                return (
-                    <div className="d-flex justify-content-center m-5">
-                        <Container className="m-5 ">
-                            <p className="fs-5">กรอกประวัติของผู้ที่ต้องการตรวจสอบ</p>
-                            <Row>
+                
+          <div className="d-flex justify-content-center m-5">
+            <Container className="m-5 ">
+                <p className="fs-5">กรอกประวัติของผู้ที่ต้องการตรวจสอบ</p>
+                    <Row>
                                 <Col>
                                     <Form.Select id="type_id" aria-label="Default select example" size="lg" className="mt-1">
                                         <option>คำนำหน้า</option>
@@ -169,10 +167,9 @@ const Home =() =>{
                                 </Col>
                             </Row>  
                         </Container>
-                    
                     </div>
-                )
-            }
+        
+            
     );
    
 }
