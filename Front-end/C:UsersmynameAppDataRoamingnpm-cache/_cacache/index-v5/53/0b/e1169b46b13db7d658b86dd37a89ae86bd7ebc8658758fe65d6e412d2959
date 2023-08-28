@@ -1,0 +1,2 @@
+
+31d0fb6066c70d55aa511c9d32889984945df46d	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@types/whatwg-url/-/whatwg-url-11.0.0.tgz","integrity":null,"time":1690768539144,"size":"0","metadata":{"time":1690768539144,"url":"http://registry.npmjs.org/@types/whatwg-url/-/whatwg-url-11.0.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Mon, 31 Jul 2023 01:55:39 GMT","location":"https://registry.npmjs.org/@types/whatwg-url/-/whatwg-url-11.0.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

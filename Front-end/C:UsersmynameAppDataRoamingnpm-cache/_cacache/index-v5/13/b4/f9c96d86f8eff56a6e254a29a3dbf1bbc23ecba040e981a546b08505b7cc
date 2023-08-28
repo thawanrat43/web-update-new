@@ -1,0 +1,2 @@
+
+2124a4b556a110824e002c15dc957642cd6a4fd4	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/raw-body","integrity":null,"time":1691660102942,"size":"0","metadata":{"time":1691660102942,"url":"http://registry.npmjs.org/raw-body","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Thu, 10 Aug 2023 09:35:03 GMT","location":"https://registry.npmjs.org/raw-body","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

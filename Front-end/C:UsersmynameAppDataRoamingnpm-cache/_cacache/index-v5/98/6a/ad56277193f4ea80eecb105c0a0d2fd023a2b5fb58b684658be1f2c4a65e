@@ -1,0 +1,2 @@
+
+a83f30f9cb6514e04dbe7182a360502cb92df10e	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@types/react/-/react-18.2.21.tgz","integrity":null,"time":1692931685909,"size":"0","metadata":{"time":1692931685909,"url":"http://registry.npmjs.org/@types/react/-/react-18.2.21.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 25 Aug 2023 02:48:06 GMT","location":"https://registry.npmjs.org/@types/react/-/react-18.2.21.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

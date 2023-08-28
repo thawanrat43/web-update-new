@@ -1,0 +1,2 @@
+
+1ebde1b5663d82d0df8c87e5697d6a1466cbdd71	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/process-nextick-args","integrity":null,"time":1691722912643,"size":"0","metadata":{"time":1691722912643,"url":"http://registry.npmjs.org/process-nextick-args","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 11 Aug 2023 03:01:52 GMT","location":"https://registry.npmjs.org/process-nextick-args","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

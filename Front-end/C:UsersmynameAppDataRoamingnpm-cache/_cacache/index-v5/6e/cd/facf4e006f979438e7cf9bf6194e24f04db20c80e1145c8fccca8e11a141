@@ -1,0 +1,2 @@
+
+b7282384a64dd6432cbcf5dea5e5464fbe39203c	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/array-flatten","integrity":null,"time":1690768712835,"size":"0","metadata":{"time":1690768712835,"url":"http://registry.npmjs.org/array-flatten","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Mon, 31 Jul 2023 01:58:33 GMT","location":"https://registry.npmjs.org/array-flatten","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

@@ -1,0 +1,2 @@
+
+2736015d6c9dd70640c78cb3d5a54c752fb38992	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/minimist","integrity":null,"time":1690769059061,"size":"0","metadata":{"time":1690769059061,"url":"http://registry.npmjs.org/minimist","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Mon, 31 Jul 2023 02:04:19 GMT","location":"https://registry.npmjs.org/minimist","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

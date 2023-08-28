@@ -1,0 +1,2 @@
+
+b82bd1e525ea4052da93575ae4fd44c0e0987131	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@types/yallist/-/yallist-4.0.1.tgz","integrity":null,"time":1690768539143,"size":"0","metadata":{"time":1690768539143,"url":"http://registry.npmjs.org/@types/yallist/-/yallist-4.0.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Mon, 31 Jul 2023 01:55:39 GMT","location":"https://registry.npmjs.org/@types/yallist/-/yallist-4.0.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}
