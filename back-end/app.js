@@ -255,20 +255,20 @@ app.post('/api/updatepic/:id',uploads.single('file'),function (req, res, next){
       res.status(500).send('Server Error')
   }
 })
-const verifyjwt = (req,res,next)=>{
-  const token = req.header["access-token"]
-  if (!token) return res.status(401).json("Not authenticated!");
-  else{
-    jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
-      if (err) return res.status(403).json("Token is not valid!");
-      else{
-        req.userid = userInfo.id;
-        next();
-      }
-    })
-  }
+// const verifyjwt = (req,res,next)=>{
+//   const token = req.header["access-token"]
+//   if (!token) return res.status(401).json("Not authenticated!");
+//   else{
+//     jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
+//       if (err) return res.status(403).json("Token is not valid!");
+//       else{
+//         req.userid = userInfo.id;
+//         next();
+//       }
+//     })
+//   }
   
-}
+// }
 app.get('/api/profileid',  function (req, res, next) {
   const token = req.cookies.access_token;
   if (!token) return res.status(401).json("Not authenticated!");
