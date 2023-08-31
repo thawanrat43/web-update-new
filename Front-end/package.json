@@ -5,10 +5,23 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "dev": "vite --port 3000"
+    "dev": "cross-env DISABLE_ESLINT_PLUGIN=true refine start",
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true refine build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "refine": "refine"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

@@ -1,0 +1,2 @@
+
+10ca2b917c08eb624e24952d7fe47cb6121a8621	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/denque","integrity":null,"time":1693474775161,"size":"0","metadata":{"time":1693474775160,"url":"http://registry.npmjs.org/denque","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Thu, 31 Aug 2023 09:39:35 GMT","location":"https://registry.npmjs.org/denque","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}
