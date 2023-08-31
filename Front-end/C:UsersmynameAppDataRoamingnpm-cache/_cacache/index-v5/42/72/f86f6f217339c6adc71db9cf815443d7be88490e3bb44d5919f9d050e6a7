@@ -1,0 +1,2 @@
+
+e4202f77e657e111f9fb99533b0b58729824876a	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/path-to-regexp/-/path-to-regexp-0.1.7.tgz","integrity":null,"time":1693284358192,"size":"0","metadata":{"time":1693284358192,"url":"http://registry.npmjs.org/path-to-regexp/-/path-to-regexp-0.1.7.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:58 GMT","location":"https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-0.1.7.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

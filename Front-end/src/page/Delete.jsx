@@ -25,7 +25,7 @@ const Delete = () => {
     const [user ,setUser] = useState([]);
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profile/${id}`);
+            const response = await axios.get(`/api/profile/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -40,7 +40,7 @@ const Delete = () => {
     }, []);
     const deletedata = async () => {
         try{
-            await axios.post(`http://localhost:3333/admindelete/${id}`
+            await axios.post(`/api/admindelete/${id}`
             )
             .then((response) => {
             if (response.data.error) {
@@ -77,14 +77,14 @@ const Delete = () => {
             <div key={key3}>
                 <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
                     <Container>
-                            <Link to={`/${id}`}>
+                            <Link to={`/adminuser/${id}`}>
                                 <Navbar.Brand >CHECK</Navbar.Brand>
                             </Link>
                             
                             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                             <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="justify-content-end flex-grow-1 pe-3 ">
-                            <Link to={`/${id}`} className='mr-2' style={{ textDecoration: 'none' }}>
+                            <Link to={`/adminuser/${id}`} className='mr-2' style={{ textDecoration: 'none' }}>
                                 <Navbar style={navStyle} >ตรวจประวัติ</Navbar>
                             </Link>
                             <Link to={`/pagestatus/${id}`} style={{ textDecoration: 'none' }}>

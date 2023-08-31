@@ -18,13 +18,14 @@ import Button from '@mui/material/Button';
 import Modal from '../compament/Modal';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+
 const admindelete = () => {
     const [user ,setUser] = useState([]);
     const [userid,setuserid] = useState ([]);
     const [modalOpen, setModalOpen] = useState(false);
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/adminuser`);
+            const response = await axios.get(`/api/adminuser`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -32,7 +33,7 @@ const admindelete = () => {
     }
     const deletedata = async () => {
         try{
-            await axios.post(`http://localhost:3333/profile/${userid}`
+            await axios.post(`/api/profile/${userid}`
             )
             .then((response) => {
             if (response.data.error) {

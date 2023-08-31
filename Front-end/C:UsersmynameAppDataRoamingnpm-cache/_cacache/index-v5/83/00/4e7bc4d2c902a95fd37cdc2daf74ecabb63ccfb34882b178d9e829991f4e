@@ -1,0 +1,2 @@
+
+ed2dcb82f44a822c09d0b0618b789d58fafec99d	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/widest-line/-/widest-line-3.1.0.tgz","integrity":null,"time":1693284355630,"size":"0","metadata":{"time":1693284355629,"url":"http://registry.npmjs.org/widest-line/-/widest-line-3.1.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:55 GMT","location":"https://registry.npmjs.org/widest-line/-/widest-line-3.1.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

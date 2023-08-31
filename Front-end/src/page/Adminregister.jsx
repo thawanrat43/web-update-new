@@ -42,7 +42,7 @@ const Adminregister = () => {
         e.preventDefault();
     
         try {
-          await axios.post("http://localhost:3333/adminregister", inputs);
+          await axios.post("/api/adminregister", inputs);
           navigate("/");
           if(!err){
             

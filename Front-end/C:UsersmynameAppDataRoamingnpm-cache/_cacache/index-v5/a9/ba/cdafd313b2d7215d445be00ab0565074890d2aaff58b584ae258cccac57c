@@ -1,0 +1,2 @@
+
+da71a9c12d1ab8432057fae79ae9c29a1b85850d	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/csv-parse/-/csv-parse-5.5.0.tgz","integrity":null,"time":1693284359567,"size":"0","metadata":{"time":1693284359566,"url":"http://registry.npmjs.org/csv-parse/-/csv-parse-5.5.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:59 GMT","location":"https://registry.npmjs.org/csv-parse/-/csv-parse-5.5.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

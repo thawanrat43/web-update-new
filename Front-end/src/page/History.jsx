@@ -30,7 +30,7 @@ const History = () => {
     }
     const getprofile = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profilehistory/${userid}`);
+            const response = await axios.get(`/api/profilehistory/${userid}`);
             setProfile(response.data);
         } catch (err) {
             console.log(err);
@@ -38,7 +38,7 @@ const History = () => {
     };
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/historydetail/${userid}`);
+            const response = await axios.get(`/api/historydetail/${userid}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -46,7 +46,7 @@ const History = () => {
     }
     const gethistory = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/history/${userid}`);
+            const response = await axios.get(`/api/history/${userid}`);
             setHistory(response.data);
         } catch (err) {
             console.log(err);
@@ -74,7 +74,7 @@ const History = () => {
                 {profile.map((profiles,key19)=>( 
                 <Navbar key={key19} collapseOnSelect expand="lg" className="bg-wh">
                     <Container>
-                            <Link to={`/`}>
+                            <Link to={`/home`}>
                                 <Navbar.Brand >CHECK</Navbar.Brand>
                             </Link>
                             
@@ -82,7 +82,7 @@ const History = () => {
                             <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="3" >
                             
-                                <LinkContainer to={`/${userid}`} className='mr-3 ' style={{ textDecoration: 'none' }} >
+                                <LinkContainer to={`/home`} className='mr-3 ' style={{ textDecoration: 'none' }} >
                                     <Nav.Link eventKey="1">ตรวจประวัติ</Nav.Link>
                                 </LinkContainer>
                                 <LinkContainer to={`/pagestatus/${userid}`} className='mr-3 ' style={{ textDecoration: 'none' }}>

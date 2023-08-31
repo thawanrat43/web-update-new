@@ -1,0 +1,2 @@
+
+5a6d00e690568774471dd1c17644f9ca03445fd1	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@types/semver/-/semver-7.5.1.tgz","integrity":null,"time":1693277580046,"size":"0","metadata":{"time":1693277580045,"url":"http://registry.npmjs.org/@types/semver/-/semver-7.5.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 02:53:00 GMT","location":"https://registry.npmjs.org/@types/semver/-/semver-7.5.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

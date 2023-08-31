@@ -1,0 +1,2 @@
+
+0d717ac7018f76771e7f022d095397c0ffdc9e72	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/uc.micro/-/uc.micro-1.0.6.tgz","integrity":null,"time":1693284356961,"size":"0","metadata":{"time":1693284356961,"url":"http://registry.npmjs.org/uc.micro/-/uc.micro-1.0.6.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/uc.micro/-/uc.micro-1.0.6.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

@@ -24,7 +24,7 @@ const Finish = () => {
     const [profile,setProfile] =useState([]);
     const getprofile = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profile/${id}`);
+            const response = await axios.get(`/api/profile/${id}`);
             setUser(response.data);
             
         } catch (err) {
@@ -45,7 +45,7 @@ const Finish = () => {
             {user.map((users,key15)=>
                 <Navbar key={key15} collapseOnSelect expand="lg" className="bg-body-tertiary">
                     <Container>
-                            <Link to={`/`}>
+                            <Link to={`/home`}>
                                 <Navbar.Brand >CHECK</Navbar.Brand>
                             </Link>
                             
@@ -53,7 +53,7 @@ const Finish = () => {
                             <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="3" >
                             
-                                <LinkContainer to={`/`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
+                                <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                                     <Nav.Link eventKey="1">ตรวจประวัติ</Nav.Link>
                                 </LinkContainer>
                                 <LinkContainer to={`/pagestatus/${id}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }}>
@@ -78,7 +78,7 @@ const Finish = () => {
                 <Row key={key4} className="d-flex justify-content-center  ">
 
                     <Col xs lg="4" className="d-flex justify-content-center  ">
-                        <Link to={`/`} >
+                        <Link to={`/home`} >
                             <Button variant="secondary" fullWidth style={{width:"15rem"}} >
                                 <p>ไปหน้าตรวจประวัติ</p>
                             </Button>

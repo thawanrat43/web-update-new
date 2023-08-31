@@ -1,0 +1,2 @@
+
+d7927c5e657598ed817c065b8f0dc8314461aef8	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz","integrity":null,"time":1693284355561,"size":"0","metadata":{"time":1693284355561,"url":"http://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:55 GMT","location":"https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

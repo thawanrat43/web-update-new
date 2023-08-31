@@ -1,0 +1,2 @@
+
+52920115aa6ac36788210d50013962f57e3922be	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@vercel/build-utils/-/build-utils-7.1.0.tgz","integrity":null,"time":1693383008247,"size":"0","metadata":{"time":1693383008247,"url":"http://registry.npmjs.org/@vercel/build-utils/-/build-utils-7.1.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Wed, 30 Aug 2023 08:10:08 GMT","location":"https://registry.npmjs.org/@vercel/build-utils/-/build-utils-7.1.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

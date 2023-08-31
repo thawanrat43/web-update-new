@@ -38,7 +38,7 @@ const Register = () => {
         e.preventDefault();
     
         try {
-          await axios.post("http://localhost:3333/register", inputs);
+          await axios.post("/api/register", inputs);
           navigate("/login");
         } catch (err) {
           setErr(err.response.data);
@@ -70,14 +70,14 @@ const Register = () => {
         <div>
             <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
                     <Container>
-                        <Link to={`/home`}>
+                        <Link to={`/`}>
                             <Navbar.Brand >CHECK</Navbar.Brand>
                         </Link>
                             
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="justify-content-end flex-grow-1 pe-3 ">
-                        <Nav.Link href="/home">ตรวจประวัติ</Nav.Link>
+                        <Nav.Link href="/">ตรวจประวัติ</Nav.Link>
                         <Nav.Link href="/login">Login</Nav.Link>
                         <Nav.Link href="/register">Register</Nav.Link>
                         

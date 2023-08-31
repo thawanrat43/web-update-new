@@ -1,0 +1,2 @@
+
+16b9199b887969464e4497edc6147c6f52b5cac9	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/glob-slasher/-/glob-slasher-1.0.1.tgz","integrity":null,"time":1693284356276,"size":"0","metadata":{"time":1693284356276,"url":"http://registry.npmjs.org/glob-slasher/-/glob-slasher-1.0.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/glob-slasher/-/glob-slasher-1.0.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

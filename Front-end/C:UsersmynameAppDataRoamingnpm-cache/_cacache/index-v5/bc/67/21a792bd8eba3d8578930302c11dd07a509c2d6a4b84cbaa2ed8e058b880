@@ -1,0 +1,2 @@
+
+83d8cb2c5030ab94c129829acfc950181f2bb173	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz","integrity":null,"time":1693284359374,"size":"0","metadata":{"time":1693284359374,"url":"http://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:59 GMT","location":"https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

@@ -37,15 +37,15 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:3333/login", inputs);
-            navigate("/");
+            await axios.post("/api/login", inputs);
+            
             if(err){
                 alert('login failed')
                 
             }
             else{
                 
-                alert('login success')
+                navigate("/home");
             }    
         } catch (err) {
           setErr(err.response.data);
@@ -59,14 +59,14 @@ const Login = () => {
             <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
                     <Container>
 
-                        <Navbar.Brand href='/home' >CHECK</Navbar.Brand>
+                        <Navbar.Brand href='/' >CHECK</Navbar.Brand>
 
                             
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="justify-content-end flex-grow-1 pe-3 ">
                         
-                        <Nav.Link href='/home' >ตรวจประวัติ</Nav.Link>
+                        <Nav.Link href='/' >ตรวจประวัติ</Nav.Link>
                         
                         <Nav.Link href="/login">Login</Nav.Link>
                         <Nav.Link href="/register">Register</Nav.Link>

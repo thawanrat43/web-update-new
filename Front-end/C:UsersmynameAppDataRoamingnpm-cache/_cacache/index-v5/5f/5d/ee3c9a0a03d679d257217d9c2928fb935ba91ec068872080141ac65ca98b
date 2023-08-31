@@ -1,0 +1,2 @@
+
+e8c7341abe17e4839bf87e4d4b0df762881e33f1	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/progress/-/progress-2.0.3.tgz","integrity":null,"time":1693284359309,"size":"0","metadata":{"time":1693284359309,"url":"http://registry.npmjs.org/progress/-/progress-2.0.3.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:59 GMT","location":"https://registry.npmjs.org/progress/-/progress-2.0.3.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

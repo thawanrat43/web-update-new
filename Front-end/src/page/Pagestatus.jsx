@@ -24,7 +24,7 @@ const Pagestatus = () => {
     const [profile,setProfile] =useState([]);
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/pagestatus/${id}`);
+            const response = await axios.get(`/api/pagestatus/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -32,7 +32,7 @@ const Pagestatus = () => {
     }
     const getprofile = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profile/${id}`);
+            const response = await axios.get(`/apiprofile/${id}`);
             setProfile(response.data);
             
         } catch (err) {
@@ -71,7 +71,7 @@ const Pagestatus = () => {
                 {profile.map((profiles,key15)=>
                 <Navbar key={key15} collapseOnSelect expand="lg" className="bg-body-tertiary">
                     <Container>
-                            <Link to={`/`}>
+                            <Link to={`/home`}>
                                 <Navbar.Brand >CHECK</Navbar.Brand>
                             </Link>
                             
@@ -79,7 +79,7 @@ const Pagestatus = () => {
                             <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="3" >
                             
-                                <LinkContainer to={`/`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
+                                <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                                     <Nav.Link eventKey="1">ตรวจประวัติ</Nav.Link>
                                 </LinkContainer>
                                 <LinkContainer to={`/pagestatus/${id}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }}>

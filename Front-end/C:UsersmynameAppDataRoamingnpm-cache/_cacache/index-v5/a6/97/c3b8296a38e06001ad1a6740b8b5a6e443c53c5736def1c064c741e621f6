@@ -1,0 +1,2 @@
+
+ad7adefe08aa67d01be9dde2842384fba5f4727a	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/eslint-plugin-react","integrity":null,"time":1693451374098,"size":"0","metadata":{"time":1693451374098,"url":"http://registry.npmjs.org/eslint-plugin-react","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Thu, 31 Aug 2023 03:09:34 GMT","location":"https://registry.npmjs.org/eslint-plugin-react","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

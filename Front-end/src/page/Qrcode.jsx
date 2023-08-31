@@ -15,7 +15,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
 import { Image } from 'react-bootstrap';
 import qr from '../image/qrcode.jpg'
-
+import {useNavigate} from "react-router-dom"
 const Qrcode = () => {
     const { id }  = useParams();
     const [user ,setUser] = useState([]);
@@ -33,13 +33,16 @@ const Qrcode = () => {
         getdata();
        
     }, []);
+    const navigate = useNavigate()
     const updatepay = async (e)=> {
       e.preventDefault();
       try{
-          await axios.post(`http://localhost:3333/pay/${id}`)
+          await axios.post(`/api/pay/${id}`)
           .then((response) => {
           if (response.data.error) {
               alert(response.data.error);
+          }else{
+            navigate(`finish/${id}`);
           }
           });
       }catch (err) {
@@ -63,14 +66,14 @@ const Qrcode = () => {
         <div  key={key4}>
           <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
             <Container>
-              <Link to={`/`}>
+              <Link to={`/home`}>
                 <Navbar.Brand >CHECK</Navbar.Brand>
               </Link>
                               
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="4" >          
-              <LinkContainer to={`/`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
+              <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                 <Nav.Link >ตรวจประวัติ</Nav.Link>
               </LinkContainer>
               <LinkContainer to={`/pagestatus/${users.id}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }}>

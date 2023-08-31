@@ -1,0 +1,2 @@
+
+b6f1d959cc57f0b545c9e864ffbb57b93f5767cb	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/colorspace/-/colorspace-1.1.4.tgz","integrity":null,"time":1693284355576,"size":"0","metadata":{"time":1693284355576,"url":"http://registry.npmjs.org/colorspace/-/colorspace-1.1.4.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:55 GMT","location":"https://registry.npmjs.org/colorspace/-/colorspace-1.1.4.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

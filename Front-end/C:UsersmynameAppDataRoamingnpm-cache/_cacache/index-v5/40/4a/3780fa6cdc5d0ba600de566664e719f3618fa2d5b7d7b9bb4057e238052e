@@ -1,0 +1,2 @@
+
+325e439315a0ac3bc29b16cb037f75aaa166e696	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/mdurl/-/mdurl-1.0.1.tgz","integrity":null,"time":1693284356963,"size":"0","metadata":{"time":1693284356963,"url":"http://registry.npmjs.org/mdurl/-/mdurl-1.0.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/mdurl/-/mdurl-1.0.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

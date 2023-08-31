@@ -1,0 +1,2 @@
+
+52fc598436cabf94d44a0738de0f52ae048e478e	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/jsbn/-/jsbn-0.1.1.tgz","integrity":null,"time":1693284356361,"size":"0","metadata":{"time":1693284356361,"url":"http://registry.npmjs.org/jsbn/-/jsbn-0.1.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/jsbn/-/jsbn-0.1.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

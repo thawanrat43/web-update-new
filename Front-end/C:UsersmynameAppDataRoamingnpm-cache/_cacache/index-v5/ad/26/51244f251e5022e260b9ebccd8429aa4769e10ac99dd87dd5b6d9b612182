@@ -1,0 +1,2 @@
+
+c63fd5bd5a104b550a729b2fdfc0c84d45e37f67	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz","integrity":null,"time":1693284358189,"size":"0","metadata":{"time":1693284358188,"url":"http://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:58 GMT","location":"https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

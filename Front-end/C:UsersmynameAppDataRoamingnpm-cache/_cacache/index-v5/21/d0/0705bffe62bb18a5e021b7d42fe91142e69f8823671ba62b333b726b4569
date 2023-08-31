@@ -1,0 +1,2 @@
+
+b47199de0eeb3f61ad3c4dd9ac68396478b86dd7	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz","integrity":null,"time":1693284356498,"size":"0","metadata":{"time":1693284356498,"url":"http://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

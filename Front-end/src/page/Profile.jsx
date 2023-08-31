@@ -36,7 +36,7 @@ const Profile = ({}) => {
     }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profile/${userid}`);
+            const response = await axios.get(`/api/profile/${userid}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -60,7 +60,7 @@ const Profile = ({}) => {
             <div key={i}>
                 <Navbar collapseOnSelect expand="lg" className="bg-white" >
                     <Container>
-                            <Link to={`/`}>
+                            <Link to={`/home`}>
                                 <Navbar.Brand >CHECK</Navbar.Brand>
                             </Link>
                             
@@ -68,7 +68,7 @@ const Profile = ({}) => {
                             <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="4" >
                             
-                            <LinkContainer to={`/${userid}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
+                            <LinkContainer to={`/`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                                 <Nav.Link >ตรวจประวัติ</Nav.Link>
                             </LinkContainer>
                             <LinkContainer to={`/pagestatus/${userid}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }}>

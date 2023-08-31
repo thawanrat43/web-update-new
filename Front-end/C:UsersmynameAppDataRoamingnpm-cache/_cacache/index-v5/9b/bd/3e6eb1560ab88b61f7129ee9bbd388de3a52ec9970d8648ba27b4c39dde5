@@ -1,0 +1,2 @@
+
+e394eabf27f01cbe66357887aa16b1bb645ad9f0	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/escodegen/-/escodegen-1.14.3.tgz","integrity":null,"time":1693284357141,"size":"0","metadata":{"time":1693284357141,"url":"http://registry.npmjs.org/escodegen/-/escodegen-1.14.3.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:57 GMT","location":"https://registry.npmjs.org/escodegen/-/escodegen-1.14.3.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

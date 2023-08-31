@@ -72,7 +72,7 @@ const Profileupdate = () => {
     };
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profile/${userid}`);
+            const response = await axios.get(`/api/profile/${userid}`);
             setUser(response.data);
             
         } catch (err) {
@@ -82,7 +82,7 @@ const Profileupdate = () => {
     const updatedata = async (e)=> {
         e.preventDefault();
         try{
-            await axios.post(`http://localhost:3333/profileupdate/${userid}`,inputs)
+            await axios.post(`/api/profileupdate/${userid}`,inputs)
             .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
@@ -108,7 +108,7 @@ const Profileupdate = () => {
             <div key={i}>
                 <Navbar collapseOnSelect expand="lg" className="bg-white">
                     <Container>
-                        <Link to={`/`}>
+                        <Link to={`/home`}>
                             <Navbar.Brand >CHECK</Navbar.Brand>
                         </Link>
                             
@@ -116,7 +116,7 @@ const Profileupdate = () => {
                         <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="4" >
                             
-                            <LinkContainer to={`/${userid}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
+                            <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                                 <Nav.Link >ตรวจประวัติ</Nav.Link>
                             </LinkContainer>
                             <LinkContainer to={`/pagestatus/${userid}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }}>

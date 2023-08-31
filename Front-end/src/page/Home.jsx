@@ -64,7 +64,7 @@ const Home =() =>{
         e.preventDefault();
     
         try {
-          await axios.post(`http://localhost:3333/home`, inputs)
+          await axios.post(`/api/home`, inputs)
           
           .then((response) => {
             if (response.data.error) {
@@ -79,7 +79,7 @@ const Home =() =>{
     };
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profileid`);
+            const response = await axios.get(`/api/profileid`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -87,7 +87,7 @@ const Home =() =>{
     }
     const getidhistory = async (e)=>{
         try{
-            const response = await axios.post(`http://localhost:3333/idhistory`,inputs);
+            const response = await axios.post(`/api/idhistory`,inputs);
             setHistory(response.data);
         } catch (err) {
             console.log(err);
@@ -103,7 +103,7 @@ const Home =() =>{
         <div key={key13}>
             <Navbar collapseOnSelect expand="lg" className="bg-wh">
                 <Container>
-                        <Link to={`/`}>
+                        <Link to={`/home`}>
                             <Navbar.Brand >CHECK</Navbar.Brand>
                         </Link>
                         
@@ -111,7 +111,7 @@ const Home =() =>{
                         <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="1" >
                             
-                        <LinkContainer to={`/${users.id}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
+                        <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                             <Nav.Link eventKey="1" >ตรวจประวัติ</Nav.Link>
                         </LinkContainer>
                         <LinkContainer to={`/pagestatus/${users.id}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }}>

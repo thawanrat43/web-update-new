@@ -1,0 +1,2 @@
+
+6e723e766cd5642509f298c7220a01ebd98dd7b7	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@protobufjs/base64/-/base64-1.1.2.tgz","integrity":null,"time":1693284357392,"size":"0","metadata":{"time":1693284357392,"url":"http://registry.npmjs.org/@protobufjs/base64/-/base64-1.1.2.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:57 GMT","location":"https://registry.npmjs.org/@protobufjs/base64/-/base64-1.1.2.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

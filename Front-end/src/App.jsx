@@ -40,7 +40,7 @@ function App() {
     <Router>
       
       <Routes>
-        <Route path='/' element={<Home/>} />
+        <Route path='/home' element={<Home/>} />
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         {/* <Route path='/profile' >
@@ -61,7 +61,7 @@ function App() {
         <Route path='/pay' element={<Pay/>}/>
         <Route path='/qrcode/:id' element={<Qrcode/>}/>
         <Route path='/finish/:id' element={<Finish/>}/>
-        <Route path='/home' element={<Homenotlogin/>}/>
+        <Route path='/' element={<Homenotlogin/>}/>
       </Routes>
     </Router>
    

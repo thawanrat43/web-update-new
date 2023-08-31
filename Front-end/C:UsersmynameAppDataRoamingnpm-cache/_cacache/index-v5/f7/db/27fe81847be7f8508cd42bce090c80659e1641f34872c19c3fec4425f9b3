@@ -1,0 +1,2 @@
+
+3e11418cea8015dc7b5449964739058af9d3c957	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@google-cloud/pubsub/-/pubsub-3.7.3.tgz","integrity":null,"time":1693284359787,"size":"0","metadata":{"time":1693284359787,"url":"http://registry.npmjs.org/@google-cloud/pubsub/-/pubsub-3.7.3.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:59 GMT","location":"https://registry.npmjs.org/@google-cloud/pubsub/-/pubsub-3.7.3.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}
