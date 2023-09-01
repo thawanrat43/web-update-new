@@ -6,7 +6,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-        target: 'https://back-end-nr6u.onrender.com',
+        target: 'https://back-end-update.onrender.com',
            changeOrigin: true,
            secure: false,      
            ws: true,

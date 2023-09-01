@@ -1,7 +1,7 @@
 {
   "name": "front-end",
   "private": true,
-  "proxy": "https://back-end-nr6u.onrender.com/",
+  "proxy": "https://back-end-update.onrender.com/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
