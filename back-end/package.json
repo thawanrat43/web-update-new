@@ -188,7 +188,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app"
+    "start": "nodemon app.js",
+    "build" : "npm i"
   },
   "keywords": [],
   "author": "",

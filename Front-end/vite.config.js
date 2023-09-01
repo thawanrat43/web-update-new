@@ -5,7 +5,13 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server:{
     proxy:{
-      '/api':'http://localhost:3333'}
+      '/api':{
+        target: 'https://back-end-nr6u.onrender.com',
+           changeOrigin: true,
+           secure: false,      
+           ws: true,
+      }
+    }
   },
   build: {
     chunkSizeWarningLimit: 1600,
