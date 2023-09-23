@@ -1,2 +1,0 @@
-
-b6377ca5c142e8f65704a43faec8c6f81ad4147c	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/aws4/-/aws4-1.12.0.tgz","integrity":null,"time":1693284356620,"size":"0","metadata":{"time":1693284356620,"url":"http://registry.npmjs.org/aws4/-/aws4-1.12.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/aws4/-/aws4-1.12.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

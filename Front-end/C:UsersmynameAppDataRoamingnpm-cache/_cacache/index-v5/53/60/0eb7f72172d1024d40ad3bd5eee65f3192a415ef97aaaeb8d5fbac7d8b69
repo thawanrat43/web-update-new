@@ -1,0 +1,2 @@
+
+5195c73238e2c577490cebbc74f00f5c06e62493	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/react-calendar","integrity":null,"time":1694764963143,"size":"0","metadata":{"time":1694764963143,"url":"http://registry.npmjs.org/react-calendar","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 15 Sep 2023 08:02:43 GMT","location":"https://registry.npmjs.org/react-calendar","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

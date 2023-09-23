@@ -1,2 +1,0 @@
-
-4a88ba6a057391d7b3ac6b6cef64ccb262b1264f	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/prelude-ls/-/prelude-ls-1.1.2.tgz","integrity":null,"time":1693284356960,"size":"0","metadata":{"time":1693284356960,"url":"http://registry.npmjs.org/prelude-ls/-/prelude-ls-1.1.2.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.1.2.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

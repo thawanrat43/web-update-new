@@ -1,2 +1,0 @@
-
-1117e6e6a2475e13b7b18d101bde1fa63801c270	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/bootstrap","integrity":null,"time":1693457436236,"size":"0","metadata":{"time":1693457436235,"url":"http://registry.npmjs.org/bootstrap","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Thu, 31 Aug 2023 04:50:36 GMT","location":"https://registry.npmjs.org/bootstrap","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

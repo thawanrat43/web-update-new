@@ -1,2 +1,0 @@
-
-189f041663419f6178002bdb4f1f7e2c6b4ad0da	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/requizzle/-/requizzle-0.2.4.tgz","integrity":null,"time":1693284357048,"size":"0","metadata":{"time":1693284357048,"url":"http://registry.npmjs.org/requizzle/-/requizzle-0.2.4.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:57 GMT","location":"https://registry.npmjs.org/requizzle/-/requizzle-0.2.4.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

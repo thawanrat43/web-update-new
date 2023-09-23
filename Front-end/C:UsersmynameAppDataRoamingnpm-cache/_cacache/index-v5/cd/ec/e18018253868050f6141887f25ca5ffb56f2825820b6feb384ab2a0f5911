@@ -1,0 +1,2 @@
+
+0a8fff19d276649e7475100f260ad36df752bed0	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/react-popper","integrity":null,"time":1695008476680,"size":"0","metadata":{"time":1695008476680,"url":"http://registry.npmjs.org/react-popper","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Mon, 18 Sep 2023 03:41:16 GMT","location":"https://registry.npmjs.org/react-popper","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

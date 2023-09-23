@@ -1,0 +1,2 @@
+
+1aa2dc9b11c0c2e2fd59e3a36ecb7b950cc63270	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz","integrity":null,"time":1693884178828,"size":"0","metadata":{"time":1693884178828,"url":"http://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 05 Sep 2023 03:22:58 GMT","location":"https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

@@ -1,2 +1,0 @@
-
-06e3deea9721b6f589620d35cbff81ab16e1aa1a	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/espree/-/espree-9.6.1.tgz","integrity":null,"time":1693284357145,"size":"0","metadata":{"time":1693284357145,"url":"http://registry.npmjs.org/espree/-/espree-9.6.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:57 GMT","location":"https://registry.npmjs.org/espree/-/espree-9.6.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

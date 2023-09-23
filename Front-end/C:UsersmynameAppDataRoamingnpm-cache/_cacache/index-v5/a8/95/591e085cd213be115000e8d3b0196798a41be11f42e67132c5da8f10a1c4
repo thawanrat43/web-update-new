@@ -1,2 +1,0 @@
-
-a4675f7bba00f6ab5f14b475dfcc0b6ac9e8edde	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@types/destroy/-/destroy-1.0.0.tgz","integrity":null,"time":1690768539277,"size":"0","metadata":{"time":1690768539277,"url":"http://registry.npmjs.org/@types/destroy/-/destroy-1.0.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Mon, 31 Jul 2023 01:55:39 GMT","location":"https://registry.npmjs.org/@types/destroy/-/destroy-1.0.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

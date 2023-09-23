@@ -32,7 +32,6 @@ pool.getConnection((err, connection) => {
     if (connection) connection.release()
       return console.log('ok')
 })
-  
   // Promisify for Node.js async/await.
 pool.query = util.promisify(pool.query)
   

@@ -1,2 +1,0 @@
-
-168ab7aec602a27ba6c4a9e0acc20042c6c9bf2f	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/bootstrap-icons","integrity":null,"time":1693450943133,"size":"0","metadata":{"time":1693450943132,"url":"http://registry.npmjs.org/bootstrap-icons","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Thu, 31 Aug 2023 03:02:23 GMT","location":"https://registry.npmjs.org/bootstrap-icons","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

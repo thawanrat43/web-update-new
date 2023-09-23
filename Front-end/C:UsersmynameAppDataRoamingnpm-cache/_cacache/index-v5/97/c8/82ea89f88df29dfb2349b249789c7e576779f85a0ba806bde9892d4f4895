@@ -1,2 +1,0 @@
-
-4102d020e26fc98e4bc420d4817d60c23cebea53	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/basic-auth/-/basic-auth-2.0.1.tgz","integrity":null,"time":1691662124966,"size":"0","metadata":{"time":1691662124965,"url":"http://registry.npmjs.org/basic-auth/-/basic-auth-2.0.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Thu, 10 Aug 2023 10:08:45 GMT","location":"https://registry.npmjs.org/basic-auth/-/basic-auth-2.0.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

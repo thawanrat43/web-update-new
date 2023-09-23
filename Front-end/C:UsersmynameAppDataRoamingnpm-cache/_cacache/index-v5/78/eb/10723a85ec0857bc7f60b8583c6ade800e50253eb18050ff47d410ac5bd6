@@ -1,0 +1,2 @@
+
+2083d8829af00a24f1dbface190ce0c35dbdf279	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/camelize","integrity":null,"time":1694769099502,"size":"0","metadata":{"time":1694769099502,"url":"http://registry.npmjs.org/camelize","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 15 Sep 2023 09:11:39 GMT","location":"https://registry.npmjs.org/camelize","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

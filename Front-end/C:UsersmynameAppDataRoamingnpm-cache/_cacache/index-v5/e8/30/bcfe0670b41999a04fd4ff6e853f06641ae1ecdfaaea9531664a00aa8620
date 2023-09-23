@@ -1,2 +1,0 @@
-
-bba80bfd2c7b2ff47c03c0bc0e9c0d137decd8bd	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/shebang-regex/-/shebang-regex-1.0.0.tgz","integrity":null,"time":1693284359568,"size":"0","metadata":{"time":1693284359568,"url":"http://registry.npmjs.org/shebang-regex/-/shebang-regex-1.0.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:59 GMT","location":"https://registry.npmjs.org/shebang-regex/-/shebang-regex-1.0.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

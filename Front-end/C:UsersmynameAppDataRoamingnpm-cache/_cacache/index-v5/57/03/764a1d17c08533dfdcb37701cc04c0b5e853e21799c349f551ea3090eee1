@@ -1,0 +1,2 @@
+
+3e12e0d941ed0da6cee47bfa36f125d439fd2e65	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/get-user-locale","integrity":null,"time":1694764963136,"size":"0","metadata":{"time":1694764963136,"url":"http://registry.npmjs.org/get-user-locale","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 15 Sep 2023 08:02:43 GMT","location":"https://registry.npmjs.org/get-user-locale","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

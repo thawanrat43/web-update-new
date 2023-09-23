@@ -1,0 +1,2 @@
+
+290c13aa76c03e2109a7a9f41495b5980de2c0d8	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/nodemailer/-/nodemailer-6.9.5.tgz","integrity":null,"time":1695110222769,"size":"0","metadata":{"time":1695110222769,"url":"http://registry.npmjs.org/nodemailer/-/nodemailer-6.9.5.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 19 Sep 2023 07:57:02 GMT","location":"https://registry.npmjs.org/nodemailer/-/nodemailer-6.9.5.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

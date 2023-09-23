@@ -1,0 +1,2 @@
+
+da43338b5b1b9781c98837eeab9d7f0a45957491	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@mui%2futils","integrity":null,"time":1694769388583,"size":"0","metadata":{"time":1694769388583,"url":"http://registry.npmjs.org/@mui%2futils","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 15 Sep 2023 09:16:28 GMT","location":"https://registry.npmjs.org/@mui%2Futils","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

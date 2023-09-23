@@ -1,2 +1,0 @@
-
-04bee927df2c44855fb1524e722839ba9c962202	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/sequelize","integrity":null,"time":1691566654704,"size":"0","metadata":{"time":1691566654704,"url":"http://registry.npmjs.org/sequelize","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Wed, 09 Aug 2023 07:37:34 GMT","location":"https://registry.npmjs.org/sequelize","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

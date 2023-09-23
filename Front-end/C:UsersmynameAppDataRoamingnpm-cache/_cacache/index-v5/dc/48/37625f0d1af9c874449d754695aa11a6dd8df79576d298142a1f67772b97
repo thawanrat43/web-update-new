@@ -1,0 +1,2 @@
+
+a2d13e924e64a46c831bafea371564b11abc4f5d	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@emotion%2fstylis","integrity":null,"time":1694769099013,"size":"0","metadata":{"time":1694769099012,"url":"http://registry.npmjs.org/@emotion%2fstylis","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 15 Sep 2023 09:11:39 GMT","location":"https://registry.npmjs.org/@emotion%2Fstylis","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

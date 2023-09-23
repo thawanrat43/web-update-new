@@ -1,0 +1,2 @@
+
+7447da0cc5988617c507277293712c8af528fa92	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@types/math-random/-/math-random-1.0.0.tgz","integrity":null,"time":1693994847903,"size":"0","metadata":{"time":1693994847903,"url":"http://registry.npmjs.org/@types/math-random/-/math-random-1.0.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Wed, 06 Sep 2023 10:07:28 GMT","location":"https://registry.npmjs.org/@types/math-random/-/math-random-1.0.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

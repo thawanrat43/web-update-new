@@ -1,0 +1,2 @@
+
+b93128a64760bcf3e8eb8ff2516ffeada9775c21	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@mui/lab/-/lab-5.0.0-alpha.144.tgz","integrity":null,"time":1694769390108,"size":"0","metadata":{"time":1694769390108,"url":"http://registry.npmjs.org/@mui/lab/-/lab-5.0.0-alpha.144.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 15 Sep 2023 09:16:30 GMT","location":"https://registry.npmjs.org/@mui/lab/-/lab-5.0.0-alpha.144.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

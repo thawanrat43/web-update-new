@@ -1,0 +1,2 @@
+
+2244cd656c5f40bd0c9fd4aac1cb45e041253e40	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/reactjs-popup/-/reactjs-popup-2.0.6.tgz","integrity":null,"time":1694493908085,"size":"0","metadata":{"time":1694493908085,"url":"http://registry.npmjs.org/reactjs-popup/-/reactjs-popup-2.0.6.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 12 Sep 2023 04:45:08 GMT","location":"https://registry.npmjs.org/reactjs-popup/-/reactjs-popup-2.0.6.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

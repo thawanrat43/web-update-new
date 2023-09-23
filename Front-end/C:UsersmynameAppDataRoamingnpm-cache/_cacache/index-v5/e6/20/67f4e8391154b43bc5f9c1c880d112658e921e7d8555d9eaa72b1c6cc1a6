@@ -1,2 +1,0 @@
-
-7eb002f6e2a9d751d9bae3a34525e65f5da45566	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@types/markdown-it/-/markdown-it-12.2.3.tgz","integrity":null,"time":1693284357388,"size":"0","metadata":{"time":1693284357388,"url":"http://registry.npmjs.org/@types/markdown-it/-/markdown-it-12.2.3.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:57 GMT","location":"https://registry.npmjs.org/@types/markdown-it/-/markdown-it-12.2.3.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

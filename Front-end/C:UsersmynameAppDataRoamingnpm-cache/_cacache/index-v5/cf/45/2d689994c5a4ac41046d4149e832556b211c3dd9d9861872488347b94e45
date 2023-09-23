@@ -1,2 +1,0 @@
-
-880d638e950d2ae74805e1659c9bf0f1f2d0af79	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@vercel/next/-/next-4.0.1.tgz","integrity":null,"time":1693383008266,"size":"0","metadata":{"time":1693383008261,"url":"http://registry.npmjs.org/@vercel/next/-/next-4.0.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Wed, 30 Aug 2023 08:10:08 GMT","location":"https://registry.npmjs.org/@vercel/next/-/next-4.0.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

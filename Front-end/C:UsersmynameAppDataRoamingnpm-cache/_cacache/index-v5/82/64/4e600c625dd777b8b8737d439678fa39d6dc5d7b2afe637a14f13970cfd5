@@ -1,2 +1,0 @@
-
-41714f74176886e8c096f0e078bd78b4dd4b29dd	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/@types/duplexify/-/duplexify-3.6.1.tgz","integrity":null,"time":1693284358925,"size":"0","metadata":{"time":1693284358925,"url":"http://registry.npmjs.org/@types/duplexify/-/duplexify-3.6.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:58 GMT","location":"https://registry.npmjs.org/@types/duplexify/-/duplexify-3.6.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

@@ -1,2 +1,0 @@
-
-1579bd639e5a56d89b8843e3e5410934151ddce9	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/psl/-/psl-1.9.0.tgz","integrity":null,"time":1693284355985,"size":"0","metadata":{"time":1693284355985,"url":"http://registry.npmjs.org/psl/-/psl-1.9.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/psl/-/psl-1.9.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

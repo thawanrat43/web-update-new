@@ -1,2 +1,0 @@
-
-eac13acda9a095ea7d4727badffe5bf49c3d94a5	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/type-fest/-/type-fest-0.21.3.tgz","integrity":null,"time":1693284357656,"size":"0","metadata":{"time":1693284357656,"url":"http://registry.npmjs.org/type-fest/-/type-fest-0.21.3.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:57 GMT","location":"https://registry.npmjs.org/type-fest/-/type-fest-0.21.3.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

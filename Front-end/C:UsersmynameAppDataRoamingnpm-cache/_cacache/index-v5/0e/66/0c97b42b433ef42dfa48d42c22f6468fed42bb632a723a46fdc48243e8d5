@@ -1,0 +1,2 @@
+
+e50765355acebbbd6ba5c7c70eb70784716d0a62	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/yarn","integrity":null,"time":1694501028128,"size":"0","metadata":{"time":1694501028128,"url":"http://registry.npmjs.org/yarn","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 12 Sep 2023 06:43:48 GMT","location":"https://registry.npmjs.org/yarn","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

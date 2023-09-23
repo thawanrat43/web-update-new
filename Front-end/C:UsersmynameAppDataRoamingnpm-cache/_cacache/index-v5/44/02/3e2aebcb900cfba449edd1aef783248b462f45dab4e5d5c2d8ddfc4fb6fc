@@ -1,2 +1,0 @@
-
-299c907f2672485f5ec374d79ad949e4ac24071d	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/ansi-escapes/-/ansi-escapes-6.2.0.tgz","integrity":null,"time":1693284359363,"size":"0","metadata":{"time":1693284359363,"url":"http://registry.npmjs.org/ansi-escapes/-/ansi-escapes-6.2.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:59 GMT","location":"https://registry.npmjs.org/ansi-escapes/-/ansi-escapes-6.2.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

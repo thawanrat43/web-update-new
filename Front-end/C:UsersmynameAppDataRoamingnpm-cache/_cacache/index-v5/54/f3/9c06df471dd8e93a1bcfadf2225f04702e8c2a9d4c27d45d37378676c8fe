@@ -1,2 +1,0 @@
-
-c3af24761ddfc9ebc10b52ec32241387140c71cf	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/objstorage","integrity":null,"time":1693117120564,"size":"0","metadata":{"time":1693117120564,"url":"http://registry.npmjs.org/objstorage","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Sun, 27 Aug 2023 06:18:40 GMT","location":"https://registry.npmjs.org/objstorage","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

@@ -1,2 +1,0 @@
-
-a283ebd24a1d521f3c5d61fefe56dee2c58c9a29	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/moment-timezone","integrity":null,"time":1693277438022,"size":"0","metadata":{"time":1693277438021,"url":"http://registry.npmjs.org/moment-timezone","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 02:50:38 GMT","location":"https://registry.npmjs.org/moment-timezone","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

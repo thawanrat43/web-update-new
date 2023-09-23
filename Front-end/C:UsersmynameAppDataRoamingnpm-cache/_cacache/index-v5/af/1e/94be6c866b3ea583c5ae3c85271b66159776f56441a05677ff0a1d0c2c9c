@@ -1,0 +1,2 @@
+
+7c58641bbacc8419720737c2d41600140e463190	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/is-property/-/is-property-1.0.2.tgz","integrity":null,"time":1693884178819,"size":"0","metadata":{"time":1693884178819,"url":"http://registry.npmjs.org/is-property/-/is-property-1.0.2.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 05 Sep 2023 03:22:58 GMT","location":"https://registry.npmjs.org/is-property/-/is-property-1.0.2.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

@@ -1,2 +1,0 @@
-
-63fa9bbaabd078136aa1aa89ff1fce71f757226e	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz","integrity":null,"time":1690768539141,"size":"0","metadata":{"time":1690768539141,"url":"http://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Mon, 31 Jul 2023 01:55:39 GMT","location":"https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

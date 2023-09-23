@@ -19,6 +19,7 @@ import Button from '@mui/material/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
+import Swal from 'sweetalert2';
 const Profileupdate = () => {
     const [ auth , setAuth] = useState(false);
     const [user ,setUser] = useState([]);
@@ -34,6 +35,20 @@ const Profileupdate = () => {
         lname: "",
         phonenum: "",
     })
+    const popup = async ()=>{
+        Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'แก้ไขประวัติส่วนตัวเสร็จสิ้น',
+            
+            
+        }).then((result) => {
+            if (result.value) {
+              window.location.href = `/profileupdate/${userid}`
+            }
+        });
+          
+    }
     const logout =(event)=>{
         event.preventDefault();
         localStorage.removeItem('token');
@@ -44,7 +59,7 @@ const Profileupdate = () => {
         formdata.append('file',file)
         e.preventDefault();
         try{
-            axios.post(`http://localhost:3333/updatepic/${userid}`,formdata)
+            axios.post(`https://back-end-nr6u.onrender.com/updatepic/${userid}`,formdata)
             .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
@@ -61,7 +76,7 @@ const Profileupdate = () => {
     };
     const getimage = async ()=>{
         try{
-            axios.get(`http://localhost:3333/image/${userid}`)
+            axios.get(`https://back-end-nr6u.onrender.com/image/${userid}`)
             .then(response =>
                 setimage(response.data[0].image)
             )
@@ -72,7 +87,7 @@ const Profileupdate = () => {
     };
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`/api/profile/${userid}`);
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/profile/${userid}`);
             setUser(response.data);
             
         } catch (err) {
@@ -82,18 +97,37 @@ const Profileupdate = () => {
     const updatedata = async (e)=> {
         e.preventDefault();
         try{
-            await axios.post(`/api/profileupdate/${userid}`,inputs)
+            await axios.post(`https://back-end-nr6u.onrender.com/profileupdate/${userid}`,inputs)
             .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
+            }else{
+                popup();
             }
             });
         }catch (err) {
             console.log(err);
         }
     };
+    const token = async () =>{
+        const token = localStorage.getItem('token');
+        try{
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
+            .then((response) => {
+                if (response.data.error) {
+                    window.location='/login'
+                }
+                });
+        } catch (err) {
+            console.log(err);
+            window.location='/login'
+        }
+    }
     useEffect(() => {
-            
+        token();  
         getdata();
        
     }, []);
@@ -106,15 +140,15 @@ const Profileupdate = () => {
         <div>
         {user.map((users,i)=>(    
             <div key={i}>
-                <Navbar collapseOnSelect expand="lg" className="bg-white">
+                <Navbar collapseOnSelect expand="lg" className="bg-white" style={{fontFamily:"Athiti"}}>
                     <Container>
                         <Link to={`/home`}>
-                            <Navbar.Brand >CHECK</Navbar.Brand>
+                            <Navbar.Brand className='fs-1' >CHECK</Navbar.Brand>
                         </Link>
                             
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="4" >
+                        <Nav className="justify-content-end flex-grow-1 pe-3 fs-5" variant="underline" activeKey="4" >
                             
                             <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                                 <Nav.Link >ตรวจประวัติ</Nav.Link>
@@ -124,7 +158,7 @@ const Profileupdate = () => {
                             </LinkContainer>
                             <LinkContainer to={`/profile/${userid}`}  >
                                     <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                        <Image src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                                        <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                                 </Nav.Link>
                             </LinkContainer>
                                     
@@ -137,7 +171,7 @@ const Profileupdate = () => {
                 <Container >
                     
                         
-                        <div  className='d-flex justify-content-center p-5'>
+                        <div  className='d-flex justify-content-center p-5' style={{fontFamily:"Athiti"}}>
                             
                             <Card style={{ width: '18rem'  }} className='m-5'>
                                 <Card.Body>
@@ -149,25 +183,33 @@ const Profileupdate = () => {
                                             </div>
  
                                         </Col>
-                                        <Col className='d-flex justify-content-center'>
-                                            <Image className='mt-3' src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '15rem' ,height : '15rem'}} />
+                                    </Row>
+                                    <Row>
+                                        <Col className='d-flex justify-content-center m-5'>
+                                            <Image className='mt-3' src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%' }} />
                                         </Col>
-                                        <Col className='d-flex justify-content-center'>
-                                            <Button className='bg-secondary text-white p-2 '  type="submit"onClick={updatepic}>
+                                    </Row>
+                                        
+                                    
+                                    <Row>
+                                    <Col className='d-flex justify-content-center fs-6 mt-3'>
+                                            <Button className='bg-secondary text-white p-2 '  type="submit" onClick={updatepic} style={{fontFamily:"Athiti"}}>
                                                         Submit
                                             </Button>
                                         </Col>
                                     </Row>
+                                        
+                                    
                                     <Row className='p-3'>
                                         <Link to={`/profile/${userid}`}>
-                                            <Button className='bg-secondary'  type="submit" fullWidth variant="contained"  sx={{ mt: 3 }}>
+                                            <Button className='bg-secondary fs-6'  type="submit" fullWidth variant="contained"  sx={{ mt: 3 }} style={{fontFamily:"Athiti"}}>
                                                 ประวัติส่วนตัว
                                             </Button>
                                         </Link>
                                     </Row>
                                     <Row className='p-3'>
                                         <Link to={`/code/${userid}`}>
-                                            <Button className='bg-secondary text-wh'  type="submit" fullWidth variant="contained"  sx={{  mb: 2 }}>
+                                            <Button className='bg-secondary text-wh fs-6'  type="submit" fullWidth variant="contained"  sx={{  mb: 2 }} style={{fontFamily:"Athiti"}}>
                                                 
                                                 เปลี่ยนรหัสผ่าน
                                             </Button>
@@ -176,15 +218,18 @@ const Profileupdate = () => {
                                     
                                 </Card.Body>
                             </Card>
-                            <div className='pl-5'>
-                                <div className='mb-4 mt-5'>
+                            <div className='pl-5 fs-5' style={{fontFamily:"Athiti"}}>
+                                <div className='mb-4 mt-5 fs-2'>
                                     <span>ประวัติส่วนตัว</span>
                                 </div>
                                 
                                 <div>
                                     
                                     <Row>
-                                        <Col>
+                                        <Col xs lg="3" className='mt-4 pt-1'>
+                                        ชื่อผู้ใช้
+                                        </Col>
+                                        <Col >
                                             <TextField
                                                     margin="normal"
                                                     required
@@ -203,6 +248,9 @@ const Profileupdate = () => {
                                     </Row>
                                     <br/>
                                     <Row>
+                                        <Col xs lg="3" className='mt-4 pt-1'>
+                                        ชื่อ-นามสกุล
+                                        </Col>
                                         <Col>
                                             <TextField
                                                     margin="normal"
@@ -235,8 +283,11 @@ const Profileupdate = () => {
                                     </Row>
                                     <br/>
                                     <Row>
+                                        <Col xs lg="3" className='mt-4 pt-1'>
+                                        เบอร์โทรศัพท์
+                                        </Col>
                                         <Col>
-                                        <TextField
+                                            <TextField
                                                     margin="normal"
                                                     required
                                                     fullWidth
@@ -253,7 +304,10 @@ const Profileupdate = () => {
                                     </Row>
                                     <br/>
                                     <Row>
-                                        <Col>
+                                        <Col xs lg="3" className='mt-4 pt-1'>
+                                        E-mail
+                                        </Col>
+                                        <Col className='mt-4'>
                                             <Form.Control
                                                     type="text"
                                                     placeholder={users.email}
@@ -265,7 +319,7 @@ const Profileupdate = () => {
                                         </Col>
                                     </Row>
                                     <br/>
-                                    <Button className='bg-secondary'  type="submit" fullWidth variant="contained"  sx={{ mt: 3, mb: 2 }} onClick={updatedata}>
+                                    <Button className='bg-secondary fs-5'  type="submit" fullWidth variant="contained"  sx={{ mt: 3, mb: 2 }} onClick={updatedata} style={{fontFamily:"Athiti"}}>
                                     <p>ยีนยัน</p>
                                     </Button>
                                 </div>

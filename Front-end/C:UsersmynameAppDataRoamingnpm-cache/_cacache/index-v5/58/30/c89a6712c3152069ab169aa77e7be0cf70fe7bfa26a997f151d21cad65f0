@@ -1,0 +1,2 @@
+
+01de0b8f160edefdd0feb70f60d3ec486f7de398	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/make-event-props","integrity":null,"time":1694764963125,"size":"0","metadata":{"time":1694764963125,"url":"http://registry.npmjs.org/make-event-props","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 15 Sep 2023 08:02:43 GMT","location":"https://registry.npmjs.org/make-event-props","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

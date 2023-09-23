@@ -1,0 +1,2 @@
+
+564534166591e36821a4b4f4cb0ccbeac163875e	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/touch/-/touch-3.1.0.tgz","integrity":null,"time":1693882670424,"size":"0","metadata":{"time":1693882670424,"url":"http://registry.npmjs.org/touch/-/touch-3.1.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 05 Sep 2023 02:57:50 GMT","location":"https://registry.npmjs.org/touch/-/touch-3.1.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

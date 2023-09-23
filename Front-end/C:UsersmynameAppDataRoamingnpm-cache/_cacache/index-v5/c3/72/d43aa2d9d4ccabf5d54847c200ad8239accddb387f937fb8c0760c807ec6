@@ -1,2 +1,0 @@
-
-d1d0bc5c5136b2eea5d186d7f4a476e653ee30fb	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/superstatic/-/superstatic-9.0.3.tgz","integrity":null,"time":1693284359160,"size":"0","metadata":{"time":1693284359160,"url":"http://registry.npmjs.org/superstatic/-/superstatic-9.0.3.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:59 GMT","location":"https://registry.npmjs.org/superstatic/-/superstatic-9.0.3.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

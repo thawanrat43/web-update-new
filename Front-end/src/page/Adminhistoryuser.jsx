@@ -22,14 +22,31 @@ const Adminhistoryuser = () => {
     const [user ,setUser] = useState([]);
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`/api/pagestatus/${id}`);
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/pagestatus/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
         }
     }
+    const token = async () =>{
+        const token = localStorage.getItem('token');
+        try{
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
+            .then((response) => {
+                if (response.data.error) {
+                    window.location='/login'
+                }
+                });
+        } catch (err) {
+            console.log(err);
+            window.location='/login'
+        }
+    }
     useEffect(() => {
-            
+        token();    
         getdata();
        
     }, []);
@@ -41,32 +58,37 @@ const Adminhistoryuser = () => {
         border: "none",
         color: "black"
     }
+    const logout =(event)=>{
+        event.preventDefault();
+        localStorage.removeItem('token');
+        window.location='/login'
+    }
     return (
         <div>
-            <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+            <Navbar collapseOnSelect expand="lg" className="bg-wh" style={{fontFamily:"Athiti"}}>
                     <Container>
 
-                    <Navbar.Brand href='/' >CHECK</Navbar.Brand>
+                    <Navbar.Brand href='/adminuser' className='fs-1'>CHECK</Navbar.Brand>
 
                             
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="1">
+                    <Nav className="justify-content-end flex-grow-1 pe-3 fs-5" variant="underline" activeKey="1">
                         <Nav.Link eventKey={1} href="/adminuser">รายชื่อผู้ใช้</Nav.Link>
                         
-                    <Nav.Link  >logout</Nav.Link>    
+                    <Nav.Link onClick={logout}  >logout</Nav.Link>    
                     </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>   
-            <Container >
-                <p className='fs-3 m-4 mt-5'>สถานะการตรวจประวัติ</p>
+            <Container style={{fontFamily:"Athiti",width:"60%"}}>
+                <p className='fs-3 m-4 mt-5 pb-3'>ผู้ที่ตรวจสอบประวัติ</p>
         
                     {user.map((users,key6)=>
-                        <div key={key6} className=' m-4 p-1' style= { headlineStyle }>
+                        <div key={key6} className=' m-4 p-1 rounded' style= { headlineStyle }>
                             <Container className='m-2 fs-6' >
-                                <Link to={`/adminhistory/${users.idhistory}`} style={{color: "#708090"}}>
-                                    <Row className='mt-3 ml-3'>
+                                <Link to={`/adminuserupdate/${users.idhistory}`} style={{color: "#708090",textDecoration: 'none'}}>
+                                    <Row className='mt-3 ml-3 fs-6'>
                                         <Col>
                                             <p>ชื่อ-นามสกุล</p>
                                         </Col>
@@ -77,7 +99,7 @@ const Adminhistoryuser = () => {
                                             <p>สถานะ</p>
                                         </Col>
                                     </Row>
-                                    <Row className='m ml-3 mb-3 text-black'>
+                                    <Row className='m ml-3 mb-3 text-black fs-6' >
                                         <Col>
                                             <p>{users.type_id} {users.fname} {users.lname} </p>
                                         </Col>
@@ -94,8 +116,6 @@ const Adminhistoryuser = () => {
                             
                         </div> 
                     )}
-                
-                
                 
             </Container>
         </div>

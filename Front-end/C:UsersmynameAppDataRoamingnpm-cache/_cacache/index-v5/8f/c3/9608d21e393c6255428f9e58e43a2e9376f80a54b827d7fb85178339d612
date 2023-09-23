@@ -1,2 +1,0 @@
-
-9d01f606e17913e26ad41e87dfe349b73040f048	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/koekje","integrity":null,"time":1693117120528,"size":"0","metadata":{"time":1693117120528,"url":"http://registry.npmjs.org/koekje","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Sun, 27 Aug 2023 06:18:40 GMT","location":"https://registry.npmjs.org/koekje","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

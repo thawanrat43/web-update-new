@@ -1,2 +1,0 @@
-
-302d9a2e76f0b73f2a6c688687db2ad07dd5f78d	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/tunnel-agent/-/tunnel-agent-0.6.0.tgz","integrity":null,"time":1693284356558,"size":"0","metadata":{"time":1693284356558,"url":"http://registry.npmjs.org/tunnel-agent/-/tunnel-agent-0.6.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/tunnel-agent/-/tunnel-agent-0.6.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

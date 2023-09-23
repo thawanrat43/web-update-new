@@ -1,2 +1,0 @@
-
-0df56f8aec933cd943af81b161459f3e3c70def7	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/router/-/router-1.3.8.tgz","integrity":null,"time":1693284356280,"size":"0","metadata":{"time":1693284356280,"url":"http://registry.npmjs.org/router/-/router-1.3.8.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/router/-/router-1.3.8.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

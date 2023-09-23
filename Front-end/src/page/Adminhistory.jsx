@@ -20,7 +20,7 @@ import { TextField } from '@mui/material';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
-
+import Swal from 'sweetalert2';
 const Adminhistory = () => {
     const [input,setInputs] =useState({
         birthday:"",
@@ -36,27 +36,59 @@ const Adminhistory = () => {
     });
     const { id }  =useParams();
     const [user ,setUser] = useState([]);
+    const popup = async ()=>{
+        Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'เพิ่มประวัติผู้ตรวจสอบเสร็จสิ้น',
+            
+            
+        }).then((result) => {
+            if (result.value) {
+              window.location.href=`/adminuserupdate/${id}`;
+            }
+        });
+          
+    }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`/api/historyselect/${id}`);
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/historyselect/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
         }
     }
-    useEffect(() => {     
+    const token = async () =>{
+        const token = localStorage.getItem('token');
+        try{
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
+            .then((response) => {
+                if (response.data.error) {
+                    window.location='/login'
+                }
+                });
+        } catch (err) {
+            console.log(err);
+            window.location='/login'
+        }
+    }
+    useEffect(() => {
+        token();     
         getdata();
     }, []);
     const handleClick = async (e) => {
         e.preventDefault();
     
         try {
-          await axios.post(`/api/adminhistory/${id}`, input)
+          await axios.post(`https://back-end-nr6u.onrender.com/adminhistory/${id}`, input)
           .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
             }else{
-                console.log(input)
+                popup();
             }
             });
         } catch (err) {
@@ -70,27 +102,32 @@ const Adminhistory = () => {
     const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
+    const logout =(event)=>{
+        event.preventDefault();
+        localStorage.removeItem('token');
+        window.location='/login'
+    }
     return (
         <div>
-         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+         <Navbar collapseOnSelect expand="lg" className="bg-wh" style={{fontFamily:"Athiti"}}>
                     <Container>
 
-                    <Navbar.Brand href='/' >CHECK</Navbar.Brand>
+                    <Navbar.Brand href='/adminuser'className='fs-1' >CHECK</Navbar.Brand>
 
                             
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="1">
+                    <Nav className="justify-content-end flex-grow-1 pe-3 fs-5" variant="underline" activeKey="1">
                         <Nav.Link eventKey={1} href="/adminuser">รายชื่อผู้ใช้</Nav.Link>
                         
-                    <Nav.Link  >logout</Nav.Link>    
+                    <Nav.Link onClick={logout}  >logout</Nav.Link>    
                     </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>   
-        <Container>
-            <div className='m-5'>
-                <p className='fs-2 mb-5'>เพิ่มประวัติผู้ใช้</p>
+        <div className='m-5 d-flex justify-content-center' style={{fontFamily:"Athiti"}}>
+            <Card className='p-5'style={{width:'70%'}}>
+                <p className='fs-2 mb-5'>เพิ่มประวัติผู้ตรวจสอบ</p>
                 <div>
                 {user.map((users,key7)=>
                     <div key={key7}>
@@ -233,14 +270,17 @@ const Adminhistory = () => {
                             <div className='d-flex justify-content-end mt-3'>
                                     <Row>
                                         <Col>
-                                            <Button  className='fs-5 mr-3 text-black ' style={{backgroundColor:'#3CB371',width:90,height:60}} onClick={handleClick}>
-                                                <p className='px-2 mt-1'>ยืนยัน</p>
+                                            <Button  className='fs-5 mr-3 text-black mt-2' style={{backgroundColor:'#3CB371',width:90,height:60}} onClick={handleClick}>
+                                                <p className='px-2 mt-1 fs-5' style={{fontFamily:"Athiti"}}>ยืนยัน</p>
                                             </Button>
                                         </Col>
                                         <Col>
-                                            <Button href='/adminhistoryuser' className='fs-5 ml-3 text-black'style={{backgroundColor:'#CD5C5C',width:90,height:60}}>
-                                                <p>ยกเลิก</p>
-                                            </Button>
+                                            <Link to={`/adminuserupdate/${id}`}>
+                                                <Button  className='fs-5   mt-2 text-black'style={{backgroundColor:'#CD5C5C',width:90,height:60}}>
+                                                    <p style={{fontFamily:"Athiti"}}>ยกเลิก</p>
+                                                </Button>
+                                            </Link>
+                                            
                                         </Col>
                                     </Row>
                             </div>
@@ -248,8 +288,8 @@ const Adminhistory = () => {
                     </div>
                 )}
                 </div>
-            </div>
-        </Container>
+            </Card>
+        </div>
         </div>
     )
 }

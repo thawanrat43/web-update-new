@@ -1,2 +1,0 @@
-
-635266a0fb89239fbc247ff18409ef880d587834	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/is-typedarray/-/is-typedarray-1.0.0.tgz","integrity":null,"time":1693284356623,"size":"0","metadata":{"time":1693284356623,"url":"http://registry.npmjs.org/is-typedarray/-/is-typedarray-1.0.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/is-typedarray/-/is-typedarray-1.0.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

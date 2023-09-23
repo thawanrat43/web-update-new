@@ -24,14 +24,32 @@ const Finish = () => {
     const [profile,setProfile] =useState([]);
     const getprofile = async ()=>{
         try{
-            const response = await axios.get(`/api/profile/${id}`);
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/profilehistory/${id}`);
             setUser(response.data);
             
         } catch (err) {
             console.log(err);
         }
     };
+    const token = async () =>{
+        const token = localStorage.getItem('token');
+        try{
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
+            .then((response) => {
+                if (response.data.error) {
+                    window.location='/login'
+                }
+                });
+        } catch (err) {
+            console.log(err);
+            window.location='/login'
+        }
+    }
     useEffect(() => {
+        token();
         getprofile();        
         
     }, []);
@@ -43,15 +61,15 @@ const Finish = () => {
     return (
         <div>
             {user.map((users,key15)=>
-                <Navbar key={key15} collapseOnSelect expand="lg" className="bg-body-tertiary">
+                <Navbar key={key15} collapseOnSelect expand="lg" className="bg-wh"  style={{fontFamily:"Athiti"}}>
                     <Container>
                             <Link to={`/home`}>
-                                <Navbar.Brand >CHECK</Navbar.Brand>
+                                <Navbar.Brand className='fs-1'>CHECK</Navbar.Brand>
                             </Link>
                             
                             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                             <Navbar.Collapse id="responsive-navbar-nav">
-                            <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="3" >
+                            <Nav className="justify-content-end flex-grow-1 pe-3 fs-5" variant="underline" activeKey="3" >
                             
                                 <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                                     <Nav.Link eventKey="1">ตรวจประวัติ</Nav.Link>
@@ -61,7 +79,7 @@ const Finish = () => {
                                 </LinkContainer>
                                 <LinkContainer to={`/profile/${id}`}  >
                                         <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                            <Image src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                                     </Nav.Link>
                                 </LinkContainer>
                                         
@@ -72,23 +90,23 @@ const Finish = () => {
                     </Container>
                 </Navbar>
             )}
-            <Container className='m-5 p-5'>
-                <p className='fs-3 d-flex justify-content-center mb-5'>ชำระเงินเสร็จสิ้น</p>
+            <Container className='m-5 p-5 justify-content-center' >
+                <div className="bi bi-check-lg d-flex justify-content-center mt-4" style={{fontSize:'10rem',fontFamily:"Athiti"}}  >
+                </div>
+                <p className='fs-2 d-flex justify-content-center mb-5 mt-2'  style={{fontFamily:"Athiti"}}>ชำระเงินเสร็จสิ้น</p>
                 {user.map((users,key4)=>
-                <Row key={key4} className="d-flex justify-content-center  ">
-
+                <Row key={key4} className="d-flex justify-content-center  "  style={{fontFamily:"Athiti"}}>
                     <Col xs lg="4" className="d-flex justify-content-center  ">
                         <Link to={`/home`} >
                             <Button variant="secondary" fullWidth style={{width:"15rem"}} >
-                                <p>ไปหน้าตรวจประวัติ</p>
+                                <p className='fs-5'>ไปหน้าตรวจประวัติ</p>
                             </Button>
                         </Link>
-                        
                     </Col>
                     <Col xs lg="4" className="d-flex justify-content-center  ">
-                        <Link to={`/pagestatus/${id}`} >
+                        <Link to={`/pagestatus/${users.id}`} >
                             <Button variant="secondary" fullWidth style={{width:"15rem"}} >
-                                <p>ไปหน้าสถานะการตรวจสอบ</p>
+                                <p className='fs-5'>ไปหน้าสถานะการตรวจสอบ</p>
                             </Button>
                         </Link>
                         

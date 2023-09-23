@@ -1,2 +1,0 @@
-
-17104cd7922885d26e40a60705d42823b2b4e94e	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz","integrity":null,"time":1693284357550,"size":"0","metadata":{"time":1693284357550,"url":"http://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:57 GMT","location":"https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

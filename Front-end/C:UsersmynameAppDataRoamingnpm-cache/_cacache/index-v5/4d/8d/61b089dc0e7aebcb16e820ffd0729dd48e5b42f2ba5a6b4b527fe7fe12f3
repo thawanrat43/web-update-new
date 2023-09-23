@@ -1,2 +1,0 @@
-
-8da1dbe2f5309085a963883b187da0aab388ea05	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/caseless/-/caseless-0.12.0.tgz","integrity":null,"time":1693284356620,"size":"0","metadata":{"time":1693284356620,"url":"http://registry.npmjs.org/caseless/-/caseless-0.12.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:56 GMT","location":"https://registry.npmjs.org/caseless/-/caseless-0.12.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

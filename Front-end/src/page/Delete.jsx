@@ -25,7 +25,7 @@ const Delete = () => {
     const [user ,setUser] = useState([]);
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`/api/profile/${id}`);
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/profile/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -33,14 +33,31 @@ const Delete = () => {
         console.log(user);
         console.log(id);
     }
+    const token = async () =>{
+        const token = localStorage.getItem('token');
+        try{
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
+            .then((response) => {
+                if (response.data.error) {
+                    window.location='/login'
+                }
+                });
+        } catch (err) {
+            console.log(err);
+            window.location='/login'
+        }
+    }
     useEffect(() => {
-            
+        token();   
         getdata();
        
     }, []);
     const deletedata = async () => {
         try{
-            await axios.post(`/api/admindelete/${id}`
+            await axios.post(`https://back-end-nr6u.onrender.com/admindelete/${id}`
             )
             .then((response) => {
             if (response.data.error) {
@@ -75,70 +92,57 @@ const Delete = () => {
         <div >
             {user.map((users,key3)=>
             <div key={key3}>
-                <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+                <Navbar collapseOnSelect expand="lg" className="bg-wh" style={{fontFamily:"Athiti"}}>
                     <Container>
-                            <Link to={`/adminuser/${id}`}>
-                                <Navbar.Brand >CHECK</Navbar.Brand>
-                            </Link>
-                            
-                            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                            <Navbar.Collapse id="responsive-navbar-nav">
-                            <Nav className="justify-content-end flex-grow-1 pe-3 ">
-                            <Link to={`/adminuser/${id}`} className='mr-2' style={{ textDecoration: 'none' }}>
-                                <Navbar style={navStyle} >ตรวจประวัติ</Navbar>
-                            </Link>
-                            <Link to={`/pagestatus/${id}`} style={{ textDecoration: 'none' }}>
-                                <Navbar style={navStyle} >สถานะการตรวจประวัติ</Navbar>
-                            </Link>
-                            
-                            {/* <Nav.Link href="/login">Login</Nav.Link>
-                                <Nav.Link href="/register">Register</Nav.Link> */}
-                            <Nav.Link onClick={logout}>logout</Nav.Link>
-                            </Nav>
+                        <Navbar.Brand href='/adminuser' className='fs-1'>CHECK</Navbar.Brand>                
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                        <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="justify-content-end flex-grow-1 pe-3 fs-5" variant="underline" activeKey="1">
+                        <Nav.Link eventKey={1} href="/adminuser">รายชื่อผู้ใช้</Nav.Link>
+                                
+                        <Nav.Link onClick={logout}  >logout</Nav.Link>    
+                        </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-            
-                <Container className='p-5 '>
-                
-                    <div   style={headlineStyle} className='m-xl-5 p-xxl-5 fs-3'>
-                        <div className=' d-flex justify-content-center mt-5 mb-3'>
-                            <Row >
-                                <Col>
-                                    <p>คุณต้องการลบผู้ใช้</p>
-                                </Col>
-                            </Row>
-                        </div>
+                <div className='d-flex justify-content-center'>
+                    <Card className='p-5 m-5' style={{fontFamily:"Athiti",width:'40%',height:'50%'}}>
                     
-                        <div className=' d-flex justify-content-center mb-3 text-black'>
-                            <Row>
-                                <Col>
-                                    <p>คุณ {users.fname} {users.lname}</p>
-                                </Col>
-                            </Row>
+                        <div   className='' style={{fontSize:'10rem',fontFamily:"Athiti"}}  >
+                        <div className="bi bi-exclamation-lg d-flex justify-content-center " style={{fontSize:'10rem',fontFamily:"Athiti"}}  >
                         </div>
-                        <div className=' d-flex justify-content-center mb-5 mt-5 text-black'>
-                            <Row>
-                                <Col>
-                                    <Button href='/adminudelete' onClick={deletedata} className='fs-4 mr-3 text-black ' style={{backgroundColor:'#3CB371',width:90,height:60}}>
-                                        <p className='px-2 mt-1'>ยืนยัน</p>
-                                    </Button>
-                                </Col>
-                                <Col>
-                                    <Button href='/adminudelete' className='fs-4 ml-3 text-black'style={{backgroundColor:'#CD5C5C',width:90,height:60}}>
-                                        <p>ยกเลิก</p>
-                                    </Button>
-                                </Col>
-                                
+                        <p className='fs-5 d-flex justify-content-center  mt-2'  style={{fontFamily:"Athiti"}}>คุณต้องการลบผู้ใช้</p>
+                        
+                            <div className=' d-flex justify-content-center  text-black '>
+                                <Row>
+                                    <Col>
+                                        <p className='fs-2'>คุณ {users.fname} {users.lname}</p>
+                                    </Col>
+                                </Row>
+                            </div>
+                            <div className='d-flex justify-content-center  text-black '>
+                                <Row>
+                                    <Col>
+                                        <Button href='/adminudelete' onClick={deletedata} className='fs-5 mr-3 text-black ' style={{backgroundColor:'#3CB371',width:90,height:60 ,fontFamily:"Athiti"}} >
+                                            <p className='mt-1'>ยืนยัน</p>
+                                        </Button>
+                                    </Col>
+                                    <Col>
+                                        <Button href='/adminudelete' className='fs-5 ml-3 text-black'style={{backgroundColor:'#CD5C5C',width:90,height:60, fontFamily:"Athiti"}}>
+                                            <p className=' mt-1'>ยกเลิก</p>
+                                        </Button>
+                                    </Col>
+                                    
 
-                            </Row>
+                                </Row>
+                            </div>
+                        
                         </div>
-                    
-                    </div>
 
-                
                     
-                </Container>
+                        
+                    </Card>
+                </div>
             </div>
             )}
         </div>

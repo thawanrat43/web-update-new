@@ -1,2 +1,0 @@
-
-0bf316dcd4d02eb308a8c7ee84b22effe64a4272	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/gauge/-/gauge-4.0.4.tgz","integrity":null,"time":1693284355857,"size":"0","metadata":{"time":1693284355856,"url":"http://registry.npmjs.org/gauge/-/gauge-4.0.4.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:55 GMT","location":"https://registry.npmjs.org/gauge/-/gauge-4.0.4.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

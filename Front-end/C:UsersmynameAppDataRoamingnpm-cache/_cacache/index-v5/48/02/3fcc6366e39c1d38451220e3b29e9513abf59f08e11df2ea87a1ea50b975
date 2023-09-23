@@ -1,2 +1,0 @@
-
-19dc6e3b00a712da1b41aab5260a54731af16ec8	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz","integrity":null,"time":1693284355424,"size":"0","metadata":{"time":1693284355423,"url":"http://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:55 GMT","location":"https://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

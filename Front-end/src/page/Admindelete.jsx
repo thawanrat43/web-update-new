@@ -18,34 +18,38 @@ import Button from '@mui/material/Button';
 import Modal from '../compament/Modal';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-
+import Swal from 'sweetalert2';
 const admindelete = () => {
     const [user ,setUser] = useState([]);
     const [userid,setuserid] = useState ([]);
     const [modalOpen, setModalOpen] = useState(false);
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`/api/adminuser`);
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/adminuser`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
         }
     }
-    const deletedata = async () => {
+    const token = async () =>{
+        const token = localStorage.getItem('token');
         try{
-            await axios.post(`/api/profile/${userid}`
-            )
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
             .then((response) => {
-            if (response.data.error) {
-                alert(response.data.error);
-            }
-            });
-        }catch (err) {
+                if (response.data.error) {
+                    window.location='/login'
+                }
+                });
+        } catch (err) {
             console.log(err);
+            window.location='/login'
         }
     }
     useEffect(() => {
-            
+        token();   
         getdata();
        
     }, []);
@@ -58,47 +62,52 @@ const admindelete = () => {
         border: "none",
         color: "black"
    }
+   const logout =(event)=>{
+    event.preventDefault();
+    localStorage.removeItem('token');
+    window.location='/login'
+}
     return (
         <div>
-            <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+            <Navbar collapseOnSelect expand="lg" className="bg-wh" style={{fontFamily:"Athiti"}}>
                     <Container>
 
-                    <Navbar.Brand href='/' >CHECK</Navbar.Brand>
+                    <Navbar.Brand href='/adminuser' className='fs-1'>CHECK</Navbar.Brand>
 
                             
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="1">
+                    <Nav className="justify-content-end flex-grow-1 pe-3 fs-5" variant="underline" activeKey="1">
                         <Nav.Link eventKey={1} href="/adminuser">รายชื่อผู้ใช้</Nav.Link>
                         
-                    <Nav.Link  >logout</Nav.Link>    
+                    <Nav.Link onClick={logout} >logout</Nav.Link>    
                     </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>   
-            <Container fluid  className=' p-5 ' >
+            <Container   className='' style={{fontFamily:"Athiti",width:'70%'}}>
                 <Row  className='d-flex m-4'>
                     <Col>
-                        <p className="fs-1" >ผู้ใช้</p>
+                        <p className="fs-2 mt-5" >ระงับผู้ใช้</p>
                     </Col>
                     <Col>
-                        <Button href='/adminregister' className='bg-secondary text-white' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} onClick={handleClick}>
+                        <Button href='/adminregister' className='bg-secondary text-white fs-5' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} onClick={handleClick} style={{fontFamily:"Athiti"}}>
                             <p>เพิ่มผู้ใช้</p> 
                         </Button>
                     </Col>
                     <Col>
-                        <Button href='/admindelete' className='bg-secondary text-white' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} onClick={handleClick}>
+                        <Button href='/adminuser' className='bg-secondary text-white fs-5' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} onClick={handleClick} style={{fontFamily:"Athiti"}}>
                             <p>ระงับผู้ใช้</p> 
                         </Button>
                     </Col>    
                 </Row>
                 {user.map((users,key2)=>
-                    <div key={key2} >
-                         <Row className='m-3 mt-5' >
+                    <div key={key2} style={{fontFamily:"Athiti"}}>
+                         <Row className='m-3 mt-2' >
                             
-                                <Col style= { headlineStyle } xs lg="14" className='p-3'>
+                                <Col style= { headlineStyle } xs lg="14" className='p-3 rounded'>
                                     
-                                        <Row className=' fs-5 ' style={{color:"#708090"}}>
+                                        <Row className=' fs-6 ' style={{color:"#708090"}}>
                                             <Col className='ml-5'>
                                                 <p>ชื่อผู้ใช้</p>
                                             </Col>
@@ -110,15 +119,19 @@ const admindelete = () => {
                                             </Col>
                                             
                                         </Row>
-                                        <Row className=' fs-4 ' >
+                                        <Row className=' fs-6 ' >
                                             <Col className='ml-5'>
                                                 <p>{users.fname}   {users.lname}</p>
                                             </Col>
                                             <Col >
                                                 <p>{users.email}</p>
                                             </Col>
-                                            <Col className=' '>
-                                                <p>ผู้ใช้ทั่วไป</p>
+                                            <Col>
+                                                {users.status === '' ? (
+                                                    <p>แอดมิน</p>
+                                                ) : (      
+                                                    <p>ผู้ใช้ทั่วไป</p>   
+                                                )}
                                             </Col>
                                             
                                         </Row>
@@ -126,7 +139,7 @@ const admindelete = () => {
                                    
                                     
                                 </Col>
-                                <Col className='d-flex justify-content-end   fs-5 mt-5 ml-3' xs lg="1" >
+                                <Col className='d-flex justify-content-end   fs-5 mt-4 ml-3' xs lg="1" >
                                    
                                     <Link to={`/delete/${users.id}`}>
                                         <Button  className="bi bi-trash-fill openModalBtn fs-1"style={{color:'black' , }} >

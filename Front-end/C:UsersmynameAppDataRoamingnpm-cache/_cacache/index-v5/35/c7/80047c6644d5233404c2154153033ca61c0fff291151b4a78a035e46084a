@@ -1,2 +1,0 @@
-
-d2bc84ce39b416eee89c4faaed5fc1a600fe199e	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.4.tgz","integrity":null,"time":1693284357836,"size":"0","metadata":{"time":1693284357836,"url":"http://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.4.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:57 GMT","location":"https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.4.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

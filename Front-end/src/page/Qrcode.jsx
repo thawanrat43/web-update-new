@@ -13,23 +13,55 @@ import { useParams } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
-import { Image } from 'react-bootstrap';
+import { Card, Image } from 'react-bootstrap';
 import qr from '../image/qrcode.jpg'
 import {useNavigate} from "react-router-dom"
+import Swal from 'sweetalert2';
 const Qrcode = () => {
     const { id }  = useParams();
     const [user ,setUser] = useState([]);
-    const data = 0 ;
+    const popups = async ()=>{
+      Swal.fire({
+          icon: 'success',
+          title: 'สำเร็จ',
+          text: 'ชำระเงินเสร็จสิ้นรอการตรวจสอบการชำระเงิน',
+          confirmButtonColor: '#D3D3D3',
+          confirmButtonText: 'ไปหน้าตรวจประวัติ',
+
+      }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = `/home`
+          }
+      });
+        
+    }
     const getdata = async ()=>{
       try{
-          const response = await axios.get(`http://localhost:3333/profilehistory/${id}`);
+          const response = await axios.get(`https://back-end-nr6u.onrender.com/profilehistory/${id}`);
           setUser(response.data);
       } catch (err) {
           console.log(err);
       }
     }
+    const token = async () =>{
+      const token = localStorage.getItem('token');
+      try{
+          const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+              headers: {
+              Authorization: 'Bearer ' + token //the token is a variable which holds the token
+          }})
+          .then((response) => {
+              if (response.data.error) {
+                  window.location='/login'
+              }
+              });
+      } catch (err) {
+          console.log(err);
+          window.location='/login'
+      }
+    }
     useEffect(() => {
-            
+        token();    
         getdata();
        
     }, []);
@@ -37,12 +69,12 @@ const Qrcode = () => {
     const updatepay = async (e)=> {
       e.preventDefault();
       try{
-          await axios.post(`/api/pay/${id}`)
+          await axios.post(`https://back-end-nr6u.onrender.com/pay/${id}`)
           .then((response) => {
           if (response.data.error) {
               alert(response.data.error);
           }else{
-            navigate(`finish/${id}`);
+            popups();
           }
           });
       }catch (err) {
@@ -61,18 +93,18 @@ const Qrcode = () => {
         window.location='/login'
     }
     return (
-      <div>
+      <div style={{fontFamily:"Athiti"}}>
         {user.map((users,key4)=>
         <div  key={key4}>
-          <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+          <Navbar collapseOnSelect expand="lg" className="bg-wh" style={{fontFamily:"Athiti"}}>
             <Container>
               <Link to={`/home`}>
-                <Navbar.Brand >CHECK</Navbar.Brand>
+                <Navbar.Brand className='fs-1'>CHECK</Navbar.Brand>
               </Link>
                               
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="4" >          
+              <Nav className="justify-content-end flex-grow-1 pe-3 fs-5" variant="underline" activeKey="4" >          
               <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                 <Nav.Link >ตรวจประวัติ</Nav.Link>
               </LinkContainer>
@@ -81,7 +113,7 @@ const Qrcode = () => {
               </LinkContainer>
               <LinkContainer to={`/profile/${users.id}`}  >
                 <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                  <Image src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                  <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                 </Nav.Link>
               </LinkContainer>
                
@@ -91,14 +123,14 @@ const Qrcode = () => {
             </Container>
           </Navbar>
           <Container>
-            
-            <div className='m-5 p-5'>
+            <div className=' d-flex justify-content-center'>
+            <Card className='m-5 p-5 ' style={{fontFamily:"Athiti",width:'40%'}}>
               <Container >
                 <Row>
                   <p className='d-flex justify-content-center fs-3'>ชำระเงิน</p>                 
                 </Row>
                 <Row className='d-flex justify-content-center m-3'>
-                   <Image src={qr} style={{height:"25rem",width:'20rem'}}/>               
+                   <Image src={qr} style={{height:"50%",width:'70%'}}/>               
                 </Row>
                 {/* {users.criminal === '' ? (
                   data=data+0;
@@ -106,19 +138,21 @@ const Qrcode = () => {
                   data=data+100;
                 )} */}
                 <Row>
-                  <p className='d-flex justify-content-center'>จำนวนที่ต้องชำระ :  100 </p>                   
+                  <p className='d-flex justify-content-center fs-6'>จำนวนที่ต้องชำระ :  100 </p>                   
                 </Row>
-                <Row >
-                  <Link to={`/finish/${users.id}`} className='d-flex justify-content-center'>
-                    <Button  className='bg-secondary text-white' type="submit"  variant="contained" style={{width:'10rem'}} onClick={updatepay} >
+                <Row className='d-flex justify-content-center'>
+                 
+                    <Button  className='bg-secondary text-white fs-5 ' type="submit"  variant="contained" style={{width:'12rem'}} onClick={updatepay} >
                       <p className='m-2'>ชำระเงินเสร็จสิ้น</p> 
                     </Button>
-                  </Link>
+                  
                     
                 </Row>                  
               </Container>
               
+            </Card>
             </div>
+            
           
           
           </Container>

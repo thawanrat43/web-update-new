@@ -1,2 +1,0 @@
-
-76145097a390ce70000b8e929d8ebbabb9cf90b3	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/configstore/-/configstore-5.0.1.tgz","integrity":null,"time":1693284359571,"size":"0","metadata":{"time":1693284359571,"url":"http://registry.npmjs.org/configstore/-/configstore-5.0.1.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:59 GMT","location":"https://registry.npmjs.org/configstore/-/configstore-5.0.1.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

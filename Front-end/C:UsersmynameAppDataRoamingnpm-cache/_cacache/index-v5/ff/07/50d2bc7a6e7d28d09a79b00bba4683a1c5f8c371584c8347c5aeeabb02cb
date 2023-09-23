@@ -1,2 +1,0 @@
-
-3d5c42ec2bdd52decf9488e9a73d2af76de0d7cd	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/tcp-port-used/-/tcp-port-used-1.0.2.tgz","integrity":null,"time":1693284359051,"size":"0","metadata":{"time":1693284359051,"url":"http://registry.npmjs.org/tcp-port-used/-/tcp-port-used-1.0.2.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Tue, 29 Aug 2023 04:45:59 GMT","location":"https://registry.npmjs.org/tcp-port-used/-/tcp-port-used-1.0.2.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

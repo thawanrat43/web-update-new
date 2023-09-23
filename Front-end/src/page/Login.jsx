@@ -21,112 +21,149 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import sessionstorage from 'sessionstorage';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
+import Card from 'react-bootstrap/Card';
+import Swal from 'sweetalert2';
 const Login = () => {
     const [user,setUser] =useState({})
     const [inputs,setInputs] = useState({
         email: "",
         password: ""
     })
+    const popuperror = async ()=>{
+        Swal.fire({
+            icon: 'error',
+            title: 'ไม่สำเร็จ',
+            text: 'ล็อกอินไม่สำเสร็จE-mail หรือ รหัสผ่านของคุณไม่ถูกต้อง'
+            
+            
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = `/login`
+            }
+        });
+          
+    }
     const [err, setErr] = useState(null);
     const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
     // const { login } = useContext(AuthContext);
     axios.defaults.withCredentials = true;
+    
     const navigate = useNavigate()
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("/api/login", inputs);
-            
-            if(err){
-                alert('login failed')
-                
-            }
-            else{
-                
-                navigate("/home");
-            }    
+            await axios.post(`https://back-end-nr6u.onrender.com/login`, inputs)
+            .then(function (response) {
+                if(err){
+                    popuperror();
+                    
+                }
+                else{
+                    localStorage.setItem('token',response.data.token)
+                    //navigate("/otp");
+                    if(response.data.status=='1')
+                    {
+                        navigate("/home");
+
+                    }
+                    else{
+                        navigate("/adminuser");
+                    }
+                }  
+            })
+              
         } catch (err) {
           setErr(err.response.data);
-          alert('faild')
+          popuperror();
+          
         }
         
     };
-    console.log(inputs);
+    const style = {
+        fontFamily:"Athiti",
+        border: "none",
+        color: "wh",
+        width:"15rem"
+       
+    }
     return (
         <div>
-            <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+            <Navbar collapseOnSelect expand="lg" className="bg-wh">
                     <Container>
 
-                        <Navbar.Brand href='/' >CHECK</Navbar.Brand>
+                        <Navbar.Brand href='/'style={{fontFamily:"Athiti"}} className='fs-1' >CHECK</Navbar.Brand>
 
                             
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="justify-content-end flex-grow-1 pe-3 ">
+                        <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="4" >
                         
-                        <Nav.Link href='/' >ตรวจประวัติ</Nav.Link>
+                        <Nav.Link href='/' style={{fontFamily:"Athiti"}} className='fs-5' eventKey="2">ตรวจประวัติ</Nav.Link>
                         
-                        <Nav.Link href="/login">Login</Nav.Link>
-                        <Nav.Link href="/register">Register</Nav.Link>
+                        <Nav.Link href="/login" style={{fontFamily:"Athiti"}} className='fs-5' eventKey="4">Login</Nav.Link>
+                        <Nav.Link href="/register" style={{fontFamily:"Athiti"}} className='fs-5' eventKey="3">Register</Nav.Link>
                         
                         </Nav>
-                    </Navbar.Collapse>
+                        </Navbar.Collapse>
                     </Container>
             </Navbar>
-            <Container fluid  className=' p-5 '>
-                <div className='d-flex justify-content-center'>
-                    <p className="fs-1">Login</p>
-                </div>
-                <Box className='m-5' component="form" noValidate  sx={{ mt: 1 }} >
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        onChange={handleChange}
-                    />
-                    <div className='d-flex justify-content-center'>
-                        {err && err}
-                    </div>
-                    
-                    <Row className="align-items-center m-5 d-flex justify-content-center">
-                        <Col xs lg="2"  >
-                           
-                                <Button className='bg-secondary'  type="submit" fullWidth variant="contained"  sx={{ mt: 3, mb: 2 }} onClick={handleLogin}>
-                                <p>Login</p>
-                                </Button>
-                        
+            <div className='m-5 d-flex justify-content-center'>
+                <Card fluid className='m-5 ' style={{width:'45%'}} >
+                    <Card.Body >
+                        <div className='d-flex justify-content-end'>
+                            <Link to={`/register`}  sx={{ mt: 3}} style={style}  >
+                                    <p className='fs-6' >Don't have an account?</p>
+                            </Link>
+                        </div>
+                        <div className='d-flex justify-content-center mt-5'>
+                            <p style={{fontFamily:"Athiti"}} className='fs-1 mb-5'>Login</p>
+                        </div>
+                        <div className='pl-5 pr-5'>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                style={{fontFamily:"Athiti"}} 
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                onChange={handleChange}
+                                style={{fontFamily:"Athiti"}} 
+                            />
+                        </div>
                             
-                        </Col>
-                        <Col className="align-items-center" md="auto">
-                            <p>or</p>
-                        </Col>
-                        <Col xs lg="2">
-                            <Button href='/register' className='bg-secondary' fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                <p>New user</p>
-                            </Button>
-                        </Col>
-                    </Row>
-                </Box>
-                
-            </Container>
+                        <div className='d-flex justify-content-center' style={{fontFamily:"Athiti"}} >
+                            {err && err}
+                        </div>
+                            
+                        <Row className="mt-5 mb-5 d-flex justify-content-center">
+                            <Col  className='d-flex justify-content-center ' >
+                                <Button   type="submit" fullWidth variant="contained"  sx={{ mt: 3}} onClick={handleLogin} style={{ textDecoration: 'none' ,color:"white" ,fontFamily:"Athiti" ,width:"15rem"}} className='bg-secondary' >
+                                    <p className='fs-5'>Login</p>
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Card.Body>
+                    
+                    
+                </Card>
+            </div>
+            
             
             
         </div>

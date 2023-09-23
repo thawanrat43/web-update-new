@@ -22,9 +22,10 @@ const Pagestatus = () => {
     const { id }  =useParams();
     const [user ,setUser] = useState([]);
     const [profile,setProfile] =useState([]);
+    
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`/api/pagestatus/${id}`);
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/pagestatus/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -32,31 +33,50 @@ const Pagestatus = () => {
     }
     const getprofile = async ()=>{
         try{
-            const response = await axios.get(`/apiprofile/${id}`);
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/profile/${id}`);
             setProfile(response.data);
             
         } catch (err) {
             console.log(err);
         }
     };
+    const token = async () =>{
+        const token = localStorage.getItem('token');
+        try{
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
+            .then((response) => {
+                if (response.data.error) {
+                    window.location='/login'
+                }
+                });
+        } catch (err) {
+            console.log(err);
+            window.location='/login'
+        }
+    }
+    
     useEffect(() => {
-            
+        token();    
         getdata();
         getprofile();
+
     }, []);
     
-    console.log(user);
-    console.log(id);
     const headlineStyle = {
         backgroundColor: "#D9D9D9",
         lineHeight: "1.5",
         border: "none",
-        color: "black"
+        color: "black",
+        
     }
     const navStyle = {
         lineHeight: "1.5",
         border: "none",
-        color: "#708090"
+        color: "#708090",
+       
     
     }
     const logout =(event)=>{
@@ -69,104 +89,193 @@ const Pagestatus = () => {
             
             <div>
                 {profile.map((profiles,key15)=>
-                <Navbar key={key15} collapseOnSelect expand="lg" className="bg-body-tertiary">
+                <Navbar key={key15} collapseOnSelect expand="lg" className="" style={{backgroundColor:'white'}}>
                     <Container>
                             <Link to={`/home`}>
-                                <Navbar.Brand >CHECK</Navbar.Brand>
+                                <Navbar.Brand className='fs-1' style={{fontFamily:"Athiti"}}>CHECK</Navbar.Brand>
                             </Link>
                             
                             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                             <Navbar.Collapse id="responsive-navbar-nav">
-                            <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="3" >
+                            <Nav className="justify-content-end flex-grow-1 pe-3 " variant="underline" activeKey="3" style={{fontFamily:"Athiti"}} >
                             
-                                <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
+                                <LinkContainer to={`/home`} className='mr-3 mt-4 fs-5' style={{ textDecoration: 'none' }} >
                                     <Nav.Link eventKey="1">ตรวจประวัติ</Nav.Link>
                                 </LinkContainer>
-                                <LinkContainer to={`/pagestatus/${id}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }}>
+                                <LinkContainer to={`/pagestatus/${id}`} className='mr-3 mt-4 fs-5' style={{ textDecoration: 'none' }}>
                                     <Nav.Link  eventKey="3" >สถานะการตรวจประวัติ</Nav.Link>
                                 </LinkContainer>
                                 <LinkContainer to={`/profile/${id}`}  >
                                         <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                            <Image src={"http://localhost:3333/"+profiles.profilepic}roundedCircle style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-nr6u.onrender.com/"+profiles.profilepic}roundedCircle style={{width : '3rem'}} />
                                     </Nav.Link>
                                 </LinkContainer>
                                         
                                     
-                                <Nav.Link eventKey="2" onClick={logout} className='mt-4'>logout</Nav.Link>
+                                <Nav.Link eventKey="2" onClick={logout} className='mt-4 fs-5'>logout</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
                 )}
-                <Container >
-                    <p className='fs-3 m-4 mt-5'>สถานะการตรวจประวัติ</p>
-            
+                <div className='d-flex  justify-content-center'>
+                    <div style={{width:"60%"}}>
+                        <p className='fs-2 m-4 mt-2 ' style={{fontFamily:"Athiti"}}>สถานะการตรวจประวัติ</p>
                         {user.map((users,key4)=>
                             
-                            <div key={key4} className=' m-4 p-1' style= { headlineStyle }>
-                                <Container className='m-2 fs-6' >
-                                    {users.pay === 'เสร็จสิ้น' ? (
-                                         <Link to={`/history/${users.idhistory}`} style={{color: "#708090" ,textDecoration: 'none'}}>
-                                            <Row className='mt-3 ml-3'>
-                                                <Col>
-                                                    <p>ชื่อ-นามสกุล</p>
-                                                </Col>
-                                                <Col>
-                                                    <p>หมายเลขประจำตัวประชาชน</p>
-                                                </Col>
-                                                <Col>
-                                                    <p>สถานะ</p>
-                                                </Col>
-                                            </Row>
-                                            <Row className='m ml-3 mb-3 text-black'>
-                                                <Col>
-                                                    <p>{users.type_id} {users.fname} {users.lname} </p>
-                                                </Col>
-                                                <Col>
-                                                    <p>{users.idcard}</p>
-                                                </Col>
-                                                <Col >
-                                                    <p>{users.pay}</p>
-                                                </Col>
-                                            </Row>
-                                        </Link>        
-
-                                    ) : (
-                                        <Link to={`/qrcode/${users.idhistory}`} style={{color: "#708090" ,textDecoration: 'none'}}>
-                                        <Row className='mt-3 ml-3'>
-                                            <Col>
-                                                <p>ชื่อ-นามสกุล</p>
-                                            </Col>
-                                            <Col>
-                                                <p>หมายเลขประจำตัวประชาชน</p>
-                                            </Col>
-                                            <Col>
-                                                <p>สถานะ</p>
-                                            </Col>
-                                        </Row>
-                                        <Row className='m ml-3 mb-3 text-black'>
-                                            <Col>
-                                                <p>{users.type_id} {users.fname} {users.lname} </p>
-                                            </Col>
-                                            <Col>
-                                                <p>{users.idcard}</p>
-                                            </Col>
-                                            <Col >
-                                                <p>{users.pay}</p>
-                                            </Col>
-                                        </Row>
-                                    </Link>
-                                    )}
-                                   
-                                    
-                                </Container>
+                            <div key={key4} className='' >
                                 
-                            </div> 
+                                { users === '' ? (
+                                    <p>ไม่มีการตรวจประวัติ</p>
+                                ):( 
+                                    <div  className=' mb-3 p-1 rounded' style= { headlineStyle }>
+                                    <Container className='m-2 fs-6 ' >
+                                            <div>
+                                                {users.pay === 'ตรวจสอบเสร็จสิ้น'  ? (
+                                                    <Link to={`/history/${users.idhistory}`} style={{color: "#708090" ,textDecoration: 'none'}}>
+                                                        <Row className='mt-3 ml-3 fs-6' style={{fontFamily:"Athiti"}}>
+                                                            <Col>
+                                                                <p >ชื่อ-นามสกุล</p>
+                                                            </Col>
+                                                            <Col>
+                                                                <p>หมายเลขประจำตัวประชาชน</p>
+                                                            </Col>
+                                                            <Col>
+                                                                <p>สถานะ</p>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className='m ml-3 mb-3 text-black fs-6' style={{fontFamily:"Athiti"}}>
+                                                            <Col>
+                                                                <p>{users.type_id} {users.fname} {users.lname} </p>
+                                                            </Col>
+                                                            <Col>
+                                                                <p>{users.idcard}</p>
+                                                            </Col>
+                                                            <Col >
+                                                                <p>{users.pay}</p>
+                                                            </Col>
+                                                        </Row>
+                                                    </Link>        
+
+                                                ) : users.pay === "กำลังตรวจสอบการชำระเงิน" ?(
+                                                    <div style={{color: "#708090" ,textDecoration: 'none'}}>
+                                                        <Row className='mt-3 ml-3 fs-6' style={{fontFamily:"Athiti"}} >
+                                                            <Col>
+                                                                <p>ชื่อ-นามสกุล</p>
+                                                            </Col>
+                                                            <Col>
+                                                                <p>หมายเลขประจำตัวประชาชน</p>
+                                                            </Col>
+                                                            <Col>
+                                                                <p>สถานะ</p>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className='m ml-3 mb-3 text-black fs-6' style={{fontFamily:"Athiti"}}>
+                                                            <Col>
+                                                                <p>{users.type_id} {users.fname} {users.lname} </p>
+                                                            </Col>
+                                                            <Col>
+                                                                <p>{users.idcard}</p>
+                                                            </Col>
+                                                            <Col >
+                                                                <p>{users.pay}</p>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                ): users.pay === "ชำระเงินเสร็จสิ้น" ?(
+                                                    <div style={{color: "#708090" ,textDecoration: 'none'}}>
+                                                        <Row className='mt-3 ml-3 fs-6' style={{fontFamily:"Athiti"}} >
+                                                            <Col>
+                                                                <p>ชื่อ-นามสกุล</p>
+                                                            </Col>
+                                                            <Col>
+                                                                <p>หมายเลขประจำตัวประชาชน</p>
+                                                            </Col>
+                                                            <Col>
+                                                                <p>สถานะ</p>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className='m ml-3 mb-3 text-black fs-6' style={{fontFamily:"Athiti"}}>
+                                                            <Col>
+                                                                <p>{users.type_id} {users.fname} {users.lname} </p>
+                                                            </Col>
+                                                            <Col>
+                                                                <p>{users.idcard}</p>
+                                                            </Col>
+                                                            <Col >
+                                                                <p>{users.pay}</p>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                ): users.pay === "กำลังตรวจสอบ" ?(
+                                                    <div style={{color: "#708090" ,textDecoration: 'none'}}>
+                                                    <Row className='mt-3 ml-3 fs-6' style={{fontFamily:"Athiti"}} >
+                                                        <Col>
+                                                            <p>ชื่อ-นามสกุล</p>
+                                                        </Col>
+                                                        <Col>
+                                                            <p>หมายเลขประจำตัวประชาชน</p>
+                                                        </Col>
+                                                        <Col>
+                                                            <p>สถานะ</p>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className='m ml-3 mb-3 text-black fs-6' style={{fontFamily:"Athiti"}}>
+                                                        <Col>
+                                                            <p>{users.type_id} {users.fname} {users.lname} </p>
+                                                        </Col>
+                                                        <Col>
+                                                            <p>{users.idcard}</p>
+                                                        </Col>
+                                                        <Col >
+                                                            <p>{users.pay}</p>
+                                                        </Col>
+                                                    </Row>
+                                                </div>
+                                                ):(
+                                                <Link to={`/pay/${users.idhistory}`} style={{color: "#708090" ,textDecoration: 'none'}}>
+                                                <Row className='mt-3 ml-3 fs-6' style={{fontFamily:"Athiti"}} >
+                                                    <Col>
+                                                        <p>ชื่อ-นามสกุล</p>
+                                                    </Col>
+                                                    <Col>
+                                                        <p>หมายเลขประจำตัวประชาชน</p>
+                                                    </Col>
+                                                    <Col>
+                                                        <p>สถานะ</p>
+                                                    </Col>
+                                                </Row>
+                                                <Row className='m ml-3 mb-3 text-black fs-6' style={{fontFamily:"Athiti"}}>
+                                                    <Col>
+                                                        <p>{users.type_id} {users.fname} {users.lname} </p>
+                                                    </Col>
+                                                    <Col>
+                                                        <p>{users.idcard}</p>
+                                                    </Col>
+                                                    <Col >
+                                                        <p>{users.pay}</p>
+                                                    </Col>
+                                                </Row>
+                                            </Link>)}
+                                                
+                                            </div>
+                                       
+                                        
+                                    
+                                        
+                                    </Container>
+                                    
+                                    </div> 
+                                )}
+                                
+                            </div>
                         )}
+                    </div>
                     
                     
                     
-                </Container>
+                    
+                </div>
             </div>
         </div>
         
