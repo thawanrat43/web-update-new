@@ -36,6 +36,7 @@ const Adminhistory = () => {
     });
     const { id }  =useParams();
     const [user ,setUser] = useState([]);
+    const token = localStorage.getItem('token');
     const popup = async ()=>{
         Swal.fire({
             icon: 'success',
@@ -52,16 +53,16 @@ const Adminhistory = () => {
     }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/historyselect/${id}`);
+            const response = await axios.get(`http://localhost:3333/historyselect/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
         }
     }
-    const token = async () =>{
+    const tokenn = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+            const response = await axios.get(`http://localhost:3333/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -76,14 +77,17 @@ const Adminhistory = () => {
         }
     }
     useEffect(() => {
-        token();     
+        tokenn();     
         getdata();
     }, []);
     const handleClick = async (e) => {
         e.preventDefault();
     
         try {
-          await axios.post(`https://back-end-nr6u.onrender.com/adminhistory/${id}`, input)
+            await axios.post(`http://localhost:3333/adminhistory/${id}`, input,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
           .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);

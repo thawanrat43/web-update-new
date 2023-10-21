@@ -25,7 +25,7 @@ const Pagestatus = () => {
     
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/pagestatus/${id}`);
+            const response = await axios.get(`http://localhost:3333/pagestatus/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -33,7 +33,7 @@ const Pagestatus = () => {
     }
     const getprofile = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/profile/${id}`);
+            const response = await axios.get(`http://localhost:3333/profile/${id}`);
             setProfile(response.data);
             
         } catch (err) {
@@ -43,7 +43,7 @@ const Pagestatus = () => {
     const token = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+            const response = await axios.get(`http://localhost:3333/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})

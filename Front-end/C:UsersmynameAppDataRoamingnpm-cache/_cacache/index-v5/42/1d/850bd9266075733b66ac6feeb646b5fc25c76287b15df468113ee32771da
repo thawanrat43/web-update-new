@@ -1,0 +1,2 @@
+
+e449f90f29c7b1ef02fc7899f70de4c0fd13cc5b	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/react-icons","integrity":null,"time":1695803046913,"size":"0","metadata":{"time":1695803046912,"url":"http://registry.npmjs.org/react-icons","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Wed, 27 Sep 2023 08:24:07 GMT","location":"https://registry.npmjs.org/react-icons","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

@@ -23,9 +23,10 @@ import Navbar from 'react-bootstrap/Navbar';
 const Delete = () => {
     const { id }  = useParams();
     const [user ,setUser] = useState([]);
+    const token = localStorage.getItem('token');
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/profile/${id}`);
+            const response = await axios.get(`http://localhost:3333/profile/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -33,7 +34,7 @@ const Delete = () => {
         console.log(user);
         console.log(id);
     }
-    const token = async () =>{
+    const tokenn = async () =>{
         const token = localStorage.getItem('token');
         try{
             const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
@@ -51,17 +52,24 @@ const Delete = () => {
         }
     }
     useEffect(() => {
-        token();   
+        tokenn();   
         getdata();
        
     }, []);
     const deletedata = async () => {
         try{
-            await axios.post(`https://back-end-nr6u.onrender.com/admindelete/${id}`
-            )
+            await axios.get(`http://localhost:3333/admindelete/${id}`
+            ,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+                }
+            
+            })
             .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
+            }else{
+                window.location ='/adminuser'
             }
             });
         }catch (err) {
@@ -123,12 +131,12 @@ const Delete = () => {
                             <div className='d-flex justify-content-center  text-black '>
                                 <Row>
                                     <Col>
-                                        <Button href='/adminudelete' onClick={deletedata} className='fs-5 mr-3 text-black ' style={{backgroundColor:'#3CB371',width:90,height:60 ,fontFamily:"Athiti"}} >
+                                        <Button  onClick={deletedata} className='fs-5 mr-3 text-black ' style={{backgroundColor:'#3CB371',width:90,height:60 ,fontFamily:"Athiti"}} >
                                             <p className='mt-1'>ยืนยัน</p>
                                         </Button>
                                     </Col>
                                     <Col>
-                                        <Button href='/adminudelete' className='fs-5 ml-3 text-black'style={{backgroundColor:'#CD5C5C',width:90,height:60, fontFamily:"Athiti"}}>
+                                        <Button href='/adminuser' className='fs-5 ml-3 text-black'style={{backgroundColor:'#CD5C5C',width:90,height:60, fontFamily:"Athiti"}}>
                                             <p className=' mt-1'>ยกเลิก</p>
                                         </Button>
                                     </Col>

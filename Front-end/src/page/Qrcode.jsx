@@ -30,14 +30,14 @@ const Qrcode = () => {
 
       }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = `/home`
+            window.location.href = `/imgpay/${id}`
           }
       });
         
     }
     const getdata = async ()=>{
       try{
-          const response = await axios.get(`https://back-end-nr6u.onrender.com/profilehistory/${id}`);
+          const response = await axios.get(`http://localhost:3333/profilehistory/${id}`);
           setUser(response.data);
       } catch (err) {
           console.log(err);
@@ -46,7 +46,7 @@ const Qrcode = () => {
     const token = async () =>{
       const token = localStorage.getItem('token');
       try{
-          const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+          const response = await axios.get(`http://localhost:3333/token`,{
               headers: {
               Authorization: 'Bearer ' + token //the token is a variable which holds the token
           }})
@@ -69,7 +69,7 @@ const Qrcode = () => {
     const updatepay = async (e)=> {
       e.preventDefault();
       try{
-          await axios.post(`https://back-end-nr6u.onrender.com/pay/${id}`)
+          await axios.post(`http://localhost:3333/pay/${id}`)
           .then((response) => {
           if (response.data.error) {
               alert(response.data.error);

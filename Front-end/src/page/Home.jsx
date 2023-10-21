@@ -84,7 +84,7 @@ const Home =() =>{
         e.preventDefault();
     
         try {
-            await axios.post(`https://back-end-nr6u.onrender.com/home`,inputs,{
+            await axios.post(`http://localhost:3333/home`,inputs,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -106,7 +106,7 @@ const Home =() =>{
     };
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/profileid`, {
+            const response = await axios.get(`http://localhost:3333/profileid`, {
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }

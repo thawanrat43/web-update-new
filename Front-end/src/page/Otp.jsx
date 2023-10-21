@@ -31,7 +31,7 @@ export const Otp = () => {
     });
     const [err, setErr] = useState(null);
     const [user ,setUser] = useState([]);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('login');
     const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
         
@@ -50,21 +50,63 @@ export const Otp = () => {
         });
           
     }
+    const popupsadmin = async ()=>{
+        Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'OTP ถูกต้อง',
+            
+            
+        }).then((result) => {
+            if (result.value) {
+              window.location.href = `/adminprofile`
+            }
+        });
+          
+    }
+    const popuperror = async ()=>{
+        Swal.fire({
+            icon: 'error',
+            title: 'ไม่สำเร็จ',
+            text: 'OTP ไม่ถูกต้อง'
+            
+            
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = `/otp`
+            }
+        });
+          
+    }
     const otpverification = async ()=>{
         
         try{
             await axios.post(`http://localhost:3333/otpvverification`,inputs,{
                 headers: {
-                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+                  Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
             
-            } )
-            .then((response) => {
-                if (response.data.error) {
-                    alert(response.data.error);
+            })
+            .then(function (response) {
+                if(err){
+                    popuperror();
+                    
                 }
-                    popups();
-                });
+                else{
+                    localStorage.setItem('token',response.data.token)
+                    console.log(response.data.status)
+                    localStorage.removeItem('login');
+                    if(response.data.status=='1')
+                    {
+                        popups();
+
+                    }
+                    else{
+                        popupsadmin();
+                    }
+                }  
+            })
+            
         } catch (err) {
             console.log(err);
         }
@@ -102,6 +144,7 @@ export const Otp = () => {
         
     }, []);
     console.log(inputs)
+    console.log(token)
     return (
         <Container fluid className='d-flex justify-content-center align-items-center vh-100'  style={{backgroundColor:'#778899',width:"100%",height: "100vh" ,fontFamily:"Athiti" }}>
             <Card className='m-3 p-5 ' style={{width:'50%',height:'80%'}}>
@@ -110,22 +153,20 @@ export const Otp = () => {
 
                     </div>
                     <p className='d-flex justify-content-center m-5 fs-3'>OTP VERIFICATION</p>
-                    <Row className='d-flex justify-content-center m-4 fs-6'>
-                        code to be sent 088656474
-                    </Row>
+                    
                     <Row className='input-container d-flex flex-row justify-content-center mt-2'>
-                        <Col  className='d-flex justify-content-center'>
-                            <input type='text' name='OTP' id='OTP' className=' d-flex justify-content-center' maxLength="6" onChange={handleChange}></input>
+                        <Col  className='d-flex justify-content-center text-center'>
+                            <input type='text' name='OTP' id='OTP' className=' d-flex justify-content-center text-center' maxLength="6" onChange={handleChange}></input>
                         </Col>
                         
                     </Row>
                     <div className='d-flex justify-content-center'>
-                        <Button className='d-flex justify-content-center mt-3' onClick={otp}>
+                        <Button className='d-flex justify-content-center mt-2' onClick={otp}>
                             ส่ง otp อีกครั้ง
                         </Button>
                     </div>
                     
-                    <div className='d-flex justify-content-center m-1'>
+                    <div className='d-flex justify-content-center'>
                         <Button className='bg-secondary fs-5'  type="submit" variant="contained"  sx={{ mt: 3, mb: 2 }}  style={{fontFamily:"Athiti" ,width:'10rem'}} onClick={otpverification}>
                             ยืนยัน
                         </Button>

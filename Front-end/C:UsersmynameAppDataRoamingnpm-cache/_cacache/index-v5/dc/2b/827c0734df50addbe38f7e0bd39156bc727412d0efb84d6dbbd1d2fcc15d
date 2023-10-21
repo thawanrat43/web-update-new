@@ -1,0 +1,2 @@
+
+65d906eab438794bbab03074260704a322679f36	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/react-chartjs-2","integrity":null,"time":1696569107106,"size":"0","metadata":{"time":1696569107106,"url":"http://registry.npmjs.org/react-chartjs-2","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 06 Oct 2023 05:11:47 GMT","location":"https://registry.npmjs.org/react-chartjs-2","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

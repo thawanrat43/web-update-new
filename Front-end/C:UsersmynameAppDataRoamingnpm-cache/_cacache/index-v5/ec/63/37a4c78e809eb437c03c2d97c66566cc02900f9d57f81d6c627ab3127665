@@ -1,0 +1,2 @@
+
+8446693ea35f377cbca20a49f4b48fd5ad10d3b2	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/chart.js/-/chart.js-4.4.0.tgz","integrity":null,"time":1696568456356,"size":"0","metadata":{"time":1696568456356,"url":"http://registry.npmjs.org/chart.js/-/chart.js-4.4.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 06 Oct 2023 05:00:56 GMT","location":"https://registry.npmjs.org/chart.js/-/chart.js-4.4.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

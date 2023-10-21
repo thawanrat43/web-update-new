@@ -1,0 +1,47 @@
+
+.backgroud{
+    display:flex;
+    width: 20%;
+    padding: 10px;
+    background-color: rgb(226, 226, 226);
+}
+
+.sidebar{
+    color:black;
+    height: 100vh;
+    width: 200px;
+    transition: all 0.5s;
+}
+.top_section{
+    display: flex;
+    align-items:center;
+    padding:20px 15px;
+    
+}
+.logo{
+    font-size: 30px;
+}
+.bars{
+    display: flex;
+    font-size: 25px;
+    margin-left: 50px;
+}
+.link{
+    display: flex;
+    color: black;
+    padding: 10px 15px;
+    gap: 15px;
+    transition: all 0.5s;
+}
+.link:hover{
+  
+    color: gray;
+    transition: all 0.5s;
+}
+.active{
+
+    color: gray;
+}
+.icon, .link_text{
+    font-size: 20px;
+}

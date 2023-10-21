@@ -1,0 +1,18 @@
+'Log files:
+/Users/thawanratsongsri/web/Front-end/C:UsersmynameAppDataRoamingnpm-cache/_logs/2023-09-26T07_37_33_326Z-debug-0.log
+
+# npm resolution error report
+
+While resolving: front-end@0.0.0
+Found: react@18.2.0
+node_modules/react
+  react@"^18.2.0" from the root project
+
+Could not resolve dependency:
+peer react@"^16.8.0 || ^17.0.0" from @material-ui/core@4.12.4
+node_modules/@material-ui/core
+  @material-ui/core@"*" from the root project
+
+Fix the upstream dependency conflict, or retry
+this command with --force or --legacy-peer-deps
+to accept an incorrect (and potentially broken) dependency resolution.

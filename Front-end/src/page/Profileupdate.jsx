@@ -57,9 +57,10 @@ const Profileupdate = () => {
     const updatepic =(e) =>{
         const formdata= new FormData()
         formdata.append('file',file)
+        console.log(formdata)
         e.preventDefault();
         try{
-            axios.post(`https://back-end-nr6u.onrender.com/updatepic/${userid}`,formdata)
+            axios.post(`http://localhost:3333/updatepic/${userid}`,formdata)
             .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
@@ -76,7 +77,7 @@ const Profileupdate = () => {
     };
     const getimage = async ()=>{
         try{
-            axios.get(`https://back-end-nr6u.onrender.com/image/${userid}`)
+            axios.get(`http://localhost:3333/image/${userid}`)
             .then(response =>
                 setimage(response.data[0].image)
             )
@@ -87,7 +88,7 @@ const Profileupdate = () => {
     };
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/profile/${userid}`);
+            const response = await axios.get(`http://localhost:3333/profile/${userid}`);
             setUser(response.data);
             
         } catch (err) {
@@ -97,7 +98,7 @@ const Profileupdate = () => {
     const updatedata = async (e)=> {
         e.preventDefault();
         try{
-            await axios.post(`https://back-end-nr6u.onrender.com/profileupdate/${userid}`,inputs)
+            await axios.post(`http://localhost:3333/profileupdate/${userid}`,inputs)
             .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
@@ -112,7 +113,7 @@ const Profileupdate = () => {
     const token = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+            const response = await axios.get(`http://localhost:3333/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -136,6 +137,7 @@ const Profileupdate = () => {
         border: "none",
         color: "#708090"
     }
+    console.log(file)
     return (
         <div>
         {user.map((users,i)=>(    
@@ -158,7 +160,7 @@ const Profileupdate = () => {
                             </LinkContainer>
                             <LinkContainer to={`/profile/${userid}`}  >
                                     <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                        <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                                        <Image src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                                 </Nav.Link>
                             </LinkContainer>
                                     
@@ -186,7 +188,7 @@ const Profileupdate = () => {
                                     </Row>
                                     <Row>
                                         <Col className='d-flex justify-content-center m-5'>
-                                            <Image className='mt-3' src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%' }} />
+                                            <Image className='mt-3' src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '100%' }} />
                                         </Col>
                                     </Row>
                                         

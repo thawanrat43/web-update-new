@@ -1,23 +1,27 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import Bar from '../compament/Bar'
-import Button from 'react-bootstrap/Button';
+import { Button } from '@mui/material';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { useState,useEffect} from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image';
+import Barprofile from '../compament/Barprofile';
+import { SettingsRemoteSharp } from '@mui/icons-material';
+import { useSelector } from "react-redux";
+import { useLocation, useParams,Link } from "react-router-dom";
+import axios from "axios"
+import {useNavigate} from "react-router-dom"
+import { useContext } from "react";
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import TextField from '@mui/material/TextField';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
-import { Card, Image } from 'react-bootstrap';
 import qr from '../image/qrcode.jpg'
-import {useNavigate} from "react-router-dom"
 import Swal from 'sweetalert2';
-import TextField from '@mui/material/TextField';
 import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
@@ -25,70 +29,45 @@ import 'react-clock/dist/Clock.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import InputGroup from 'react-bootstrap/InputGroup';
-
-
 export const Imgpay = () => {
     const {userid} = useParams();  
-    const [user ,setUser] = useState([]);
+    const [startDate, setStartDate] = useState(new Date());
     const [inputs,setInputs] = useState({
-        date: "",
-        time: "",
+        date: startDate,
         picpay:"",
         amount:""
     })
-    const [startDate, setStartDate] = useState(new Date());
+    
     const [image,setImage] =useState();
-    // const imgpay =(e) =>{
-    //     const formdata= new FormData()
-    //     formdata.append('file',file)
-    //     e.preventDefault();
-    //     try{
-    //         axios.post(`http://localhost:3333/imgpay/${userid}`,formdata)
-    //         .then((response) => {
-    //         if (response.data.error) {
-    //             alert(response.data.error);
-    //         }else{
-    //             getdata();
-    //         }
-    //         });
-    //     }catch (err) {
-    //         console.log(err);
-    //     }
-    // };
-    // const token = async () =>{
-    //     const token = localStorage.getItem('token');
-    //     try{
-    //         const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
-    //             headers: {
-    //             Authorization: 'Bearer ' + token //the token is a variable which holds the token
-    //         }})
-    //         .then((response) => {
-    //             if (response.data.error) {
-    //                 window.location='/login'
-    //             }
-    //             });
-    //     } catch (err) {
-    //         console.log(err);
-    //         window.location='/login'
-    //     }
-    // }
-    const updatepic =(e) =>{
-        const formdata= new FormData()
-        formdata.append('file',file)
-        e.preventDefault();
-        try{
-            axios.post(`http://localhost:3333/updatepic/${userid}`,formdata)
-            .then((response) => {
-            if (response.data.error) {
-                alert(response.data.error);
-            }else{
-                getdata();
+    const [file,setFile] = useState("");
+    const token = localStorage.getItem('token');
+    const [user ,setUser] = useState([]);
+    const [images, setImages] = useState("");
+    const [imageURLs, setImageURLs] = useState([]);
+
+    useEffect(() => {
+        if (images.length < 1) return;
+        const newImageUrls = [];
+        images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
+        setImageURLs(newImageUrls);
+    }, [images]);
+    const popupsuccess = async ()=>{
+        Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'แจ้งการชำระเงินสำเร็จแล้ว',
+            
+            
+        }).then((result) => {
+            if (result.value) {
+              window.location.href = `/pagestatus/${user[0].id}`
             }
-            });
-        }catch (err) {
-            console.log(err);
-        }
-    };
+        });
+          
+    }
+    function onImageChange(e) {
+        setImages([...e.target.files]);
+    }
     const getdata = async ()=>{
         try{
             const response = await axios.get(`http://localhost:3333/profilehistory/${userid}`);
@@ -97,22 +76,78 @@ export const Imgpay = () => {
             console.log(err);
         }
     }
+    const imgpay =(e) =>{
+        const formdata= new FormData()
+        formdata.append('file',images[0])
+        e.preventDefault();
+        try{
+            axios.post(`http://localhost:3333/imgpay/${userid}`,formdata)
+            .then((response) => {
+            if (response.data.error) {
+                alert(response.data.error);
+            }else{
+                getdata();
+                axios.post(`http://localhost:3333/amount/${userid}`,inputs)
+                .then((response) => {
+                if (response.data.error) {
+                    alert(response.data.error);
+                }else{
+                    getdata();
+                    popupsuccess();
+                }
+                });
+            }
+            });
+            
+        }catch (err) {
+            console.log(err);
+        }
+    };
+    const tokenn = async () =>{
+        
+        try{
+            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
+            .then((response) => {
+                if (response.data.error) {
+                    window.location='/login'
+                }
+                });
+            
+        } catch (err) {
+            console.log(err);
+            window.location='/login'
+        }
+        
+    }
+    
+    
     const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-    useEffect(() => {
+    useEffect(()=>{
         getdata();
-        if(inputs.picpay.length < 1) return;
-        const newImageurls = [];
-        ImagesearchRoller.forEach(image => newImageurls.push(URL.createObjectURL(inputs.picpay)))
-        setImage(newImageurls);
-    }, [inputs]);
-    console.log(inputs);
+    },[])
+    // useEffect(() => {
+    //     getdata();
+    //     if(inputs.picpay.length < 1) return;
+    //     const newImageurls = [];
+    //     ImagesearchRoller.forEach(image => newImageurls.push(URL.createObjectURL(inputs.picpay)))
+    //     setImage(newImageurls);
+    // }, [inputs]);
+    console.log(user);
     const logout =(event)=>{
         event.preventDefault();
         localStorage.removeItem('token');
         window.location='/login'
     }
+    console.log(inputs);
+    console.log(startDate)
+    console.log(images)
+    console.log(imageURLs)
+    
     return (
         <div style={{fontFamily:"Athiti"}}>
             {user.map((users,key4)=>
@@ -134,7 +169,7 @@ export const Imgpay = () => {
                     </LinkContainer>
                     <LinkContainer to={`/profile/${users.id}`}  >
                         <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                        <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                        <Image src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                         </Nav.Link>
                     </LinkContainer>
                     
@@ -160,7 +195,7 @@ export const Imgpay = () => {
                             <Col className='ml-4'>
                                 <InputGroup className="mt-4" style={{width:'11rem'}}>
                                     
-                                    <Form.Control aria-label="Amount (to the nearest dollar)" />
+                                    <Form.Control name ="amount" id="amount" aria-label="Amount (to the nearest dollar)" onChange={handleChange} />
                                     <InputGroup.Text>บาท</InputGroup.Text>
                                 </InputGroup>
                             </Col>
@@ -173,7 +208,7 @@ export const Imgpay = () => {
                             <Col className='mt-4 pt-1 ml-4'>
                             
                             
-                            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)}   />
+                            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)}   name='date' />
                                 {/* <DatePicker value={value} onChange={(newValue) => setValue(newValue)} /> */}
                             </Col>
                         </Row>
@@ -192,13 +227,16 @@ export const Imgpay = () => {
                                 timeCaption="Time"
                                 dateFormat="h:mm aa"
                                 id='time'
+                                name='time'
                                 />
                             </Col>
                         </Row>
                         <Row className='mt-4'>
                             <Col > 
                                 <div>
-                                    <input type="file" multiple accept='inputs.picpay/*'  onChange={e => setFile(e.target.files[0])}/>                
+                                    {/* <input type="file" multiple accept='inputs.picpay/*'  onChange={e => setFile(e.target.files[0])}/>                 */}
+                                    <input type="file" multiple accept='inputs.picpay/*' onChange={onImageChange} />
+                                    
                                 </div>
                             </Col>
                         </Row>
@@ -207,13 +245,19 @@ export const Imgpay = () => {
                                 <Image src={image}/>
                             ))} */}
                             <Col className='d-flex justify-content-center m-5'>
-                                <Image className='mt-3' src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '50%' }} />
+                                {imageURLs.map((imageSrc, idx) => (
+                                            <img key={idx} width="640" height="360" src={imageSrc} />
+                                ))}
                             </Col>
                         </Row>
-                        <Row className='d-flex justify-content-end'> 
-                            <Button className='bg-secondary fs-5 '  type="submit"  variant="contained"  sx={{ mt: 3, mb: 2 }} style={{fontFamily:"Athiti",color:'white'}}>
-                                <p className='text-wh'>ยีนยัน</p>
-                            </Button>
+                        <Row className='d-flex justify-content-end text-white'> 
+                           <Col className='d-flex justify-content-center text-white'>
+                            <Button className='bg-secondary fs-5 '  type="submit"  variant="contained"  sx={{ mt: 3, mb: 2 }} style={{fontFamily:"Athiti",color:'white',width:'8rem'}} onClick={imgpay}>
+                                        <p className='text-wh m-1'>ยีนยัน</p>
+                                </Button>
+                           </Col>
+                            
+                            
                         </Row>
                     </Card.Body>
                 </Card>

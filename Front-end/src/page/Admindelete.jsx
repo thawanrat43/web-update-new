@@ -20,18 +20,18 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Swal from 'sweetalert2';
 const admindelete = () => {
+    const { userid }  = useParams();
     const [user ,setUser] = useState([]);
-    const [userid,setuserid] = useState ([]);
     const [modalOpen, setModalOpen] = useState(false);
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/adminuser`);
+            const response = await axios.get(`http://localhost:3333/adminuser`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
         }
     }
-    const token = async () =>{
+    const tokenn = async () =>{
         const token = localStorage.getItem('token');
         try{
             const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
@@ -49,7 +49,7 @@ const admindelete = () => {
         }
     }
     useEffect(() => {
-        token();   
+        tokenn();   
         getdata();
        
     }, []);

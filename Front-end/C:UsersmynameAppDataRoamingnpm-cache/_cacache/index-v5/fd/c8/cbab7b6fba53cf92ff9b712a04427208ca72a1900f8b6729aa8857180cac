@@ -1,0 +1,2 @@
+
+199a0f8b49d6fc7b61f7ccd14f0b0912a85cb827	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/react-chartjs-2/-/react-chartjs-2-5.2.0.tgz","integrity":null,"time":1696569107710,"size":"0","metadata":{"time":1696569107710,"url":"http://registry.npmjs.org/react-chartjs-2/-/react-chartjs-2-5.2.0.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Fri, 06 Oct 2023 05:11:47 GMT","location":"https://registry.npmjs.org/react-chartjs-2/-/react-chartjs-2-5.2.0.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

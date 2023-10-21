@@ -23,7 +23,7 @@ const Pay = () => {
   const [user ,setUser] = useState([]);
   const getdata = async ()=>{
     try{
-        const response = await axios.get(`https://back-end-nr6u.onrender.com/profilehistory/${id}`);
+        const response = await axios.get(`http://localhost:3333/profilehistory/${id}`);
         setUser(response.data);
     } catch (err) {
         console.log(err);
@@ -32,18 +32,18 @@ const Pay = () => {
   const token = async () =>{
     const token = localStorage.getItem('token');
     try{
-        const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+        const response = await axios.get(`http://localhost:3333.com/token`,{
             headers: {
             Authorization: 'Bearer ' + token //the token is a variable which holds the token
         }})
         .then((response) => {
             if (response.data.error) {
-                window.location='/login'
+                // window.location='/login'
             }
             });
     } catch (err) {
         console.log(err);
-        window.location='/login'
+        // window.location='/login'
     }
   } 
   useEffect(() => {

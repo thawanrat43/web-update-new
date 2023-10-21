@@ -24,13 +24,13 @@ const Adminuserupdate = () => {
     const [inputs,setInputs] = useState({
         pay:""
     })
+    const token = localStorage.getItem('token');  
     const navigate = useNavigate()
     const popups = async ()=>{
         Swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
             text: 'แก้ไขสถานะผู้ตรวจสอบประวัติเสร็จสิ้น',
-            ButtonColor: '#D3D3D3',
             ButtonText: 'ยืนยัน',
             
         }).then((result) => {
@@ -43,7 +43,10 @@ const Adminuserupdate = () => {
     const handleClick = async (e)=>{
         e.preventDefault();
         try {
-          await axios.post(`https://back-end-nr6u.onrender.com/paystatus/${userid}`, inputs)
+          await axios.post(`http://localhost:3333/paystatus/${userid}`,inputs,{
+            headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }})
           .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
@@ -52,14 +55,14 @@ const Adminuserupdate = () => {
             }
             });
         } catch (err) {
-          setErr(err.response.data);
+          
           console.log(err)
         }
 
     }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/history/${userid}`);
+            const response = await axios.get(`http://localhost:3333/history/${userid}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -68,10 +71,10 @@ const Adminuserupdate = () => {
     const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-    const token = async () =>{
+    const tokenn = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+            const response = await axios.get(`http://localhost:3333/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -86,7 +89,7 @@ const Adminuserupdate = () => {
         }
     }
     useEffect(() => { 
-        token();   
+        tokenn();   
         getdata();
     }, []);
     console.log(user);
@@ -193,6 +196,7 @@ const Adminuserupdate = () => {
                                     <option value="ชำระเงินเสร็จสิ้น">ชำระเงินเสร็จสิ้น</option>
                                     <option value="กำลังตรวจสอบ">กำลังตรวจสอบ</option>
                                     <option value="ตรวจสอบเสร็จสิ้น">ตรวจสอบเสร็จสิ้น</option>
+                                    <option value="พบข้อผิดพลาด">พบข้อผิดพลาด</option>
                                 </Form.Select>            
                             </Col>
                         </Row>

@@ -17,10 +17,11 @@ import { useState } from 'react';
 import axios from "axios"
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 const Adminregister = () => {
+    const { userid }  = useParams();
     const [inputs,setInputs] = useState({
         username: "",
         email: "",
@@ -66,23 +67,28 @@ const Adminregister = () => {
 	};
     const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-      };
-  
+    };
+    const token = localStorage.getItem('token');  
     const handleClick = async (e) => {
         e.preventDefault();
     
         try {
-            await axios.post("https://back-end-nr6u.onrender.com/adminregister", inputs)
-            .then(function (response) {
-                if(err){
+            await axios.post(`http://localhost:3333/adminregister/${userid}`,inputs,{
+                headers: {
+                Authorization: 'Bearer ' + token //the token is a variable which holds the token
+                }
+            
+            } )
+          
+            .then((response) => {
+                if (response.data.error) {
                     popuperror();
                 }
-                else{
-                    popupsuccess();
-                }
-            });
+                popupsuccess();
+                });
         } catch (err) {
           setErr(err.response.data);
+          console.log(err)
           popuperror();
         }
         
@@ -92,7 +98,7 @@ const Adminregister = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
-    const token = async () =>{
+    const tokenn = async () =>{
         const token = localStorage.getItem('token');
         try{
             const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
@@ -110,16 +116,15 @@ const Adminregister = () => {
         }
     }
     useEffect(() => {
-        token();    
+        tokenn();    
     }, []);
+    
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" className="bg-wh" style={{fontFamily:"Athiti"}}>
                     <Container>
 
                     <Navbar.Brand href='/adminuser' className='fs-1'>CHECK</Navbar.Brand>
-
-                            
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="justify-content-end flex-grow-1 pe-3  fs-5" variant="underline" activeKey="1">
@@ -222,6 +227,7 @@ const Adminregister = () => {
                                     />
                                 </Col> 
                             </Row>
+                            
                         </Box>
                     </Col>
                     <Col xs lg="4">

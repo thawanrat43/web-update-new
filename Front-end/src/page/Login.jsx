@@ -54,23 +54,23 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`https://back-end-nr6u.onrender.com/login`, inputs)
+            await axios.post(`http://localhost:3333/login`, inputs)
             .then(function (response) {
                 if(err){
                     popuperror();
                     
                 }
                 else{
-                    localStorage.setItem('token',response.data.token)
-                    //navigate("/otp");
-                    if(response.data.status=='1')
-                    {
-                        navigate("/home");
+                    localStorage.setItem('login',response.data.token)
+                    navigate("/otp");
+                    // if(response.data.status=='1')
+                    // {
+                    //     navigate("/home");
 
-                    }
-                    else{
-                        navigate("/adminuser");
-                    }
+                    // }
+                    // else{
+                    //     navigate("/adminuser");
+                    // }
                 }  
             })
               
@@ -150,8 +150,12 @@ const Login = () => {
                         <div className='d-flex justify-content-center' style={{fontFamily:"Athiti"}} >
                             {err && err}
                         </div>
-                            
-                        <Row className="mt-5 mb-5 d-flex justify-content-center">
+                        <div className='mt-2 d-flex justify-content-center'>
+                            <Link to={`/emailforgot`}     >
+                                    <p className='fs-6' >ลืมรหัสผ่าน</p>
+                            </Link>
+                        </div>    
+                        <Row className="mt-4 mb-5 d-flex justify-content-center">
                             <Col  className='d-flex justify-content-center ' >
                                 <Button   type="submit" fullWidth variant="contained"  sx={{ mt: 3}} onClick={handleLogin} style={{ textDecoration: 'none' ,color:"white" ,fontFamily:"Athiti" ,width:"15rem"}} className='bg-secondary' >
                                     <p className='fs-5'>Login</p>

@@ -21,7 +21,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Card } from "react-bootstrap";
 import Swal from "sweetalert2";
 const Homenotlogin =() =>{
-    const { userid }  = useParams();
     const [inputs,setInputs] = useState({
         fname: "",
         lname: "",
@@ -79,7 +78,7 @@ const Homenotlogin =() =>{
     };
     return (
         <div>
-            <Navbar collapseOnSelect expand="lg" className="bg-wh">
+            <Navbar collapseOnSelect expand="lg" className="">
                 <Container>
                     <Navbar.Brand href='/'style={{fontFamily:"Athiti"}} className='fs-1' >CHECK</Navbar.Brand>          
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />

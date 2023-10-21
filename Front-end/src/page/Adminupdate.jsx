@@ -28,7 +28,7 @@ const Adminupdate = () => {
     };
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/profile/${userid}`);
+            const response = await axios.get(`http://localhost:3333/profile/${userid}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -167,8 +167,8 @@ const Adminupdate = () => {
                                 
                                 <Col>
                                     <Link to={`/adminhistoryuser/${users.id}`}>
-                                        <Button className='bg-secondary' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} onClick={handleClick} style={{width : 300 }} >
-                                            <p className='m-1 fs-5' style={{fontFamily:"Athiti"}}>รายละเอียดผู้ที่ตรวจสอบประวัติ</p> 
+                                        <Button className='bg-secondary' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} onClick={handleClick} style={{width : "100%" }} >
+                                            <p className='m-1 ' style={{fontFamily:"Athiti",fontSize:"120%"}}>รายละเอียดผู้ที่ตรวจสอบประวัติ</p> 
                                         </Button>
                                     </Link>
                                 </Col>    

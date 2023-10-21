@@ -20,16 +20,25 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card';
 import Swal from 'sweetalert2';
+import PasswordStrength from '../compament/PasswordStrength';
+import { InputAdornment } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
+import { VisibilityOff } from '@mui/icons-material';
+import {IconButton} from '@mui/material';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 const Register = () => {
+    const [newpassword,setnewpassword] = useState("");
     const [inputs,setInputs] = useState({
         username: "",
         email: "",
         password: "",
         fname: "",
         lname: "",
-        phonenum: "",
+        phonenum: newpassword,
     })
     const [err, setErr] = useState(null);
+    const [visible,setVisible] = useState(false);
+    const [visiblecon,setVisiblecon] = useState(false);
     const popupsuccess = async ()=>{
         Swal.fire({
             icon: 'success',
@@ -82,6 +91,29 @@ const Register = () => {
           popuperror();
         }
     };
+    
+    const Endadorment =({visible,setVisible}) =>{
+        return (
+            <InputAdornment position='end'>
+                <IconButton onClick={()=> setVisible(!visible)}>
+                {visible ? <VisibilityOff/> : <RemoveRedEyeIcon/>}
+                </IconButton>
+            </InputAdornment>
+        );
+    }
+    const Endadormentcon =({visiblecon,setVisiblecon}) =>{
+        return (
+            <InputAdornment position='end'>
+                <IconButton onClick={()=> setVisiblecon(!visiblecon)}>
+                {visiblecon ? <VisibilityOff/> : <RemoveRedEyeIcon/>}
+                </IconButton>
+            </InputAdornment>
+        );
+    }
+    const [isStrength, setStrength] = useState(null);
+    const dataHandler = async (childData) => {
+        setStrength(childData);
+    }
     const navStyle = {
         lineHeight: "1.5",
         border: "none",
@@ -93,7 +125,7 @@ const Register = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
-    
+    console.log(isStrength)
     
     return (
         <div>
@@ -200,20 +232,26 @@ const Register = () => {
                         <br/>
                         <Row>
                             <Col>
-                                <TextField
+                            <TextField
+                                margin="normal"
                                 required
                                 fullWidth
-                                name="password"
-                                label="รหัสผ่าน"
-                                type="password"
-                                id="password"
-                                autoComplete="new-password"
-                                onChange={handleChange}
-                                style={{fontFamily:"Athiti"}} 
-                                />
+                                name="newpassword"
+                                label="รหัสผ่านใหม่"
+                                type={visible ? "text" :"password"}
+                                
+                                onChange={(e) => {
+                                    setnewpassword(e.target.value);
+                                }}
+                                InputProps={{ // <-- This is where the toggle button is added.
+                                    endAdornment: <Endadorment visible={visible} setVisible={setVisible}/>
+                                }}
+                                
+                            />
+                            <PasswordStrength password={newpassword} actions={dataHandler}/>
                             </Col> 
                         </Row>
-                        <br/>
+                        
                         {/* <Row>
                             <Col className='d-flex justify-content-center '>
                                 <div className="d-flex justify-content-center m-2">
@@ -233,6 +271,26 @@ const Register = () => {
                         <div className='d-flex justify-content-center ' style={{color:'red'}}>
                             {err && err}
                         </div>
+                        {isStrength === 'Strong' ? (
+                            <Row className=" m-1 d-flex justify-content-center">
+                                <Col className='d-flex justify-content-center'>
+                                    <Button  className='bg-secondary text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }}>
+                                    <p className='m-2' style={{fontFamily:"Athiti"}} >Register</p> 
+                                    </Button>
+                                </Col>
+                            </Row>
+                        ):(
+                            <Row className=" m-1 mb-2 d-flex justify-content-center">
+                                <Col className='d-flex justify-content-center'>
+                                    <Button  className='bg-secondary text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }} disabled>
+                                    <p className='m-2' style={{fontFamily:"Athiti"}} >Register</p> 
+                                    </Button>
+                                </Col>
+                            </Row>
+                        )}
+                            {/* <Button  className='bg-secondary text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }} disabled>
+                                <p className='m-2' style={{fontFamily:"Athiti"}} >Register</p> 
+                            </Button>
                         
                         <Row className=" m-2 d-flex justify-content-center">
                             <Col className='d-flex justify-content-center'>
@@ -240,7 +298,7 @@ const Register = () => {
                                 <p className='m-2' style={{fontFamily:"Athiti"}} >Register</p> 
                                 </Button>
                             </Col>
-                        </Row>
+                        </Row> */}
                         <Row >
                             <Col className='d-flex justify-content-center'>
                                 <Link href="/login" variant="body2" style={{fontFamily:"Athiti"}} className='fs-6' >

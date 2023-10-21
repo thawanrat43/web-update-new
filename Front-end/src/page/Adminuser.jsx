@@ -19,15 +19,29 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 const Adminuser = () => {
     const [user ,setUser] = useState([]);
+    const [data ,setData] = useState([]);
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/adminuser`);
+            const response = await axios.get(`http://localhost:3333/adminuser`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
         }
     }
-   
+    const getadmin = async ()=>{
+        const token = localStorage.getItem('token');
+        try{
+            const response = await axios.get(`http://localhost:3333/profileid`, {
+                headers: {
+                  Authorization: 'Bearer ' + token //the token is a variable which holds the token
+                }
+            })
+            setData(response.data);
+        } catch (err) {
+            console.log(err);
+            window.location='/login'
+        }
+    }
     const token = async () =>{
         const token = localStorage.getItem('token');
         try{
@@ -48,7 +62,7 @@ const Adminuser = () => {
     useEffect(() => {
         token();    
         getdata();
-       
+        getadmin();
     }, []);
     const headlineStyle = {
         backgroundColor: "#D9D9D9",
@@ -61,6 +75,7 @@ const Adminuser = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
+    console.log(data)
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" className="bg-wh" style={{fontFamily:"Athiti"}}>
@@ -79,22 +94,33 @@ const Adminuser = () => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>   
-            <Container fluid  className='  ' style={{fontFamily:"Athiti",width:'70%'}}>
-                <Row  className='d-flex m-4'>
-                    <Col>
-                        <p className="fs-2 mt-5" >ผู้ใช้</p>
-                    </Col>
-                    <Col>
-                        <Button href='/adminregister' className='bg-secondary text-white fs-5' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} style={{fontFamily:"Athiti"}}>
-                            <p>เพิ่มผู้ใช้</p> 
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button href='/adminudelete' className='bg-secondary text-white fs-5 ' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} style={{fontFamily:"Athiti"}}>
-                            <p>ระงับผู้ใช้</p> 
-                        </Button>
-                    </Col>    
-                </Row>
+            <Container fluid  className='' style={{fontFamily:"Athiti",width:'70%'}}>
+                {data.map((dataadmin,key)=>
+                <div key={key}>
+                    <Row  className='d-flex m-4'>
+                        <Col>
+                            <p className="fs-2 mt-5" >ผู้ใช้</p>
+                        </Col>
+                        <Col>
+                        <Link to={`/adminregister/${dataadmin.id}`} style={{ textDecoration: 'none' }}>
+                            <Button href='/adminregister' className='bg-secondary text-white fs-5' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} style={{fontFamily:"Athiti"}}>
+                                <p>เพิ่มผู้ใช้</p> 
+                            </Button>
+                        </Link>
+                            
+                        </Col>
+                        <Col>
+                        <Link to={`/adminudelete/${dataadmin.id}`} style={{ textDecoration: 'none' }}>
+                            <Button className='bg-secondary text-white fs-5 ' type="submit" fullWidth variant="contained" sx={{ mt: 3, }} style={{fontFamily:"Athiti"}}>
+                                <p>ระงับผู้ใช้</p> 
+                            </Button>
+                        </Link>
+                            
+                            
+                        </Col>    
+                    </Row>
+                </div>
+                )}    
                 {user.map((users,key)=>
                     <div key={key} style={{fontFamily:"Athiti"}}>
                         <Link to={`/adminupdate/${users.id}`} style={{ textDecoration: 'none' }}>
