@@ -78,10 +78,28 @@ export const Otp = () => {
         });
           
     }
+    
+    const getdata = async ()=>{
+        try{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profileotp`, {
+                headers: {
+                  Authorization: 'Bearer ' + token //the token is a variable which holds the token
+                }
+            })
+            setUser(response.data);
+        } catch (err) {
+            console.log(err);
+            window.location='/login'
+        }
+    }
+    useEffect(() => {    
+        getdata();
+        
+    }, []);
     const otpverification = async ()=>{
         
         try{
-            await axios.post(`http://localhost:3333/otpvverification`,inputs,{
+            await axios.post(`https://back-end-newupdate.onrender.com/otpvverification`,inputs,{
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -98,10 +116,14 @@ export const Otp = () => {
                     localStorage.removeItem('login');
                     if(response.data.status=='1')
                     {
+                        getdata();
+                        axios.get(`https://back-end-newupdate.onrender.com/deleteotp/${user[0].id}`)
                         popups();
 
                     }
                     else{
+                        getdata();
+                        axios.get(`https://back-end-newupdate.onrender.com/deleteotp/${user[0].id}`)
                         popupsadmin();
                     }
                 }  
@@ -111,23 +133,10 @@ export const Otp = () => {
             console.log(err);
         }
     }
-    const getdata = async ()=>{
-        try{
-            const response = await axios.get(`http://localhost:3333/profileid`, {
-                headers: {
-                  Authorization: 'Bearer ' + token //the token is a variable which holds the token
-                }
-            })
-            setUser(response.data);
-        } catch (err) {
-            console.log(err);
-            window.location='/login'
-        }
-    }
     const otp = async () => {
         
         try{
-            const response = await axios.get(`http://localhost:3333/otp`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/otp`, {
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -139,12 +148,10 @@ export const Otp = () => {
         }
         
     };
-    useEffect(() => {    
-        getdata();
-        
-    }, []);
+    
     console.log(inputs)
     console.log(token)
+    console.log(user[0])
     return (
         <Container fluid className='d-flex justify-content-center align-items-center vh-100'  style={{backgroundColor:'#778899',width:"100%",height: "100vh" ,fontFamily:"Athiti" }}>
             <Card className='m-3 p-5 ' style={{width:'50%',height:'80%'}}>

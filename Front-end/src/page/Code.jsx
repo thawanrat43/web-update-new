@@ -19,12 +19,26 @@ import LinkContainer from 'react-router-bootstrap/LinkContainer';
 import { Token } from '@mui/icons-material';
 import Popup from 'reactjs-popup';
 import Swal from 'sweetalert2';
+import PasswordStrength from '../compament/PasswordStrength';
+import { InputAdornment } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
+import { VisibilityOff } from '@mui/icons-material';
+import {IconButton} from '@mui/material';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import '../compament/PasswordStrength.css';
+import Alert from 'react-bootstrap/Alert';
 const Code = () => {
     const { userid }  = useParams();
     const [oldpassword,setoldpassword] = useState("");
     const [newpassword,setnewpassword] = useState("");
     const [conpassword,setconpassword] = useState("");
     const [user ,setUser] = useState([]);
+    const [visible,setVisible] = useState(false);
+    const [visiblecon,setVisiblecon] = useState(false);
+    const [inputs,setInputs] = useState({
+        password: "",
+    })
+    const [err, setError] = useState(null);
     const popup = async ()=>{
         Swal.fire({
             icon: 'success',
@@ -46,19 +60,68 @@ const Code = () => {
             text: 'เปลี่ยนรหัสผ่านไม่สำเสร็จ'
             
             
-        }).then((result) => {
-            if (result.value) {
-                window.location.href = `/code/${userid}`
-            }
-        });
+        })
           
+    }
+    const Endadorment =({visible,setVisible}) =>{
+        return (
+            <InputAdornment position='end'>
+                <IconButton onClick={()=> setVisible(!visible)}>
+                {visible ? <VisibilityOff/> : <RemoveRedEyeIcon/>}
+                </IconButton>
+            </InputAdornment>
+        );
+    }
+    const Endadormentcon =({visiblecon,setVisiblecon}) =>{
+        return (
+            <InputAdornment position='end'>
+                <IconButton onClick={()=> setVisiblecon(!visiblecon)}>
+                {visiblecon ? <VisibilityOff/> : <RemoveRedEyeIcon/>}
+                </IconButton>
+            </InputAdornment>
+        );
+    }
+    const handleChangePassword = (e) => {
+        let password  = e.target.value;
+        setInputs({
+          ...inputs,
+          password:e.target.value
+        });
+        setError(null);
+        let capsCount, smallCount, numberCount, symbolCount
+        if (password.length < 4) {
+          setError("Password must be minimum 4 characters include one UPPERCASE, lowercase, number and special character: @$! % * ? &");
+          return;
+        }
+        else {
+          capsCount = (password.match(/[A-Z]/g) || []).length
+          smallCount = (password.match(/[a-z]/g) || []).length
+          numberCount = (password.match(/[0-9]/g) || []).length
+          symbolCount = (password.match(/\W/g) || []).length
+          if (capsCount < 1) {
+            setError("Must contain one UPPERCASE letter");
+            return;
+          }
+          else if (smallCount < 1) {
+            setError("Must contain one lowercase letter");
+            return;
+          }
+          else if (numberCount < 1) {
+            setError("Must contain one number");
+            return;
+          }
+          else if (symbolCount < 1) {
+            setError("Must contain one special character: @$! % * ? &");
+            return;
+          }
+        }
     }
     const updatepassword=async ()=>{
         try{
-            await axios.post(`https://back-end-nr6u.onrender.com/code/${userid}`,
+            await axios.post(`https://back-end-newupdate.onrender.com/code/${userid}`,
             {
                 oldpassword: oldpassword,
-                newpassword: newpassword,
+                newpassword: inputs.password,
                 conpassword: conpassword
             }
             )
@@ -77,10 +140,24 @@ const Code = () => {
         }
          
     };
+    const getcheck = async () =>{
+        try{
+          if(data[0].status==''){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+    }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/profile/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profile/${userid}`);
             setUser(response.data);
+            getcheck();
         } catch (err) {
             console.log(err);
         }
@@ -88,7 +165,7 @@ const Code = () => {
     const token = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -118,7 +195,10 @@ const Code = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
-    
+    const [isStrength, setStrength] = useState(null);
+    const dataHandler = async (childData) => {
+        setStrength(childData);
+    }
     return (
         <div>
             {user.map((users,key)=>(
@@ -141,7 +221,7 @@ const Code = () => {
                             </LinkContainer>
                             <LinkContainer to={`/profile/${userid}`}  >
                                     <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                        <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                                        <Image src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                                 </Nav.Link>
                             </LinkContainer>
                                     
@@ -157,7 +237,7 @@ const Code = () => {
                                     <Card.Body >
                                         <Row>
                                             <Col  className='justify-content-center m-5'> 
-                                                <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%'}} />
+                                                <Image src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%'}} />
                                             </Col>
                                         </Row>
                                         <Row className='p-3'>
@@ -198,33 +278,52 @@ const Code = () => {
                                     }}
                                     />
                                     <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="newpassword"
-                                    label="รหัสผ่านใหม่"
-                                    type="password"
-                                    
-                                    onChange={(e) => {
-                                        setnewpassword(e.target.value);
-                                    }}
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        name="newpassword"
+                                        label="รหัสผ่านใหม่"
+                                        type={visible ? "text" :"password"}
+                                        
+                                        onChange={handleChangePassword}
+                                        InputProps={{ // <-- This is where the toggle button is added.
+                                            endAdornment: <Endadorment visible={visible} setVisible={setVisible}/>
+                                        }}
+                                        
                                     />
+                                    <PasswordStrength password={inputs.password} actions={dataHandler}/>
+                                    {err !== null && (
+                                        <Alert key={"danger"} variant={"danger"}>
+                                            <label htmlFor="password">
+                                                <p className="errors m-1" > {err}</p>
+                                            </label>
+                                        </Alert>
+                                        )}
                                     <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="newpassword"
-                                    label="ยืนยันรหัสผ่าน"
-                                    type="password"
-                                    
-                                    onChange={(e) => {
-                                        setconpassword(e.target.value);
-                                    }}
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        name="newpassword"
+                                        label="ยืนยันรหัสผ่าน"
+                                        type={visiblecon ? "text" :"password"}                  
+                                        onChange={(e) => {
+                                            setconpassword(e.target.value);
+                                        }}
+                                        InputProps={{ // <-- This is where the toggle button is added.
+                                            endAdornment: <Endadormentcon visiblecon={visiblecon} setVisiblecon={setVisiblecon}/>
+                                        }}
                                     />
-                                </div>
-                                <Button className='bg-secondary fs-5'  type="submit" fullWidth variant="contained"  sx={{ mt: 3, mb: 2 }} onClick={updatepassword}  style={{fontFamily:"Athiti"}}>
+                                    {isStrength === 'Strong' && conpassword===inputs.password ? (
+                                        <Button className='bg-secondary fs-5'  type="submit" fullWidth variant="contained"  sx={{ mt: 3, mb: 2 }} onClick={updatepassword}  style={{fontFamily:"Athiti"}}>
                                         <p>ยีนยัน</p>
-                                </Button>
+                                        </Button>
+                                    ):(
+                                        <Button className='bg-secondary fs-5'  type="submit" fullWidth variant="contained"  sx={{ mt: 3, mb: 2 }} onClick={updatepassword}  style={{fontFamily:"Athiti"}} disabled>
+                                        <p>ยีนยัน</p>
+                                        </Button>
+                                    )}
+                                </div>
+                                
                             </div>
                             
                         </div>

@@ -1,0 +1,2 @@
+
+dcfb70fde53165f05bb309264907d46fb7c085dc	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/jquery-ui-dist/-/jquery-ui-dist-1.13.2.tgz","integrity":null,"time":1698293674181,"size":"0","metadata":{"time":1698293674181,"url":"http://registry.npmjs.org/jquery-ui-dist/-/jquery-ui-dist-1.13.2.tgz","reqHeaders":{},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Thu, 26 Oct 2023 04:14:34 GMT","location":"https://registry.npmjs.org/jquery-ui-dist/-/jquery-ui-dist-1.13.2.tgz","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

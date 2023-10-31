@@ -22,20 +22,33 @@ const Pagestatus = () => {
     const { id }  =useParams();
     const [user ,setUser] = useState([]);
     const [profile,setProfile] =useState([]);
-    
+   
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/pagestatus/${id}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/pagestatus/${id}`);
             setUser(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const getcheck = async () =>{
+        try{
+          if(data[0].status==''){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            
+          }
+          
         } catch (err) {
             console.log(err);
         }
     }
     const getprofile = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profile/${id}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profile/${id}`);
             setProfile(response.data);
-            
+            getcheck();
         } catch (err) {
             console.log(err);
         }
@@ -43,7 +56,7 @@ const Pagestatus = () => {
     const token = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`http://localhost:3333/token`,{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -62,6 +75,7 @@ const Pagestatus = () => {
         token();    
         getdata();
         getprofile();
+        
 
     }, []);
     
@@ -84,6 +98,7 @@ const Pagestatus = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
+    console.log(user)
     return (
         <div>
             
@@ -107,7 +122,7 @@ const Pagestatus = () => {
                                 </LinkContainer>
                                 <LinkContainer to={`/profile/${id}`}  >
                                         <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                            <Image src={"https://back-end-nr6u.onrender.com/"+profiles.profilepic}roundedCircle style={{width : '3rem'}} />
+                                            <Image className='mt-2' src={"https://back-end-newupdate.onrender.com/"+profiles.profilepic}roundedCircle style={{width : '3rem'}} />
                                     </Nav.Link>
                                 </LinkContainer>
                                         
@@ -131,7 +146,7 @@ const Pagestatus = () => {
                                     <div  className=' mb-3 p-1 rounded' style= { headlineStyle }>
                                     <Container className='m-2 fs-6 ' >
                                             <div>
-                                                {users.pay === 'ตรวจสอบเสร็จสิ้น'  ? (
+                                                {users.pay === 'เสร็จสิ้น'  ? (
                                                     <Link to={`/history/${users.idhistory}`} style={{color: "#708090" ,textDecoration: 'none'}}>
                                                         <Row className='mt-3 ml-3 fs-6' style={{fontFamily:"Athiti"}}>
                                                             <Col>

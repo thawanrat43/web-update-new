@@ -64,22 +64,43 @@ const Admindashboard = () => {
   const [history,setHistory] = useState([]);
   const [success,setSuccess] = useState([]);
   const token = localStorage.getItem('token');
+  const getcheckadmin = async () =>{
+    try{
+      if(data[0].status=='1'){
+        window.location='/login'
+        localStorage.removeItem('token');
+      }else{
+        if(data[0].statusadmin != '4'){
+          window.location='/login'
+          localStorage.removeItem('token');
+          
+        }
+      }
+      
+    } catch (err) {
+        console.log(err);
+    }
+  }
   const getadmin = async ()=>{
     try{
-        const response = await axios.get(`http://localhost:3333/adminuserprofile`, {
+        const response = await axios.get(`https://back-end-newupdate.onrender.com/adminuserprofile`, {
             headers: {
               Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }
         })
         setData(response.data);
+        getcheckadmin();
+        
     } catch (err) {
         console.log(err);
         window.location='/login'
+        
     }
   }
+  
   const numadmin = async ()=>{
     try{
-        const response = await axios.get(`http://localhost:3333/numadmin`)
+        const response = await axios.get(`https://back-end-newupdate.onrender.com/numadmin`)
         setAdmin(response.data);
     } catch (err) {
         console.log(err);
@@ -88,7 +109,7 @@ const Admindashboard = () => {
   }
   const numuser = async ()=>{
     try{
-        const response = await axios.get(`http://localhost:3333/numuserid`)
+        const response = await axios.get(`https://back-end-newupdate.onrender.com/numuserid`)
         setUser(response.data);
     } catch (err) {
         console.log(err);
@@ -97,7 +118,7 @@ const Admindashboard = () => {
   }
   const numhistory = async ()=>{
     try{
-      const response = await axios.get(`http://localhost:3333/numhistory`);
+      const response = await axios.get(`https://back-end-newupdate.onrender.com/numhistory`);
       setHistory(response.data);
     } catch (err) {
       console.log(err);
@@ -105,7 +126,7 @@ const Admindashboard = () => {
   }
   const numsucess = async ()=>{
     try{
-      const response = await axios.get(`http://localhost:3333/numsuccess`);
+      const response = await axios.get(`https://back-end-newupdate.onrender.com/numsuccess`);
       setSuccess(response.data);
     } catch (err) {
       console.log(err);
@@ -136,7 +157,7 @@ const Admindashboard = () => {
   const [userhis ,setUserhis] = useState([]);
   const piechart = async ()=>{
     try{
-      const response = await axios.get(`http://localhost:3333/piechart`);
+      const response = await axios.get(`https://back-end-newupdate.onrender.com/piechart`);
       setNumpiechart(response.data);
     } catch (err) {
       console.log(err);
@@ -144,7 +165,7 @@ const Admindashboard = () => {
   }
   const getdata = async ()=>{
     try{
-      const response = await axios.post(`http://localhost:3333/historyadmin`);
+      const response = await axios.post(`https://back-end-newupdate.onrender.com/historyadmin`);
       setUserhis(response.data);
     } catch (err) {
       console.log(err);
@@ -160,6 +181,7 @@ const Admindashboard = () => {
   useEffect(() =>{
     getadmin();
     getdata();
+    
   },[])
   console.log(history)
   console.log(success)
@@ -201,32 +223,33 @@ const menuItem3=[
     {
         path:"/adminuserdash",
         name:"รายชื่อผู้ใช้ทั่วไป",
-        icon:<FaRegChartBar/>
+        icon:<FaUserAlt/>
     },
     {
-        path:"/dashupdatepay",
+        path:"/admindash",
         name:"รายชื่อผู้ดูแลระบบ",
-        icon:<FaCommentAlt/>
+        icon:<FaUsersCog/>
     },
     {
         path:"/dashinputhistory",
         name:"เพิ่มประวัติ",
-        icon:<FaShoppingBag/>
-    },
+        icon:<FaFolderPlus/>
+    }
     
 ]
 const menuItem2=[
     {
         path:"/dashinputhistory",
         name:"เพิ่มประวัติ",
-        icon:<FaShoppingBag/>
-    },
+        icon:<FaFolderPlus/>
+    }
+    
 ]
 const menuItem=[
     {
         path:"/dashupdatepay",
         name:"ตรวจสอบการชำระเงิน",
-        icon:<FaThList/>
+        icon:<FaCoins/>
     }
 ]
 const logout =(event)=>{
@@ -236,21 +259,25 @@ const logout =(event)=>{
 }
   const datas = {
     labels: [
-      'Red',
-      'Blue',
-      'Yellow',
-      'porple',
-      'green'
+      'การตรวจสอบประวัติที่เสร็จสิ้น',
+      'การตรวจสอบประวัติที่กำลังตรวจสอบ',
+      'การตรวจสอบประวัติที่ชำระเงินเสร็จสิ้น',
+      'การตรวจสอบประวัติที่กำลังตรวจสอบการชำระเงิน',
+      'การตรวจสอบประวัติที่ยังไม่ได้ชำระเงิน',
+      'การตรวจสอบประวัติที่พบข้อผิดพลาดในการชำระเงิน',
+      
     ],
     datasets: [{
-      label: 'My First Dataset',
-      data: [numpiechart.numhistory,numpiechart.numhistorying,numpiechart.numpay,numpiechart.numpaying,numpiechart.numnopay,numpiechart.numpay,numpiechart.numerrpay],
+      label: 'จำนวน',
+      data: [numpiechart.numhistory,numpiechart.numhistorying,numpiechart.numpay,numpiechart.numpaying,numpiechart.numnopay,numpiechart.numerrpay],
       backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)',
-        'rgb(55, 2, 123)',
-        'rgb(25, 205, 86)'
+        '#FF0000',
+        '#00CCCC',
+        '#BEBEBE',
+        '#DB7093',
+        '#663399',
+        '#F4A460',
+
       ]
     }]
   };
@@ -258,7 +285,7 @@ const logout =(event)=>{
     
 
   }
-
+  console.log(data)
   return (
     <div>
       <div id="wrapper" style={{fontFamily:"Athiti"}}>
@@ -274,33 +301,33 @@ const logout =(event)=>{
                             <div key={key} >
                             { datas.statusadmin === "1" ? (
                                 <div >
-                                {menuItem.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link  " activeclassName="active" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                                        <div className="icon ">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):(datas.statusadmin === "2" ? (
                                 <div>
-                                {menuItem2.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3 mt-2">{item.name}</div>
-                                    </Link>
+                                    {menuItem2.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }   
                                 </div>
                             ):(datas.statusadmin === "3" ? (
                                 <div>
-                                {menuItem3.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="text-white" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem3.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):( datas.statusadmin === "4" ? (
                                 <div>
@@ -360,7 +387,7 @@ const logout =(event)=>{
                                             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
                                             {datas.fname} {datas.lname}
                                             </span>
-                                            <Image src={"http://localhost:3333/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-newupdate.onrender.com/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
                                         </div>
                                     } >
                                     <Dropdown.Item href="/adminprofile">ข้อมูลส่วนตัว</Dropdown.Item>
@@ -458,12 +485,12 @@ const logout =(event)=>{
 
                 {success.map((successs,key)=>
                 <div className="col-xl-3 col-md-6 mb-4">
-                  <div className="card border-left-warning shadow h-100 py-2">
+                  <div className="card border-left-danger shadow h-100 py-2">
                     <div className="card-body">
                       <div className="row no-gutters align-items-center">
                         <div className="col mr-2">
-                          <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            จำนวนการตรวจสอบประวัติทั้งหมด
+                          <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                          การตรวจสอบประวัติที่เสร็จสิ้น
                           </div>
                           <div className="h5 mb-0 font-weight-bold text-gray-800">
                             {successs.num}
@@ -477,15 +504,111 @@ const logout =(event)=>{
                   </div>
                 </div>
                 )}
+                
+                <div className="col-xl-3 col-md-6 mb-4">
+                  <div className="card border-left-info shadow h-100 py-2">
+                    <div className="card-body">
+                      <div className="row no-gutters align-items-center">
+                        <div className="col mr-2">
+                          <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            การตรวจสอบประวัติที่กำลังตรวจสอบ
+                          </div>
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {numpiechart.numhistorying}
+                          </div>
+                        </div>
+                        <div className="col-auto">
+                          <i className="fas fa-comments fa-2x text-gray-300" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-3 col-md-6 mb-4">
+                  <div className="card border-left-secondary shadow h-100 py-2">
+                    <div className="card-body">
+                      <div className="row no-gutters align-items-center">
+                        <div className="col mr-2">
+                          <div className="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                            การตรวจสอบประวัติที่ชำระเงินเสร็จสิ้น
+                          </div>
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {numpiechart.numpay}
+                          </div>
+                        </div>
+                        <div className="col-auto">
+                          <i className="fas fa-comments fa-2x text-gray-300" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-3 col-md-6 mb-4">
+                  <div className="card  shadow h-100 py-2" style={{borderLeftColor:'#DB7093',borderLeftWidth:"5px"}}>
+                    <div className="card-body">
+                      <div className="row no-gutters align-items-center">
+                        <div className="col mr-2">
+                          <div className="text-xs font-weight-bold  text-uppercase mb-1" style={{color:'#DB7093'}}>
+                            การตรวจสอบประวัติที่กำลังตรวจสอบการชำระเงิน
+                          </div>
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {numpiechart.numpaying}
+                          </div>
+                        </div>
+                        <div className="col-auto">
+                          <i className="fas fa-comments fa-2x text-gray-300" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-3 col-md-6 mb-4">
+                  <div className="card  shadow h-100 py-2" style={{borderLeftColor:'#663399',borderLeftWidth:"5px"}}>
+                    <div className="card-body">
+                      <div className="row no-gutters align-items-center">
+                        <div className="col mr-2">
+                          <div className="text-xs font-weight-bold text-uppercase mb-1" style={{color:'#663399'}}>
+                            การตรวจสอบประวัติที่ยังไม่ได้ชำระเงิน
+                          </div>
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {numpiechart.numnopay}
+                          </div>
+                        </div>
+                        <div className="col-auto">
+                          <i className="fas fa-comments fa-2x text-gray-300" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-3 col-md-6 mb-4">
+                  <div className="card shadow h-100 py-2" style={{borderLeftColor:'#F4A460',borderLeftWidth:"5px"}}>
+                    <div className="card-body">
+                      <div className="row no-gutters align-items-center">
+                        <div className="col mr-2">
+                          <div className="text-xs font-weight-bold  text-uppercase mb-1" style={{color:'#F4A460'}}>
+                            การตรวจสอบประวัติที่พบข้อผิดพลาดในการชำระเงิน
+                          </div>
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {numpiechart.numerrpay}
+                          </div>
+                        </div>
+                        <div className="col-auto">
+                          <i className="fas fa-comments fa-2x text-gray-300" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 {/* Pending Requests Card Example */}
-                <div className='row'>
-                  <div className='col mr-2' >
+                <div className='row '>
+                  <div className='col  ' style={{width:'80%',height:'120%'}} >
                     <Doughnut data={datas} options={options}
                       >
                     </Doughnut>
                   </div>
-                  <div className='col mr-2' >
-                    <DataTable columns={column} data={userhis} fixedHeader pagination>
+                  <div className='col' >
+                    <DataTable columns={column} data={userhis} fixedHeader pagination className='p-2'>
 
                     </DataTable>
                   </div>

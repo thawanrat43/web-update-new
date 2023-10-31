@@ -40,10 +40,27 @@ import DataTable from 'react-data-table-component';
 import TextField from '@mui/material/TextField';
 const Historyadnin = () => {
   const [data ,setData] = useState([]);
+  const getcheckadmin = async () =>{
+    try{
+      if(data[0].status=='1'){
+        window.location='/login'
+        localStorage.removeItem('token');
+      }else{
+        if(data[0].statusadmin != '4'){
+          window.location='/login'
+          localStorage.removeItem('token');
+          
+        }
+      }
+      
+    } catch (err) {
+        console.log(err);
+    }
+  }
     const getadmin = async ()=>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`http://localhost:3333/profileid`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profileid`, {
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -128,7 +145,7 @@ const Historyadnin = () => {
       sortable : true
     },
     {
-      name :'รหัสผู้ดูแลระบบ',
+      name :'ผู้ดูแลระบบ',
       selector : row => row.idadmin,
       sortable : true
     },
@@ -138,7 +155,7 @@ const Historyadnin = () => {
       sortable : true
     },
     {
-      name :'รหัสผู้ใช้',
+      name :'ผู้ที่เปลี่ยนแปลง',
       selector : row => row.userid,
       sortable : true
     },
@@ -147,7 +164,7 @@ const Historyadnin = () => {
   
   const getdata = async ()=>{
     try{
-      const response = await axios.post(`http://localhost:3333/historyadmin`);
+      const response = await axios.post(`https://back-end-newupdate.onrender.com/historyadmin`);
       setUser(response.data);
     } catch (err) {
       console.log(err);
@@ -270,7 +287,7 @@ const Historyadnin = () => {
                                             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
                                             {datas.fname} {datas.lname}
                                             </span>
-                                            <Image src={"http://localhost:3333/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-newupdate.onrender.com/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
                                         </div>
                                     } >
                                     <Dropdown.Item href="/adminprofile">ข้อมูลส่วนตัว</Dropdown.Item>
@@ -290,10 +307,10 @@ const Historyadnin = () => {
             </nav>
             {/* End of Topbar */}
             {/* Begin Page Content */}
-            <div className="container-fluid">
+            <div className="container-fluid  mt-3 ">
               {/* Page Heading */}
               <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800 m-3">ประวัติการทำงานของผู้ดูแลระบบ</h1>
+                <h1 className="h3 mb-0 text-gray-800 m-3 pl-5">ประวัติการทำงานของผู้ดูแลระบบ</h1>
                 
               </div>
               {/* Content Row */}
@@ -304,8 +321,8 @@ const Historyadnin = () => {
                   onChange={handlsFilter}
                 />               
               </div> */}
-              <div className='p-3 m-3'>
-               <DataTable columns={column} data={user} fixedHeader pagination> 
+              <div className='px-5 '>
+               <DataTable columns={column} data={user} fixedHeader pagination className=''> 
                </DataTable>
               </div>
               {/* Content Row */}

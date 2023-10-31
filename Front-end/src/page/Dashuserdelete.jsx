@@ -62,17 +62,41 @@ const Dashuserdelete = () => {
           
       }
     const token = localStorage.getItem('token');
+    const getcheckadmin = async () =>{
+        try{
+          if(data[0].status=='1'){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            if(data[0].statusadmin == '4'){
+             
+              
+            }else{
+                if(data[0].statusadmin == '3'){
+                    
+                }else{
+                    window.location='/login'
+                    localStorage.removeItem('token');
+                }
+            }
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+      }
     const getdata = async ()=>{
         try{
-            const response = await axios.post(`http://localhost:3333/selectuser`);
+            const response = await axios.post(`https://back-end-newupdate.onrender.com/selectuser`);
             setUser(response.data);
+            getcheckadmin();
         } catch (err) {
             console.log(err);
         }
     }
     const getadmin = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/adminuserprofile`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/adminuserprofile`, {
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -139,7 +163,7 @@ const Dashuserdelete = () => {
         e.preventDefault();
     
         try {
-            await axios.post(`http://localhost:3333/updatelevel/${user[0].id}`,inputs,{
+            await axios.post(`https://back-end-newupdate.onrender.com/updatelevel/${user[0].id}`,inputs,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }

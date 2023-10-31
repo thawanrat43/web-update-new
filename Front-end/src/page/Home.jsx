@@ -64,6 +64,16 @@ const Home =() =>{
         });
           
       }
+    const popuperror = async ()=>{
+        Swal.fire({
+            icon: 'error',
+            title: 'ไม่สำเร็จ',
+            text: 'กรอกหมายเลขบัตรประชาชนไม่ครบ 13 หลัก'
+            
+            
+        });
+          
+    }
     const token = localStorage.getItem('token');
     const logout =(event)=>{
         event.preventDefault();
@@ -84,19 +94,25 @@ const Home =() =>{
         e.preventDefault();
     
         try {
-            await axios.post(`http://localhost:3333/home`,inputs,{
+            
+            if(inputs.idcard.length != 13){
+                popuperror();
+            }else{
+                console.log('no',inputs.idcard.length)
+                await axios.post(`https://back-end-newupdate.onrender.com/home`,inputs,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
             
-            } )
-          
-            .then((response) => {
-                if (response.data.error) {
-                    alert(response.data.error);
-                }
-                    popups();
-                });
+                } )
+                .then((response) => {
+                    if (response.data.error) {
+                        alert(response.data.error);
+                    }
+                        popups();
+                    });
+            }
+            
         } catch (err) {
           setErr(err.response.data);
           console.log(err)
@@ -104,14 +120,28 @@ const Home =() =>{
         }
         
     };
+    const getcheck = async () =>{
+        try{
+          if(data[0].status==''){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+      }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profileid`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profileid`, {
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
             })
             setUser(response.data);
+            getcheck();
         } catch (err) {
             console.log(err);
             window.location='/login'
@@ -154,7 +184,7 @@ const Home =() =>{
                             </LinkContainer>
                             <LinkContainer to={`/profile/${users.id}`}  >
                                     <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                        <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                                        <Image className="mt-2" src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                                 </Nav.Link>
                             </LinkContainer>
                                     
@@ -204,13 +234,13 @@ const Home =() =>{
                                     <Row>
                                     <Col>
                                         <TextField
-                                        
                                         fullWidth
                                         id="idcard"
                                         label="หมายเลขบัตรประจำตัวประชาชน"
                                         name="idcard"
                                         autoComplete="idcard"
                                         onChange={handleChange}
+                                        inputProps={{ maxLength: 13 }}
                                         />  
                                     </Col>
                                     
@@ -229,26 +259,26 @@ const Home =() =>{
                                                 </Col>
                                                 <Col>
                                                     
-                                                    <Form.Check type="checkbox" id="credit"label="ตรวจเครดิตบูโร" name="credit" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5"/>
+                                                    <Form.Check type="checkbox" id="credit"label="ตรวจสอบประวัติเครดิตบูโร" name="credit" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5"/>
                                                     
                                                 </Col>
                                             </Row>
                                             <Row className="m-2 d-flex justify-content-center">
                                                 <Col>
                                                     
-                                                    <Form.Check type="checkbox" id="bankrupt" label="ตรวจคดีล้มละลาย" name="bankrupt" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5"/>
+                                                    <Form.Check type="checkbox" id="bankrupt" label="ตรวจสอบประวัติคดีล้มละลาย" name="bankrupt" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5"/>
                                                     
                                                 </Col>
                                                 <Col>
                                                     
-                                                    <Form.Check type="checkbox" id="penalty"label="ตรวจคดีอาญา" name="penalty" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5" />
+                                                    <Form.Check type="checkbox" id="penalty"label="ตรวจสอบประวัติคดีอาญา" name="penalty" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5" />
                                                     
                                                 </Col>
                                             </Row>
                                             <Row className="m-2 d-flex justify-content-center">
                                                 <Col>
                                                     
-                                                    <Form.Check type="checkbox"  label="ตรวจglobal sanctions" id="global" name="global"  onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5" />
+                                                    <Form.Check type="checkbox"  label="ตรวจสอบประวัติ global sanctions" id="global" name="global"  onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5" />
                                                     
                                                 </Col>
                                                 <Col>

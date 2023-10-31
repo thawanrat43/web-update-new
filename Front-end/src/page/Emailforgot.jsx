@@ -51,14 +51,14 @@ const Emailforgot = () => {
     const sendemail = async (e)=>{
         e.preventDefault();
         try {
-            await axios.post(`http://localhost:3333/sendemail`, inputs)
+            await axios.post(`https://back-end-newupdate.onrender.com/sendemail`, inputs)
             .then(function (response) {
                 if(err){
                     popuperror();
                     
                 }
                 else{
-                    localStorage.setItem('token',response.data.token)
+                    localStorage.setItem('forgot',response.data.token)
                     popups();
                     // if(response.data.status=='1')
                     // {
@@ -83,12 +83,13 @@ const Emailforgot = () => {
         <Container fluid className='d-flex justify-content-center align-items-center vh-100'  style={{backgroundColor:'#778899',width:"100%",height: "100vh" ,fontFamily:"Athiti" }}>
             <Card className='m-3 p-5 ' style={{width:'50%',height:'80%'}}>
                 <Card.Body>
-                    <div className='bi bi-envelope-fill d-flex justify-content-center' style={{fontSize:'600%'}}>
+                    <div className='bi bi-envelope-fill d-flex justify-content-center mt-5' style={{fontSize:'600%'}}>
 
                     </div>
-                    <p className='d-flex justify-content-center m-5 fs-3'>กรอก อีเมลที่ต้องการส่ง OTP</p>
+                    <p className='d-flex justify-content-center m-5 fs-3'>กรอกอีเมลที่ต้องการส่ง OTP</p>
                     <Row className='input-container d-flex flex-row justify-content-center mt-2'>
                         <Col  className='d-flex justify-content-center'>
+                            <p className='m-2'>อีเมล :</p>
                             <input type='text' name='email' id='email' className=' d-flex justify-content-center'  onChange={handleChange}></input>
                         </Col>
                         

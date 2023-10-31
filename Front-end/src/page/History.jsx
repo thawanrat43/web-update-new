@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
+
 const History = () => {
     const [user ,setUser] = useState([]);
     const { userid }  =useParams();
@@ -28,17 +29,31 @@ const History = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
+    const getcheck = async () =>{
+        try{
+          if(profile[0].status==''){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            console.log('ok')
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+      }
     const getprofile = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/profilehistory/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profilehistory/${userid}`);
             setProfile(response.data);
+            getcheck();
         } catch (err) {
             console.log(err);
         }
     };
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/historydetail/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/historydetail/${userid}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -46,7 +61,7 @@ const History = () => {
     }
     const gethistory = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/history/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/history/${userid}`);
             setHistory(response.data);
         } catch (err) {
             console.log(err);
@@ -55,7 +70,7 @@ const History = () => {
     const token = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -69,6 +84,15 @@ const History = () => {
             window.location='/login'
         }
     }
+    const downloadfile = (url)=>{
+        const filename = url.split("/").pop();
+        const aTag = document.createElement("a");
+        aTag.href =url;
+        aTag.setAttribute("download",filename);
+        document.body.appendChild(aTag);
+        aTag.click();
+        aTag.remove();
+    };
     useEffect(() => {
         token();
         gethistory();    
@@ -76,7 +100,6 @@ const History = () => {
         getprofile();
        
     }, []);
-    console.log(userid);
     console.log(user);
     console.log(profile);
     const headlineStyle = {
@@ -109,7 +132,7 @@ const History = () => {
                                 </LinkContainer>
                                 <LinkContainer to={`/profile/${profiles.id}`}  >
                                         <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                            <Image src={"https://back-end-nr6u.onrender.com/"+profiles.profilepic}roundedCircle style={{width : '3rem'}} />
+                                            <Image className='mt-2' src={"https://back-end-newupdate.onrender.com/"+profiles.profilepic}roundedCircle style={{width : '3rem'}} />
                                     </Nav.Link>
                                 </LinkContainer>
                                         
@@ -121,9 +144,23 @@ const History = () => {
                 </Navbar>
                 ))} 
                 
-                <div className='d-flex justify-content-center' style={{fontFamily:"Athiti"}}>
+                <div className='d-flex justify-content-center ' style={{fontFamily:"Athiti"}}>
+                    <Row>
                         <p className='mt-2 fs-2'>ประวัติ </p>
+                    </Row>
+                    <Row>
+                        
+                    </Row>
+                    
                 </div>
+                
+                {/* { user[0].filehistory !== '' && (
+                    <div className='d-flex justify-content-end mr-5'>
+                    <Button className=' mr-3 text-black mt-2' style={{backgroundColor:'#D9D9D9',fontFamily:"Athiti"}} onClick={()=> {downloadfile("http://localhost:3333/"+user[0].filehistory)}}>
+                            <p className='m-1 fs-6'>ดาวน์โหลด</p>
+                    </Button>
+                </div>     
+                )} */}
                 <div className='d-flex justify-content-center' style={{fontFamily:"Athiti"}}>
                     
                     <div  style={headlineStyle} className=' p-5 m-5 border border-1 border-dark rounded ' >
@@ -190,7 +227,7 @@ const History = () => {
                                     </Col>
                                     <Col>
                                         <p2>
-                                            ศาสนา
+                                            ที่อยู่
                                         </p2>
                                     </Col>
                                 </Row>
@@ -207,7 +244,7 @@ const History = () => {
                                     </Col>
                                     <Col>
                                         <p3>
-                                            {users.religion}
+                                            {users.address}
                                         </p3>
                                     </Col>
                                 </Row>
@@ -314,11 +351,31 @@ const History = () => {
                                         )}
                                     </Col>
                                 </Row>
+                                <Row>
+                                {user.map((users,key19)=>(
+                                    <div key={key19}>
+                                        { users.filehistory !== " " && (
+                                            <div className='d-flex justify-content-end '>
+                                                    
+                                                    <Button className='bi bi-file-earmark-arrow-down-fill text-black mt-5 ' style={{backgroundColor:'#D9D9D9',fontFamily:"Athiti",fontSize:'20px'}} onClick={()=> {downloadfile("https://back-end-newupdate.onrender.com/"+users.filehistory)}}>
+                                                        
+                                                        <p className=' m-1 fs-6'>ดาวน์โหลดไฟล์ประวัติ</p>
+                                                    </Button>
+                                                
+                                            
+                                        </div>     
+                                        )}
+                                    </div>
+                                    
+                                ))}
+                                </Row>
                             </div>
                         </div>
                         ))}
                     </div>
                     </div>
+                    
+                    
                 </div>
                 
             </div>

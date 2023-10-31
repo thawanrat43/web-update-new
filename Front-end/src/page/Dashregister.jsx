@@ -37,6 +37,15 @@ import Swal from "sweetalert2";
 import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { Offcanvas } from 'react-bootstrap';
+import PasswordStrength from '../compament/PasswordStrength';
+import { InputAdornment } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
+import { VisibilityOff } from '@mui/icons-material';
+import {IconButton} from '@mui/material';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import '../compament/PasswordStrength.css';
+import Alert from 'react-bootstrap/Alert';
+
 const Dashregister = () => {
     const { userid }  = useParams();
     const [inputs,setInputs] = useState({
@@ -49,12 +58,18 @@ const Dashregister = () => {
         "statusadmin":""
     
     })
+    const [newpassword,setnewpassword] = useState("");
+    const [conpassword,setconpassword] = useState("");
+    const [err, setError] = useState(null);
+    const [error,setErr] = useState(null);
+    const [visible,setVisible] = useState(false);
+    const [visiblecon,setVisiblecon] = useState(false);
     const [data ,setData] = useState([]);
     const popupsuccess = async ()=>{
         Swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
-            text: 'ลงทะเบียนเสร็จสิ้น',
+            text: 'เพิ่มผู่้ดูแลระบบเสร็จสิ้น',
             
             
         }).then((result) => {
@@ -78,14 +93,39 @@ const Dashregister = () => {
         });
           
     }
+    const getcheckadmin = async () =>{
+        try{
+          if(data[0].status=='1'){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            if(data[0].statusadmin == '4'){
+             
+              
+            }else{
+                if(data[0].statusadmin == '3'){
+                    
+                }else{
+                    window.location='/login'
+                    localStorage.removeItem('token');
+                    
+                }
+            }
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+      }
     const getadmin = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/adminuserprofile`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/adminuserprofile`, {
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
             })
             setData(response.data);
+            getcheckadmin();
         } catch (err) {
             console.log(err);
             window.location='/login'
@@ -99,7 +139,7 @@ const Dashregister = () => {
     
     }, []);
     const navigate = useNavigate()
-    const [err, setErr] = useState(null);
+   
     const handleChangecheck = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.checked }));
 	};
@@ -111,7 +151,7 @@ const Dashregister = () => {
         e.preventDefault();
     
         try {
-            await axios.post(`http://localhost:3333/registeradmin/${userid}`,inputs,{
+            await axios.post(`https://back-end-newupdate.onrender.com/registeradmin/${userid}`,inputs,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -133,6 +173,63 @@ const Dashregister = () => {
         }
         
     };
+    const Endadorment =({visible,setVisible}) =>{
+        return (
+            <InputAdornment position='end'>
+                <IconButton onClick={()=> setVisible(!visible)}>
+                {visible ? <VisibilityOff/> : <RemoveRedEyeIcon/>}
+                </IconButton>
+            </InputAdornment>
+        );
+    }
+    const Endadormentcon =({visiblecon,setVisiblecon}) =>{
+        return (
+            <InputAdornment position='end'>
+                <IconButton onClick={()=> setVisiblecon(!visiblecon)}>
+                {visiblecon ? <VisibilityOff/> : <RemoveRedEyeIcon/>}
+                </IconButton>
+            </InputAdornment>
+        );
+    }
+    const [isStrength, setStrength] = useState(null);
+    const dataHandler = async (childData) => {
+        setStrength(childData);
+    }
+    const handleChangePassword = (e) => {
+        let password  = e.target.value;
+        setInputs({
+          ...inputs,
+          password:e.target.value
+        });
+        setError(null);
+        let capsCount, smallCount, numberCount, symbolCount
+        if (password.length < 4) {
+          setError("Password must be minimum 4 characters include one UPPERCASE, lowercase, number and special character: @$! % * ? &");
+          return;
+        }
+        else {
+          capsCount = (password.match(/[A-Z]/g) || []).length
+          smallCount = (password.match(/[a-z]/g) || []).length
+          numberCount = (password.match(/[0-9]/g) || []).length
+          symbolCount = (password.match(/\W/g) || []).length
+          if (capsCount < 1) {
+            setError("Must contain one UPPERCASE letter");
+            return;
+          }
+          else if (smallCount < 1) {
+            setError("Must contain one lowercase letter");
+            return;
+          }
+          else if (numberCount < 1) {
+            setError("Must contain one number");
+            return;
+          }
+          else if (symbolCount < 1) {
+            setError("Must contain one special character: @$! % * ? &");
+            return;
+          }
+        }
+      }
     const logout =(event)=>{
         event.preventDefault();
         localStorage.removeItem('token');
@@ -201,32 +298,33 @@ const Dashregister = () => {
         {
             path:"/adminuserdash",
             name:"รายชื่อผู้ใช้ทั่วไป",
-            icon:<FaRegChartBar/>
+            icon:<FaUserAlt/>
         },
         {
-            path:"/dashupdatepay",
+            path:"/admindash",
             name:"รายชื่อผู้ดูแลระบบ",
-            icon:<FaCommentAlt/>
+            icon:<FaUsersCog/>
         },
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
         
     ]
     const menuItem2=[
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
+        
     ]
     const menuItem=[
         {
             path:"/dashupdatepay",
             name:"ตรวจสอบการชำระเงิน",
-            icon:<FaThList/>
+            icon:<FaCoins/>
         }
     ]
     console.log(inputs)
@@ -331,7 +429,7 @@ const Dashregister = () => {
                                             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
                                             {datas.fname} {datas.lname}
                                             </span>
-                                            <Image src={"http://localhost:3333/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-newupdate.onrender.com/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
                                         </div>
                                     } >
                                     <Dropdown.Item href="/adminprofile">ข้อมูลส่วนตัว</Dropdown.Item>
@@ -353,13 +451,13 @@ const Dashregister = () => {
                     {/* Begin Page Content */}
                     
                     
-                    <div className="container-fluid">
+                    <div className="container-fluid mt-3 px-5 ">
                     {/* Page Heading */}
                     {data.map((datas,keys)=>
                     <div className='row '>
-                            <div className=''>
+                            <div className='px-5'>
                                 <div  className="d-sm-flex align-items-center justify-content-between mb-4 col mr-2 ">
-                                    <h1 className="h3 mb-0 text-gray-800 m-3 ">
+                                    <h1 className="h3 mb-0 text-gray-800 m-3 px-5">
                                         เพิ่มรายชื่อผู้ดูแลระบบ
                                     </h1>
                                     
@@ -373,7 +471,7 @@ const Dashregister = () => {
                     )}
                     {/* Content Row */}
                     <div className='mx-5 px-5 mt-3'>
-                        <Box component="form" >
+                        <Box component="form" className='mx-5 px-5' >
                             <Row>
                                 <Col>
                                     <TextField
@@ -447,16 +545,49 @@ const Dashregister = () => {
                             <Row>
                                 <Col>
                                     <TextField
+                                    margin="normal"
                                     required
                                     fullWidth
+                                    id="password" 
                                     name="password"
                                     label="รหัสผ่าน"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="new-password"
-                                    onChange={handleChange}
-                                    />
+                                    type={visible ? "text" :"password"}
+                                    
+                                    onChange={handleChangePassword}
+                                    InputProps={{ // <-- This is where the toggle button is added.
+                                        endAdornment: <Endadorment visible={visible} setVisible={setVisible}/>
+                                    }}
+                                    
+                                />
+                                <PasswordStrength password={inputs.password} actions={dataHandler}/>
                                 </Col> 
+                                {err !== null && (
+                                <Alert key={"danger"} variant={"danger"}>
+                                    <label htmlFor="password">
+                                        <p className="errors m-1" > {err}</p>
+                                    </label>
+                                </Alert>
+                                )}
+                                
+                            </Row>
+                            <Row>
+                            <Col>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="conpassword"
+                                    label="ยืนยันรหัสผ่าน"
+                                    type={visiblecon ? "text" :"password"}
+                                    
+                                    onChange={(e) => {
+                                        setconpassword(e.target.value);
+                                    }}
+                                    InputProps={{ // <-- This is where the toggle button is added.
+                                        endAdornment: <Endadormentcon visiblecon={visiblecon} setVisiblecon={setVisiblecon}/>
+                                    }}
+                                />
+                            </Col>
                             </Row>
                             <br/>
                             <Row>
@@ -464,20 +595,44 @@ const Dashregister = () => {
                                     <div className="h5 mb-0  font-weight-bold text-gray-800">
                                         <Form.Select id="statusadmin" name="statusadmin" aria-label="Default select example" size="lg" className="mt-1" onChange={handleChange} style={{fontFamily:"Athiti"}}>
                                             <option>ระดับผู้ดูแลระบบ</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
+                                            <option value="1">พนักงานฝ่ายตรวจการชำระเงิน</option>
+                                            <option value="2">พนักงานฝ่ายตรวจประวัติ</option>
+                                            <option value="3">หัวหน้าฝ่ายตรวจประวัติ</option>
+                                            <option value="4">superadmin</option>
                                         </Form.Select> 
                                     </div>
                                 </Col> 
                             </Row>
-                            <div className='d-flex justify-content-end mt-3'>
+
+                            {error !== null && (
+                            <Alert key={"danger"} variant={"danger"} className='my-4'>
+                                <label htmlFor="password">
+                                    <p className="errors m-1" > {error && error}</p>
+                                </label>
+                            </Alert>
+                            )}
+                            {isStrength === 'Strong' && conpassword===inputs.password ? (
+                                <Row className=" m-1 d-flex justify-content-end">
+                                    <Col className='d-flex justify-content-end'>
+                                        <Button  className='bg-secondary text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }}>
+                                        <p className='m-2' style={{fontFamily:"Athiti"}} >ยืนยัน</p> 
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            ):(
+                                <Row className=" m-1 mb-2 d-flex justify-content-center">
+                                    <Col className='d-flex justify-content-end'>
+                                        <Button  className='bg-secondary-800 text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }} disabled>
+                                            <p className='m-2' style={{fontFamily:"Athiti"}} >ยืนยัน</p> 
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            )}
+                            {/* <div className='d-flex justify-content-end mt-3'>
                             <Button className='text-black' style={{background:'green'}} onClick={handleClick}>
                                 ยืนยัน
                             </Button>
-                        </div>
+                        </div> */}
                         </Box>
                     </div>
                     {/* Content Row */}

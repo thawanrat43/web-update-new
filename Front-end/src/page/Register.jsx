@@ -26,17 +26,21 @@ import { Visibility } from '@mui/icons-material';
 import { VisibilityOff } from '@mui/icons-material';
 import {IconButton} from '@mui/material';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import '../compament/PasswordStrength.css';
+import Alert from 'react-bootstrap/Alert';
 const Register = () => {
     const [newpassword,setnewpassword] = useState("");
+    const [conpassword,setconpassword] = useState("");
     const [inputs,setInputs] = useState({
         username: "",
         email: "",
         password: "",
         fname: "",
         lname: "",
-        phonenum: newpassword,
+        phonenum: "",
     })
-    const [err, setErr] = useState(null);
+    const [err, setError] = useState(null);
+    const [error,setErr] = useState(null);
     const [visible,setVisible] = useState(false);
     const [visiblecon,setVisiblecon] = useState(false);
     const popupsuccess = async ()=>{
@@ -53,6 +57,41 @@ const Register = () => {
         });
           
     }
+    const handleChangePassword = (e) => {
+        let password  = e.target.value;
+        setInputs({
+          ...inputs,
+          password:e.target.value
+        });
+        setError(null);
+        let capsCount, smallCount, numberCount, symbolCount
+        if (password.length < 4) {
+          setError("Password must be minimum 4 characters include one UPPERCASE, lowercase, number and special character: @$! % * ? &");
+          return;
+        }
+        else {
+          capsCount = (password.match(/[A-Z]/g) || []).length
+          smallCount = (password.match(/[a-z]/g) || []).length
+          numberCount = (password.match(/[0-9]/g) || []).length
+          symbolCount = (password.match(/\W/g) || []).length
+          if (capsCount < 1) {
+            setError("Must contain one UPPERCASE letter");
+            return;
+          }
+          else if (smallCount < 1) {
+            setError("Must contain one lowercase letter");
+            return;
+          }
+          else if (numberCount < 1) {
+            setError("Must contain one number");
+            return;
+          }
+          else if (symbolCount < 1) {
+            setError("Must contain one special character: @$! % * ? &");
+            return;
+          }
+        }
+      }
     const popuperror = async ()=>{
         Swal.fire({
             icon: 'error',
@@ -60,22 +99,19 @@ const Register = () => {
             text: 'ลงทะเบียนไม่สำเสร็จชื่อผู้ใช้หรือ E-mail คุณมีการลงทะเบียนแล้ว'
             
             
-        }).then((result) => {
-            if (result.value) {
-                window.location.href = `/register`
-            }
-        });
+        })
           
     }
     const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
+    
     const navigate = useNavigate()
     const handleClick = async (e) => {
         e.preventDefault();
     
         try {
-          await axios.post("https://back-end-nr6u.onrender.com/register", inputs)
+          await axios.post("https://back-end-newupdate.onrender.com/register", inputs)
           .then(function (response) {
             if(err){
                 popuperror();
@@ -125,8 +161,8 @@ const Register = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
-    console.log(isStrength)
     
+    console.log(err)
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" className="bg-wh">
@@ -150,7 +186,7 @@ const Register = () => {
             </Navbar>
             <div  className=' p-5 d-flex justify-content-center' >
                 
-                <Card component="form" noValidate sx={{ mt: 1 }}  style={{width:'45%'}}>
+                <Card component="form" noValidate sx={{ mt: 1 }}  style={{width:'45%' ,height:'80%'}}>
                     <Card.Body className='p-5'> 
                         <div className='d-flex justify-content-center'>
                             <p className="fs-1" style={{fontFamily:"Athiti"}} >Register</p>
@@ -236,42 +272,55 @@ const Register = () => {
                                 margin="normal"
                                 required
                                 fullWidth
-                                name="newpassword"
-                                label="รหัสผ่านใหม่"
+                                id="password" 
+                                name="password"
+                                label="รหัสผ่าน"
                                 type={visible ? "text" :"password"}
                                 
-                                onChange={(e) => {
-                                    setnewpassword(e.target.value);
-                                }}
+                                onChange={handleChangePassword}
                                 InputProps={{ // <-- This is where the toggle button is added.
                                     endAdornment: <Endadorment visible={visible} setVisible={setVisible}/>
                                 }}
                                 
                             />
-                            <PasswordStrength password={newpassword} actions={dataHandler}/>
+                            <PasswordStrength password={inputs.password} actions={dataHandler}/>
                             </Col> 
+                            {err !== null && (
+                            <Alert key={"danger"} variant={"danger"}>
+                                <label htmlFor="password">
+                                    <p className="errors m-1" > {err}</p>
+                                </label>
+                            </Alert>
+                            )}
                         </Row>
                         
-                        {/* <Row>
-                            <Col className='d-flex justify-content-center '>
-                                <div className="d-flex justify-content-center m-2">
-                                    <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
-                                    className="rounded-circle" alt="example placeholder" style={{width: 50  }} />
-                                </div>
-                                <div className="d-flex justify-content-center m-2">
-                                    <div className="btn  btn-rounded bg-secondary" style={{width: 120 , height :50}} variant="contained">
-                                        <label className="form-label text-white m-1" htmlFor="customFile2">Choose file</label>
-                                        <input type="file" className="form-control d-none" id="customFile2" name='photo' onChange={setimgfile}/>
-                                        <label className="form-label text-white m-1 "  >Choose file</label>
-                                        <input type="file" className="form-control d-none" id='customFile2' name='photo' onChange={setimgfile} />
-                                    </div>
-                                </div>
+                        <Row>
+                            <Col>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="conpassword"
+                                    label="ยืนยันรหัสผ่าน"
+                                    type={visiblecon ? "text" :"password"}
+                                    
+                                    onChange={(e) => {
+                                        setconpassword(e.target.value);
+                                    }}
+                                    InputProps={{ // <-- This is where the toggle button is added.
+                                        endAdornment: <Endadormentcon visiblecon={visiblecon} setVisiblecon={setVisiblecon}/>
+                                    }}
+                                />
                             </Col>
-                        </Row> */}
-                        <div className='d-flex justify-content-center ' style={{color:'red'}}>
-                            {err && err}
-                        </div>
-                        {isStrength === 'Strong' ? (
+                        </Row>
+                        {error !== null && (
+                            <Alert key={"danger"} variant={"danger"}>
+                                <label htmlFor="password">
+                                    <p className="errors m-1" > {error && error}</p>
+                                </label>
+                            </Alert>
+                        )}
+                        {isStrength === 'Strong' && conpassword===inputs.password ? (
                             <Row className=" m-1 d-flex justify-content-center">
                                 <Col className='d-flex justify-content-center'>
                                     <Button  className='bg-secondary text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }}>
@@ -282,16 +331,16 @@ const Register = () => {
                         ):(
                             <Row className=" m-1 mb-2 d-flex justify-content-center">
                                 <Col className='d-flex justify-content-center'>
-                                    <Button  className='bg-secondary text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }} disabled>
-                                    <p className='m-2' style={{fontFamily:"Athiti"}} >Register</p> 
+                                    <Button  className='bg-secondary-800 text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }} disabled>
+                                        <p className='m-2' style={{fontFamily:"Athiti"}} >Register</p> 
                                     </Button>
                                 </Col>
                             </Row>
                         )}
                             {/* <Button  className='bg-secondary text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }} disabled>
                                 <p className='m-2' style={{fontFamily:"Athiti"}} >Register</p> 
-                            </Button>
-                        
+                            </Button> */}
+{/*                         
                         <Row className=" m-2 d-flex justify-content-center">
                             <Col className='d-flex justify-content-center'>
                                 <Button  className='bg-secondary text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }}>

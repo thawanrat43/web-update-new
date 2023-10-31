@@ -31,7 +31,7 @@ const Otpfroget = () => {
     });
     const [err, setErr] = useState(null);
     const [user ,setUser] = useState([]);
-    const token = localStorage.getItem('login');
+    const token = localStorage.getItem('forgot');
     const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
         
@@ -53,7 +53,7 @@ const Otpfroget = () => {
     const otpverification = async ()=>{
         
         try{
-            await axios.post(`http://localhost:3333/otpvverification`,inputs,{
+            await axios.post(`https://back-end-newupdate.onrender.com/otpvverification`,inputs,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -63,6 +63,8 @@ const Otpfroget = () => {
                 if (response.data.error) {
                     alert(response.data.error);
                 }else{
+                    getdata();
+                    axios.get(`https://back-end-newupdate.onrender.com/deleteotp/${user[0].id}`)
                     popups();
                 }
                     
@@ -73,7 +75,7 @@ const Otpfroget = () => {
     }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profileid`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profileotp`, {
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -87,7 +89,7 @@ const Otpfroget = () => {
     const otp = async () => {
         
         try{
-            const response = await axios.get(`http://localhost:3333/otp`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/otp`, {
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -104,6 +106,7 @@ const Otpfroget = () => {
         
     }, []);
     console.log(inputs)
+    
     return (
         <Container fluid className='d-flex justify-content-center align-items-center vh-100'  style={{backgroundColor:'#778899',width:"100%",height: "100vh" ,fontFamily:"Athiti" }}>
             <Card className='m-3 p-5 ' style={{width:'50%',height:'80%'}}>
@@ -112,12 +115,10 @@ const Otpfroget = () => {
 
                     </div>
                     <p className='d-flex justify-content-center m-5 fs-3'>OTP VERIFICATION</p>
-                    <Row className='d-flex justify-content-center m-4 fs-6'>
-                        code to be sent 088656474
-                    </Row>
+                    
                     <Row className='input-container d-flex flex-row justify-content-center mt-2'>
                         <Col  className='d-flex justify-content-center'>
-                            <input type='text' name='OTP' id='OTP' className=' d-flex justify-content-center' maxLength="6" onChange={handleChange}></input>
+                            <input type='text' name='OTP' id='OTP' className=' d-flex justify-content-center text-center' maxLength="6" onChange={handleChange}></input>
                         </Col>
                         
                     </Row>

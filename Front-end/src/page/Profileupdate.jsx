@@ -60,7 +60,7 @@ const Profileupdate = () => {
         console.log(formdata)
         e.preventDefault();
         try{
-            axios.post(`http://localhost:3333/updatepic/${userid}`,formdata)
+            axios.post(`https://back-end-newupdate.onrender.com/updatepic/${userid}`,formdata)
             .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
@@ -77,7 +77,7 @@ const Profileupdate = () => {
     };
     const getimage = async ()=>{
         try{
-            axios.get(`http://localhost:3333/image/${userid}`)
+            axios.get(`https://back-end-newupdate.onrender.com/image/${userid}`)
             .then(response =>
                 setimage(response.data[0].image)
             )
@@ -86,11 +86,24 @@ const Profileupdate = () => {
             console.log(err);
         }
     };
+    const getcheck = async () =>{
+        try{
+          if(user[0].status==''){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+    }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profile/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profile/${userid}`);
             setUser(response.data);
-            
+            getcheck();
         } catch (err) {
             console.log(err);
         }
@@ -98,7 +111,7 @@ const Profileupdate = () => {
     const updatedata = async (e)=> {
         e.preventDefault();
         try{
-            await axios.post(`http://localhost:3333/profileupdate/${userid}`,inputs)
+            await axios.post(`https://back-end-newupdate.onrender.com/profileupdate/${userid}`,inputs)
             .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
@@ -113,7 +126,7 @@ const Profileupdate = () => {
     const token = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`http://localhost:3333/token`,{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -160,7 +173,7 @@ const Profileupdate = () => {
                             </LinkContainer>
                             <LinkContainer to={`/profile/${userid}`}  >
                                     <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                        <Image src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                                        <Image src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                                 </Nav.Link>
                             </LinkContainer>
                                     
@@ -188,7 +201,7 @@ const Profileupdate = () => {
                                     </Row>
                                     <Row>
                                         <Col className='d-flex justify-content-center m-5'>
-                                            <Image className='mt-3' src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '100%' }} />
+                                            <Image className='mt-3' src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%' }} />
                                         </Col>
                                     </Row>
                                         

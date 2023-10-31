@@ -42,7 +42,7 @@ const Admindash = () => {
     const [data ,setData] = useState([]);
     const getdata = async ()=>{
         try{
-            const response = await axios.post(`http://localhost:3333/selectadmin`);
+            const response = await axios.post(`https://back-end-newupdate.onrender.com/selectadmin`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -51,7 +51,7 @@ const Admindash = () => {
     const getadmin = async ()=>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`http://localhost:3333/profileid`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profileid`, {
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -130,32 +130,33 @@ const Admindash = () => {
         {
             path:"/adminuserdash",
             name:"รายชื่อผู้ใช้ทั่วไป",
-            icon:<FaRegChartBar/>
+            icon:<FaUserAlt/>
         },
         {
-            path:"/dashupdatepay",
+            path:"/admindash",
             name:"รายชื่อผู้ดูแลระบบ",
-            icon:<FaCommentAlt/>
+            icon:<FaUsersCog/>
         },
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
         
     ]
     const menuItem2=[
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
+        
     ]
     const menuItem=[
         {
             path:"/dashupdatepay",
             name:"ตรวจสอบการชำระเงิน",
-            icon:<FaThList/>
+            icon:<FaCoins/>
         }
     ]
     const logout =(event)=>{
@@ -179,33 +180,33 @@ const Admindash = () => {
                             <div key={key} >
                             { datas.statusadmin === "1" ? (
                                 <div >
-                                {menuItem.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link  " activeclassName="active" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                                        <div className="icon ">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):(datas.statusadmin === "2" ? (
                                 <div>
-                                {menuItem2.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3 mt-2">{item.name}</div>
-                                    </Link>
+                                    {menuItem2.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }   
                                 </div>
                             ):(datas.statusadmin === "3" ? (
                                 <div>
-                                {menuItem3.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="text-white" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem3.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):( datas.statusadmin === "4" ? (
                                 <div>
@@ -264,7 +265,7 @@ const Admindash = () => {
                                             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
                                             {datas.fname} {datas.lname}
                                             </span>
-                                            <Image src={"http://localhost:3333/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-newupdate.onrender.com/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
                                         </div>
                                     } >
                                     <Dropdown.Item href="/adminprofile">ข้อมูลส่วนตัว</Dropdown.Item>
@@ -284,23 +285,23 @@ const Admindash = () => {
                     </nav>
                     {/* End of Topbar */}
                     {/* Begin Page Content */}
-                    <div className="container-fluid">
+                    <div className="container-fluid mt-3 px-5">
                     {/* Page Heading */}
-                    <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 className="h3 mb-0 text-gray-800 m-3">
+                    <div className="d-sm-flex align-items-center justify-content-between mb-4 px-5">
+                        <h1 className="h3 mb-0 text-gray-800 m-3 ">
                             รายชื่อผู้ดูแลระบบ
                         </h1>
                         {data.map((datas,key)=>
                         <div className='row mr-5'>
                             <div className='col'>
                                 <Link to={`/dashregister/${datas.id}`}  style={{ textDecoration: 'none'}} >
-                                    <Button   className='text-black'> <FaUserPlus className='fs-5'></FaUserPlus>
+                                    <Button   className='text-black p-1'> <FaUserPlus className='fs-5'></FaUserPlus>
                                     <p className='text-gray-800 mt-3 ml-2 fs-6'>เพิ่มผู้ดูระบบ</p> </Button>
                                 </Link>
                             </div>
                             <div className='col ' style={{width:'11rem'}}>
                                 <Link to={`/dashdelete/${datas.id}`}  style={{ textDecoration: 'none'}} >
-                                    <Button  className='text-black'> <FaUserTimes className='fs-5' ></FaUserTimes> 
+                                    <Button  className='text-black p-1'> <FaUserTimes className='fs-5' ></FaUserTimes> 
                                     <p className='text-gray-800 text-gray-800 mt-3 ml-2 fs-6'>ระงับผู้ดูระบบ</p></Button>
                                 </Link>
                             </div>
@@ -313,7 +314,7 @@ const Admindash = () => {
                     {/* Content Row */}
                     {user.map((users,key)=>
                     
-                    <div className='px-5 ' key={key}>
+                    <div className='px-5 mx-5 ' key={key}>
                     <div className="  mb-4">
                         <Link to={`/updatestatusadmin/${users.id}`}  style={{ textDecoration: 'none'}} >
                             <div className="card border-left-secondary shadow h-100  py-2">

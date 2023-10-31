@@ -47,7 +47,8 @@ import { useState } from 'react';
 import Profileupdate from './page/Profileupdate';
 import Dashuserdelete from './page/Dashuserdelete';
 import Adminprofile from './page/Adminprofile';
-
+import Dashuserhistory from './page/Dashuserhistory';
+import Dashistoryuserdetail from './page/Dashistoryuserdetail';
 function App() {
   const [login,setlogin] = useState(null)
   function handlelogin(){
@@ -106,6 +107,8 @@ function App() {
           <Route path='/dashpay/:userid' element={<Dashpay/>}/>
           <Route path='/paystatuscheck/:userid' element={<Paystatuscheck/>}/>
           <Route path='/adminprofile' element={<Adminprofile/>}/>
+          <Route path='/dashuserhistory/:userid' element={<Dashuserhistory/>}/>
+          <Route path='/dashistoryuserdetail/:userid' element={<Dashistoryuserdetail/>}/>
         </Routes>
       </Router>
     

@@ -51,22 +51,80 @@ const Dashhistory = () => {
     const [data ,setData] = useState([]);
     const [user ,setUser] = useState([]);
     const token = localStorage.getItem('token');
+    const [input,setInputs] =useState({
+        birthday:"",
+        father:"",
+        mother:"",
+        address:"",
+        criminal:"",
+        bankrupt:"",
+        credit:"",
+        penalty:"",
+        global:"",
+        other:""
+    });
+    const [file,setFile] = useState("");
+    const [err,setErr]=useState([])
+    const popup = async ()=>{
+        Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'เพิ่มประวัติผู้ตรวจสอบเสร็จสิ้น',
+            
+            
+        }).then((result) => {
+            if (result.value) {
+              window.location.href=`/dashinputhistory`;
+            }
+        });
+          
+    }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/historyselect/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/historyselect/${userid}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
         }
     }
+    const getcheckadmin = async () =>{
+        try{
+          if(data[0].status=='1'){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            if(data[0].statusadmin == '4'){
+             
+              
+            }else{
+                if(data[0].statusadmin == '3'){
+                    
+                }else{
+                    if(data[0].statusadmin == '2'){
+                    
+                    }else{
+                        window.location='/login'
+                        localStorage.removeItem('token');
+                    
+                    }
+                    
+                }
+            }
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+      }
     const getadmin = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/adminuserprofile`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/adminuserprofile`, {
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
             })
             setData(response.data);
+            getcheckadmin();
         } catch (err) {
             console.log(err);
             window.location='/login'
@@ -82,19 +140,45 @@ const Dashhistory = () => {
     };
     const handleClick = async (e) => {
         e.preventDefault();
-    
+        const formdata= new FormData()
+        formdata.append('file', file);
+        
         try {
-            await axios.post(`http://localhost:3333/adminhistory/${userid}`, input,{
+            axios.post(`https://back-end-newupdate.onrender.com/adminhistory/${userid}`, input,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
-          .then((response) => {
+            .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
             }else{
-                popup();
+                axios.get(`https://back-end-newupdate.onrender.com/updatecheckhidtory/${userid}`)
+                
+                if(file==""){
+                    axios.post(`https://back-end-newupdate.onrender.com/filehistory/${userid}`,formdata)
+                    .then((response) => {
+                        if (response.data.error) {
+                            alert(response.data.error);
+                        }else{
+                            popup();
+                        }
+                    })
+                    popup();   
+                }else{
+                    axios.post(`https://back-end-newupdate.onrender.com/filehistory/${userid}`,formdata)
+                    .then((response) => {
+                        if (response.data.error) {
+                            alert(response.data.error);
+                        }else{
+                            popup();
+                        }
+                    })
+                }
+                
             }
             });
+            
+          
         } catch (err) {
           setErr(err.response.data);
           console.log(err)
@@ -138,32 +222,33 @@ const Dashhistory = () => {
         {
             path:"/adminuserdash",
             name:"รายชื่อผู้ใช้ทั่วไป",
-            icon:<FaRegChartBar/>
+            icon:<FaUserAlt/>
         },
         {
-            path:"/dashupdatepay",
+            path:"/admindash",
             name:"รายชื่อผู้ดูแลระบบ",
-            icon:<FaCommentAlt/>
+            icon:<FaUsersCog/>
         },
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
         
     ]
     const menuItem2=[
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
+        
     ]
     const menuItem=[
         {
             path:"/dashupdatepay",
             name:"ตรวจสอบการชำระเงิน",
-            icon:<FaThList/>
+            icon:<FaCoins/>
         }
     ]
     const logout =(event)=>{
@@ -171,6 +256,9 @@ const Dashhistory = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
+    console.log(data)
+    console.log(input)
+    console.log(file)
     return (
         <div>
             <div id="wrapper" style={{fontFamily:"Athiti"}}>
@@ -186,33 +274,33 @@ const Dashhistory = () => {
                             <div key={key} >
                             { datas.statusadmin === "1" ? (
                                 <div >
-                                {menuItem.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link  " activeclassName="active" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                                        <div className="icon ">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):(datas.statusadmin === "2" ? (
                                 <div>
-                                {menuItem2.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3 mt-2">{item.name}</div>
-                                    </Link>
+                                    {menuItem2.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }   
                                 </div>
                             ):(datas.statusadmin === "3" ? (
                                 <div>
-                                {menuItem3.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="text-white" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem3.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):( datas.statusadmin === "4" ? (
                                 <div>
@@ -270,7 +358,7 @@ const Dashhistory = () => {
                                             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
                                             {datas.fname} {datas.lname}
                                             </span>
-                                            <Image src={"http://localhost:3333/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-newupdate.onrender.com/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
                                         </div>
                                     } >
                                     <Dropdown.Item href="/adminprofile">ข้อมูลส่วนตัว</Dropdown.Item>
@@ -290,15 +378,15 @@ const Dashhistory = () => {
                     </nav>
                     {/* End of Topbar */}
                     {/* Begin Page Content */}
-                    <div className="container-fluid">
+                    <div className="container-fluid mt-3 px-5 ">
                     {/* Page Heading */}
-                    <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 className="h3 mb-0 text-gray-800">เพิ่มประวัติ</h1>
+                    <div className="d-sm-flex align-items-center justify-content-between mb-4 px-5">
+                        <h1 className="h3 mb-0 text-gray-800">กรอกประวัติ</h1>
                         
                     </div>
                     {/* Content Row */}
                     {user.map((users,key7)=>
-                        <div key={key7} className='m-5'>
+                        <div key={key7} className='m-5 px-5 mt-3'>
                             <div>
                                 <div >
                                                     
@@ -342,9 +430,9 @@ const Dashhistory = () => {
                                             <TextField
                                                 required
                                                 fullWidth
-                                                id="religion"
-                                                label="ศาสนา"
-                                                name="religion"
+                                                id="address"
+                                                label="ที่อยู่"
+                                                name="address"
                                                 onChange={handleChange}
                                                 className='mb-4'
                                             />
@@ -434,7 +522,17 @@ const Dashhistory = () => {
                                         )}
                                         
                                 </div>               
-                            
+                                <Row className='mt-4'>
+                                <Col > 
+                                    <div>
+                                        {/* <input type="file" multiple accept='inputs.picpay/*'  onChange={e => setFile(e.target.files[0])}/>                 */}
+                                        <p>อัปโหลดไฟล์ประวัติของผู็ตรวจประวัติ </p>
+                                        
+                                        <input type="file"  onChange={(e) => setFile(e.target.files[0])} />
+                                        
+                                    </div>
+                                </Col>
+                            </Row>           
                                 <div className='d-flex justify-content-end mt-3'>
                                         <Row>
                                             <Col>

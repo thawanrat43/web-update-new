@@ -23,12 +23,19 @@ import sessionstorage from 'sessionstorage';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
 import Card from 'react-bootstrap/Card';
 import Swal from 'sweetalert2';
+import { InputAdornment } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
+import { VisibilityOff } from '@mui/icons-material';
+import {IconButton} from '@mui/material';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import Alert from 'react-bootstrap/Alert';
 const Login = () => {
     const [user,setUser] =useState({})
     const [inputs,setInputs] = useState({
         email: "",
         password: ""
     })
+    const [visible,setVisible] = useState(false);
     const popuperror = async ()=>{
         Swal.fire({
             icon: 'error',
@@ -36,11 +43,7 @@ const Login = () => {
             text: 'ล็อกอินไม่สำเสร็จE-mail หรือ รหัสผ่านของคุณไม่ถูกต้อง'
             
             
-        }).then((result) => {
-            if (result.value) {
-                window.location.href = `/login`
-            }
-        });
+        })
           
     }
     const [err, setErr] = useState(null);
@@ -49,12 +52,20 @@ const Login = () => {
     };
     // const { login } = useContext(AuthContext);
     axios.defaults.withCredentials = true;
-    
+    const Endadorment =({visible,setVisible}) =>{
+        return (
+            <InputAdornment position='end'>
+                <IconButton onClick={()=> setVisible(!visible)}>
+                {visible ? <VisibilityOff/> : <RemoveRedEyeIcon/>}
+                </IconButton>
+            </InputAdornment>
+        );
+    }
     const navigate = useNavigate()
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`http://localhost:3333/login`, inputs)
+            await axios.post(`https://back-end-newupdate.onrender.com/login`, inputs)
             .then(function (response) {
                 if(err){
                     popuperror();
@@ -62,7 +73,9 @@ const Login = () => {
                 }
                 else{
                     localStorage.setItem('login',response.data.token)
+                    
                     navigate("/otp");
+
                     // if(response.data.status=='1')
                     // {
                     //     navigate("/home");
@@ -139,17 +152,30 @@ const Login = () => {
                                 fullWidth
                                 name="password"
                                 label="Password"
-                                type="password"
+                                
                                 id="password"
                                 autoComplete="current-password"
                                 onChange={handleChange}
+                                type={visible ? "text" :"password"}
+                                
+                                
+                                InputProps={{ // <-- This is where the toggle button is added.
+                                    endAdornment: <Endadorment visible={visible} setVisible={setVisible}/>
+                                }}
                                 style={{fontFamily:"Athiti"}} 
                             />
                         </div>
                             
-                        <div className='d-flex justify-content-center' style={{fontFamily:"Athiti"}} >
-                            {err && err}
-                        </div>
+                        
+                            {err !== null && (
+                                <Alert key={"danger"} variant={"danger"} className='mx-5 my-1'>
+                                    <label htmlFor="password">
+                                        <p className="errors m-1" > {err && err}</p>
+                                    </label>
+                                </Alert>
+                            )}
+                            
+                       
                         <div className='mt-2 d-flex justify-content-center'>
                             <Link to={`/emailforgot`}     >
                                     <p className='fs-6' >ลืมรหัสผ่าน</p>

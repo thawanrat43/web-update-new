@@ -21,10 +21,32 @@ import LinkContainer from 'react-router-bootstrap/LinkContainer';
 const Pay = () => {
   const {id} = useParams([]);
   const [user ,setUser] = useState([]);
+  const getcheck = async () =>{
+    try{
+      if(user[0].status==''){
+        window.location='/login'
+        localStorage.removeItem('token');
+      }else{
+        
+      }
+      
+    } catch (err) {
+        console.log(err);
+    }
+  }
   const getdata = async ()=>{
     try{
-        const response = await axios.get(`http://localhost:3333/profilehistory/${id}`);
+        const response = await axios.get(`https://back-end-newupdate.onrender.com/profilehistory/${id}`);
         setUser(response.data);
+        getcheck();
+    } catch (err) {
+        console.log(err);
+    }
+  }
+  const amountpaid = async ()=>{
+    try{
+        const response = await axios.get(`https://back-end-newupdate.onrender.com/amountpaid/${id}`);
+        
     } catch (err) {
         console.log(err);
     }
@@ -32,7 +54,7 @@ const Pay = () => {
   const token = async () =>{
     const token = localStorage.getItem('token');
     try{
-        const response = await axios.get(`http://localhost:3333.com/token`,{
+        const response = await axios.get(`https://back-end-newupdate.onrender.com/token`,{
             headers: {
             Authorization: 'Bearer ' + token //the token is a variable which holds the token
         }})
@@ -82,12 +104,12 @@ const Pay = () => {
                                 <LinkContainer to={`/home`} className='mr-3 mt-4' style={{ textDecoration: 'none' }} >
                                     <Nav.Link eventKey="1">ตรวจประวัติ</Nav.Link>
                                 </LinkContainer>
-                                <LinkContainer to={`/pagestatus/${id}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }}>
+                                <LinkContainer to={`/pagestatus/${profiles.id}`} className='mr-3 mt-4' style={{ textDecoration: 'none' }}>
                                     <Nav.Link  eventKey="3" >สถานะการตรวจประวัติ</Nav.Link>
                                 </LinkContainer>
-                                <LinkContainer to={`/profile/${id}`}  >
+                                <LinkContainer to={`/profile/${profiles.id}`}  >
                                         <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                            <Image src={"https://back-end-nr6u.onrender.com/"+profiles.profilepic}roundedCircle style={{width : '3rem'}} />
+                                            <Image className='mt-2' src={"https://back-end-newupdate.onrender.com/"+profiles.profilepic}roundedCircle style={{width : '3rem'}} />
                                     </Nav.Link>
                                 </LinkContainer>
                                         
@@ -109,7 +131,7 @@ const Pay = () => {
             {user.map((userss,k11)=>
               <div key={k11}>
                 <Link to={`/qrcode/${id}`}>
-                  <Button className='bg-secondary text-white fs-6'  variant="primary" size="lg">
+                  <Button className='bg-secondary text-white fs-6'  variant="primary" size="lg" onClick={amountpaid}>
                     <div className='mt-1 d-flex'>
                       
                       <p className='ml-3 mt-1 bi bi-qr-code-scan fs-5' style={{fontFamily:"Athiti"}}>  QRcode</p>

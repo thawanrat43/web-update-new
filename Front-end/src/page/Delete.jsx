@@ -26,7 +26,7 @@ const Delete = () => {
     const token = localStorage.getItem('token');
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profile/${id}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profile/${id}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -37,7 +37,7 @@ const Delete = () => {
     const tokenn = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -56,9 +56,10 @@ const Delete = () => {
         getdata();
        
     }, []);
+    console.log(id)
     const deletedata = async () => {
         try{
-            await axios.get(`http://localhost:3333/admindelete/${id}`
+            await axios.get(`https://back-end-newupdate.onrender.com/admindelete/${id}`
             ,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
@@ -69,7 +70,7 @@ const Delete = () => {
             if (response.data.error) {
                 alert(response.data.error);
             }else{
-                window.location ='/adminuser'
+                window.location ='/admindash'
             }
             });
         }catch (err) {
@@ -100,26 +101,14 @@ const Delete = () => {
         <div >
             {user.map((users,key3)=>
             <div key={key3}>
-                <Navbar collapseOnSelect expand="lg" className="bg-wh" style={{fontFamily:"Athiti"}}>
-                    <Container>
-                        <Navbar.Brand href='/adminuser' className='fs-1'>CHECK</Navbar.Brand>                
-                        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                        <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="justify-content-end flex-grow-1 pe-3 fs-5" variant="underline" activeKey="1">
-                        <Nav.Link eventKey={1} href="/adminuser">รายชื่อผู้ใช้</Nav.Link>
-                                
-                        <Nav.Link onClick={logout}  >logout</Nav.Link>    
-                        </Nav>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
-                <div className='d-flex justify-content-center'>
+                
+                <div className='d-flex m-5 justify-content-center'>
                     <Card className='p-5 m-5' style={{fontFamily:"Athiti",width:'40%',height:'50%'}}>
                     
                         <div   className='' style={{fontSize:'10rem',fontFamily:"Athiti"}}  >
                         <div className="bi bi-exclamation-lg d-flex justify-content-center " style={{fontSize:'10rem',fontFamily:"Athiti"}}  >
                         </div>
-                        <p className='fs-5 d-flex justify-content-center  mt-2'  style={{fontFamily:"Athiti"}}>คุณต้องการลบผู้ใช้</p>
+                        <p className='fs-5 d-flex justify-content-center  mt-2'  style={{fontFamily:"Athiti"}}>คุณต้องการลบผู้ดูแลระบบ</p>
                         
                             <div className=' d-flex justify-content-center  text-black '>
                                 <Row>
@@ -136,7 +125,7 @@ const Delete = () => {
                                         </Button>
                                     </Col>
                                     <Col>
-                                        <Button href='/adminuser' className='fs-5 ml-3 text-black'style={{backgroundColor:'#CD5C5C',width:90,height:60, fontFamily:"Athiti"}}>
+                                        <Button href='/admindash' className='fs-5 ml-3 text-black'style={{backgroundColor:'#CD5C5C',width:90,height:60, fontFamily:"Athiti"}}>
                                             <p className=' mt-1'>ยกเลิก</p>
                                         </Button>
                                     </Col>

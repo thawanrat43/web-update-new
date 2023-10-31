@@ -148,7 +148,7 @@ const Homenotlogin =() =>{
                                 <p className="m-2 d-flex justify-content-center fs-5" style={{fontFamily:"Athiti"}}>ต้องการตรวจสอบประวัติ</p>
                                 <br/>
                                 <Form className=" justify-content-center">
-                                            <Row className="m-2 d-flex justify-content-center">
+                                <Row className="m-2 d-flex justify-content-center">
                                                 <Col>
                                                     
                                                 
@@ -157,26 +157,26 @@ const Homenotlogin =() =>{
                                                 </Col>
                                                 <Col>
                                                     
-                                                    <Form.Check type="checkbox" id="credit"label="ตรวจเครดิตบูโร" name="credit" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5"/>
+                                                    <Form.Check type="checkbox" id="credit"label="ตรวจสอบประวัติเครดิตบูโร" name="credit" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5"/>
                                                     
                                                 </Col>
                                             </Row>
                                             <Row className="m-2 d-flex justify-content-center">
                                                 <Col>
                                                     
-                                                    <Form.Check type="checkbox" id="bankrupt" label="ตรวจคดีล้มละลาย" name="bankrupt" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5"/>
+                                                    <Form.Check type="checkbox" id="bankrupt" label="ตรวจสอบประวัติคดีล้มละลาย" name="bankrupt" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5"/>
                                                     
                                                 </Col>
                                                 <Col>
                                                     
-                                                    <Form.Check type="checkbox" id="penalty"label="ตรวจคดีอาญา" name="penalty" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5" />
+                                                    <Form.Check type="checkbox" id="penalty"label="ตรวจสอบประวัติคดีอาญา" name="penalty" onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5" />
                                                     
                                                 </Col>
                                             </Row>
                                             <Row className="m-2 d-flex justify-content-center">
                                                 <Col>
                                                     
-                                                    <Form.Check type="checkbox"  label="ตรวจglobal sanctions" id="global" name="global"  onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5" />
+                                                    <Form.Check type="checkbox"  label="ตรวจสอบประวัติ global sanctions" id="global" name="global"  onChange={handleChangecheck} style={{fontFamily:"Athiti"}} className="fs-5" />
                                                     
                                                 </Col>
                                                 <Col>

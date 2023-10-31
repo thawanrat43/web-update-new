@@ -54,6 +54,7 @@ const Paystatuscheck = () => {
     const [user ,setUser] = useState([]);
     const [picpay ,setPicpay] = useState([]);
     const token = localStorage.getItem('token');
+    const [pay ,setPay] = useState([]);
     const [inputs,setInputs] = useState({
         pay:""
     })
@@ -69,7 +70,7 @@ const Paystatuscheck = () => {
             
         }).then((result) => {
             if (result) {
-              window.location.href = `/dashpay/${userid}`
+              window.location.href = `/dashupdatepay`
             }
         });
           
@@ -77,7 +78,7 @@ const Paystatuscheck = () => {
     const handleClick = async (e)=>{
         e.preventDefault();
         try {
-          await axios.post(`http://localhost:3333/paystatus/${userid}`,inputs,{
+          await axios.post(`https://back-end-newupdate.onrender.com/paystatus/${userid}`,inputs,{
             headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -96,28 +97,60 @@ const Paystatuscheck = () => {
     }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/historypay/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/historypay/${userid}`);
             setUser(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const getpay = async ()=>{
+        try{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/getpiccheckpay/${userid}`);
+            setPay(response.data);
         } catch (err) {
             console.log(err);
         }
     }
     const getpicpay = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/imagepay/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/imagepay/${userid}`);
             setPicpay(response.data);
         } catch (err) {
             console.log(err);
         }
     }
+    const getcheckadmin = async () =>{
+        try{
+          if(data[0].status=='1'){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            if(data[0].statusadmin == '4'){
+              
+            }else{
+                if(data[0].statusadmin == '1'){
+                    
+                    
+                }else{
+                    window.location='/login'
+                    localStorage.removeItem('token');
+                }
+            }
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+      }
     const getadmin = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/adminuserprofile`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/adminuserprofile`, {
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
             })
             setData(response.data);
+            getcheckadmin();
         } catch (err) {
             console.log(err);
             window.location='/login'
@@ -127,7 +160,7 @@ const Paystatuscheck = () => {
         getadmin();
         getdata();
         getpicpay();
-
+        getpay();
     } , []);
     const menuItem4=[
         {
@@ -166,32 +199,33 @@ const Paystatuscheck = () => {
         {
             path:"/adminuserdash",
             name:"รายชื่อผู้ใช้ทั่วไป",
-            icon:<FaRegChartBar/>
+            icon:<FaUserAlt/>
         },
         {
-            path:"/dashupdatepay",
+            path:"/admindash",
             name:"รายชื่อผู้ดูแลระบบ",
-            icon:<FaCommentAlt/>
+            icon:<FaUsersCog/>
         },
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
         
     ]
     const menuItem2=[
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
+        
     ]
     const menuItem=[
         {
             path:"/dashupdatepay",
             name:"ตรวจสอบการชำระเงิน",
-            icon:<FaThList/>
+            icon:<FaCoins/>
         }
     ]
     const logout =(event)=>{
@@ -201,7 +235,7 @@ const Paystatuscheck = () => {
     }
     console.log(user)
     console.log(data)
-    console.log(picpay)
+    console.log(pay)
     return (
         <div>
             <div id="wrapper" style={{fontFamily:"Athiti"}}>
@@ -217,33 +251,33 @@ const Paystatuscheck = () => {
                             <div key={key} >
                             { datas.statusadmin === "1" ? (
                                 <div >
-                                {menuItem.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link  " activeclassName="active" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                                        <div className="icon ">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):(datas.statusadmin === "2" ? (
                                 <div>
-                                {menuItem2.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3 mt-2">{item.name}</div>
-                                    </Link>
+                                    {menuItem2.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }   
                                 </div>
                             ):(datas.statusadmin === "3" ? (
                                 <div>
-                                {menuItem3.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="text-white" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem3.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):( datas.statusadmin === "4" ? (
                                 <div>
@@ -303,7 +337,7 @@ const Paystatuscheck = () => {
                                             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
                                             {datas.fname} {datas.lname}
                                             </span>
-                                            <Image src={"http://localhost:3333/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-newupdate.onrender.com/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
                                         </div>
                                     } >
                                     <Dropdown.Item href="/adminprofile">ข้อมูลส่วนตัว</Dropdown.Item>
@@ -338,37 +372,40 @@ const Paystatuscheck = () => {
                                     <Card>
                                         <Card.Body>
                                             <Form.Group className="mb-3">
+                                                <Form.Label>รหัสการตรวจสอบประวัติ</Form.Label>
+                                                <Form.Control placeholder={users.idhistory} disabled />
+                                                <br/>
                                                 <Form.Label>ชื่อ</Form.Label>
                                                 <Form.Control placeholder={users.fname} disabled />
                                                 <br/>
                                                 <Form.Label>นามสกุล</Form.Label>
                                                 <Form.Control placeholder={users.lname} disabled />
-                                                <br/>
-                                                <Form.Label>หมายเลขประจำตัวประชาชน</Form.Label>
-                                                <Form.Control placeholder={users.idcard} disabled />
+                                                
                                                 <br/>
                                                 <Form.Label>จำนวนเงิน</Form.Label>
-                                                <Form.Control placeholder={users.idcard} disabled />
+                                                <Form.Control placeholder={users.amountpaid+'.00'} disabled />
                                             </Form.Group>
                                         </Card.Body>
                                     </Card>
                                 </div>
-                                <div className='col'>
+                                {pay.map((pays,key)=>
+                                
+                                <div className='col' key={key}>
                                     <Card>
                                         <Card.Body>
                                         <Form.Group className="mb-3">
                                                 <Form.Label>จำนวนเงินที่ชำระ</Form.Label>
-                                                <Form.Control placeholder={users.amount} disabled />
+                                                <Form.Control placeholder={pays.amount+'.00'} disabled />
                                                 <br/>
                                                 <Form.Label>วันเดือนปีและเวลาที่ชำระเงิน</Form.Label>
-                                                <Form.Control placeholder={users.date} disabled />
+                                                <Form.Control placeholder={pays.datecreate} disabled />
                                                 <br/>
                                                 <Form.Label>สลิปการชำระเงิน</Form.Label>
-                                                {picpay.map((picpays,key)=>
-                                                    <div key={key}>
-                                                        <Image src={"http://localhost:3333/"+picpays.picpay} style={{width : '100%'}} />
+                                                
+                                                    <div >
+                                                        <Image src={"https://back-end-newupdate.onrender.com/"+pays.picpay} style={{width : '100%'}} />
                                                     </div>
-                                                )}
+                                            
                                                 
                                                 
                                             </Form.Group>
@@ -376,12 +413,13 @@ const Paystatuscheck = () => {
                                         </Card.Body>
                                     </Card>
                                 </div>
+                                )}
                             </div>
                             <div className='row mt-3'>
                                 <div className='col'>
                                     <Form.Select id="pay" name="pay" aria-label="Default select example" size="lg" className="mt-1" onChange={handleChange}>
                                     <option>การชำระเงิน</option>
-                                    <option value="ชำระเงินเสร็จสิ้น">ข้อมูลการชำระเงิรถูกต้อง</option>
+                                    <option value="ชำระเงินเสร็จสิ้น">ข้อมูลการชำระเงินถูกต้อง</option>
                                     <option value="พบข้อผิดพลาดในการชำระเงิน">พบข้อผิดพลาดในการชำระเงิน</option>
                                 </Form.Select> 
 

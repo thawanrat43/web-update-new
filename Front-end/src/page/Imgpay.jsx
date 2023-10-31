@@ -26,14 +26,28 @@ import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale }  from "react-datepicker";
+import th from "date-fns/locale/th"; // the locale you want
+registerLocale("th", th);
+
 import "react-datepicker/dist/react-datepicker.css";
 import InputGroup from 'react-bootstrap/InputGroup';
+// import DatePicker from "react-date-picker";
+import ReactDOM from "react-dom";
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
+// import $ from "jquery"
+// import "jquery-ui-dist/jquery-ui"
 export const Imgpay = () => {
     const {userid} = useParams();  
-    const [startDate, setStartDate] = useState(new Date());
+    const date = new Date();
+    const dateth = date.setFullYear(date.getFullYear() + 543);
+    
+    //console.log(dateth)
+    console.log(date)
+    const [startDate, setStartDate] = useState(date);
     const [inputs,setInputs] = useState({
-        date: startDate,
+        date: startDate.toLocaleString('th-th', { timeZone: 'Asia/Bangkok' }),
         picpay:"",
         amount:""
     })
@@ -44,7 +58,7 @@ export const Imgpay = () => {
     const [user ,setUser] = useState([]);
     const [images, setImages] = useState("");
     const [imageURLs, setImageURLs] = useState([]);
-
+    const [num,setNum]=useState([])
     useEffect(() => {
         if (images.length < 1) return;
         const newImageUrls = [];
@@ -68,36 +82,66 @@ export const Imgpay = () => {
     function onImageChange(e) {
         setImages([...e.target.files]);
     }
+    const getcheck = async () =>{
+        try{
+          if(user[0].status==''){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+      }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/profilehistory/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profilehistory/${userid}`);
             setUser(response.data);
+            getcheck();
         } catch (err) {
             console.log(err);
         }
     }
     const imgpay =(e) =>{
         const formdata= new FormData()
-        formdata.append('file',images[0])
+        for(let i =0; i < images.length; i++) {
+            formdata.append('file', images[i]);
+        }
+        
         e.preventDefault();
         try{
-            axios.post(`http://localhost:3333/imgpay/${userid}`,formdata)
+            axios.post(`https://back-end-newupdate.onrender.com/imgpay/${userid}`,formdata)
             .then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
             }else{
                 getdata();
-                axios.post(`http://localhost:3333/amount/${userid}`,inputs)
+                // axios.post(`http://localhost:3333/pay/${userid}`)
+                //     popupsuccess();
+                axios.post(`https://back-end-newupdate.onrender.com/amount/${userid}`,inputs)
                 .then((response) => {
                 if (response.data.error) {
                     alert(response.data.error);
                 }else{
                     getdata();
+                    axios.post(`https://back-end-newupdate.onrender.com/pay/${userid}`)
                     popupsuccess();
                 }
                 });
             }
             });
+            // axios.post(`http://localhost:3333/amount/${userid}`,inputs)
+            // .then((response) => {
+            //     if (response.data.error) {
+            //         alert(response.data.error);
+            //     }else{
+            //         getdata();
+            //         axios.post(`http://localhost:3333/pay/${userid}`)
+            //         popupsuccess();
+            //     }
+            //     });
             
         }catch (err) {
             console.log(err);
@@ -106,7 +150,7 @@ export const Imgpay = () => {
     const tokenn = async () =>{
         
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -128,8 +172,26 @@ export const Imgpay = () => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
     useEffect(()=>{
+        //$( "#datepicker" ).datepicker();
         getdata();
+        tokenn();
     },[])
+    
+    // const updatepay = async (e)=> {
+    //     e.preventDefault();
+    //     try{
+            
+    //         .then((response) => {
+    //         if (response.data.error) {
+    //             alert(response.data.error);
+    //         }else{
+    //           popups();
+    //         }
+    //         });
+    //     }catch (err) {
+    //         console.log(err);
+    //     }
+    //   };
     // useEffect(() => {
     //     getdata();
     //     if(inputs.picpay.length < 1) return;
@@ -144,8 +206,8 @@ export const Imgpay = () => {
         window.location='/login'
     }
     console.log(inputs);
-    console.log(startDate)
-    console.log(images)
+    //console.log(startDate)
+    console.log()
     console.log(imageURLs)
     
     return (
@@ -169,7 +231,7 @@ export const Imgpay = () => {
                     </LinkContainer>
                     <LinkContainer to={`/profile/${users.id}`}  >
                         <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                        <Image src={"http://localhost:3333/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                        <Image src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                         </Nav.Link>
                     </LinkContainer>
                     
@@ -207,8 +269,16 @@ export const Imgpay = () => {
                             
                             <Col className='mt-4 pt-1 ml-4'>
                             
+                                {/* <div class="form-group">
+                                    <div class="input-group date">
+                                        <input type="text" id="datepicker"/>
+                                    </div>
+                                </div>
+                                */}
                             
-                            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)}   name='date' />
+                            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)}   name='date' locale="th" format="myFormat"
+                             />
+                             
                                 {/* <DatePicker value={value} onChange={(newValue) => setValue(newValue)} /> */}
                             </Col>
                         </Row>
@@ -235,6 +305,7 @@ export const Imgpay = () => {
                             <Col > 
                                 <div>
                                     {/* <input type="file" multiple accept='inputs.picpay/*'  onChange={e => setFile(e.target.files[0])}/>                 */}
+                                    <p>อัปโหลดใบเสร็จจ่ายเงิน</p>
                                     <input type="file" multiple accept='inputs.picpay/*' onChange={onImageChange} />
                                     
                                 </div>
@@ -246,7 +317,7 @@ export const Imgpay = () => {
                             ))} */}
                             <Col className='d-flex justify-content-center m-5'>
                                 {imageURLs.map((imageSrc, idx) => (
-                                            <img key={idx} width="640" height="360" src={imageSrc} />
+                                            <img key={idx} width="50%" height="100%" src={imageSrc} />
                                 ))}
                             </Col>
                         </Row>
@@ -267,5 +338,7 @@ export const Imgpay = () => {
                 
             )}
         </div>
+        
     )
+  
 }

@@ -39,7 +39,14 @@ import { Offcanvas } from 'react-bootstrap';
 import Swal from "sweetalert2";
 import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
-
+import PasswordStrength from '../compament/PasswordStrength';
+import { InputAdornment } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
+import { VisibilityOff } from '@mui/icons-material';
+import {IconButton} from '@mui/material';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import '../compament/PasswordStrength.css';
+import Alert from 'react-bootstrap/Alert';
 const Dashuserregister = () => {
     const { userid }  = useParams();
     const [inputs,setInputs] = useState({
@@ -49,15 +56,21 @@ const Dashuserregister = () => {
         "lname":"",
         "username":"",
         "phonenum":"",
-        
+        status:"1"
     
     })
+    const [newpassword,setnewpassword] = useState("");
+    const [conpassword,setconpassword] = useState("");
+    const [err, setError] = useState(null);
+    const [error,setErr] = useState(null);
+    const [visible,setVisible] = useState(false);
+    const [visiblecon,setVisiblecon] = useState(false);
     const [data ,setData] = useState([]);
     const popupsuccess = async ()=>{
         Swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
-            text: 'ลงทะเบียนเสร็จสิ้น',
+            text: 'เพิ่มผู้ใช้ทั่วไปเสร็จสิ้น',
             
             
         }).then((result) => {
@@ -67,29 +80,45 @@ const Dashuserregister = () => {
         });
           
     }
-    const popuperror = async ()=>{
-        Swal.fire({
-            icon: 'error',
-            title: 'ไม่สำเร็จ',
-            text: 'ลงทะเบียนไม่สำเสร็จชื่อผู้ใช้หรือ E-mail คุณมีการลงทะเบียนแล้ว'
-            
-            
-        }).then((result) => {
-            if (result.value) {
-                window.location.href = `/dashuserregister/${userid}`
+    const getcheckadmin = async () =>{
+        try{
+          if(data[0].status=='1'){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            if(data[0].statusadmin == '4'){
+             
+              
+            }else{
+                if(data[0].statusadmin == '3'){
+                    
+                }else{
+                    if(data[0].statusadmin == '2'){
+                    
+                    }else{
+                        window.location='/login'
+                        localStorage.removeItem('token');
+                    
+                    }
+                    
+                }
             }
-        });
+          }
           
-    }
+        } catch (err) {
+            console.log(err);
+        }
+      }
     const getadmin = async ()=>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`http://localhost:3333/profileid`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profileid`, {
                 headers: {
                   Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
             })
             setData(response.data);
+            getcheckadmin();
         } catch (err) {
             console.log(err);
             window.location='/login'
@@ -103,7 +132,6 @@ const Dashuserregister = () => {
     
     }, []);
     const navigate = useNavigate()
-    const [err, setErr] = useState(null);
     const handleChangecheck = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.checked }));
 	};
@@ -115,7 +143,7 @@ const Dashuserregister = () => {
         e.preventDefault();
     
         try {
-            await axios.post(`http://localhost:3333/registeradminuser/${userid}`,inputs,{
+            await axios.post(`https://back-end-newupdate.onrender.com/registeradminuser/${userid}`,inputs,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
@@ -142,6 +170,63 @@ const Dashuserregister = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
+    const Endadorment =({visible,setVisible}) =>{
+        return (
+            <InputAdornment position='end'>
+                <IconButton onClick={()=> setVisible(!visible)}>
+                {visible ? <VisibilityOff/> : <RemoveRedEyeIcon/>}
+                </IconButton>
+            </InputAdornment>
+        );
+    }
+    const Endadormentcon =({visiblecon,setVisiblecon}) =>{
+        return (
+            <InputAdornment position='end'>
+                <IconButton onClick={()=> setVisiblecon(!visiblecon)}>
+                {visiblecon ? <VisibilityOff/> : <RemoveRedEyeIcon/>}
+                </IconButton>
+            </InputAdornment>
+        );
+    }
+    const [isStrength, setStrength] = useState(null);
+    const dataHandler = async (childData) => {
+        setStrength(childData);
+    }
+    const handleChangePassword = (e) => {
+        let password  = e.target.value;
+        setInputs({
+          ...inputs,
+          password:e.target.value
+        });
+        setError(null);
+        let capsCount, smallCount, numberCount, symbolCount
+        if (password.length < 4) {
+          setError("Password must be minimum 4 characters include one UPPERCASE, lowercase, number and special character: @$! % * ? &");
+          return;
+        }
+        else {
+          capsCount = (password.match(/[A-Z]/g) || []).length
+          smallCount = (password.match(/[a-z]/g) || []).length
+          numberCount = (password.match(/[0-9]/g) || []).length
+          symbolCount = (password.match(/\W/g) || []).length
+          if (capsCount < 1) {
+            setError("Must contain one UPPERCASE letter");
+            return;
+          }
+          else if (smallCount < 1) {
+            setError("Must contain one lowercase letter");
+            return;
+          }
+          else if (numberCount < 1) {
+            setError("Must contain one number");
+            return;
+          }
+          else if (symbolCount < 1) {
+            setError("Must contain one special character: @$! % * ? &");
+            return;
+          }
+        }
+      }
     // const tokenn = async () =>{
     //     const token = localStorage.getItem('token');
     //     try{
@@ -199,42 +284,43 @@ const Dashuserregister = () => {
             name:"ตรวจสอบการชำระเงิน",
             icon:<FaCoins/>
         }
-      ]
-      const menuItem3=[
-          
-          {
-              path:"/adminuserdash",
-              name:"รายชื่อผู้ใช้ทั่วไป",
-              icon:<FaRegChartBar/>
-          },
-          {
-              path:"/dashupdatepay",
-              name:"รายชื่อผู้ดูแลระบบ",
-              icon:<FaCommentAlt/>
-          },
-          {
-              path:"/dashinputhistory",
-              name:"เพิ่มประวัติ",
-              icon:<FaShoppingBag/>
-          },
-          
-      ]
-      const menuItem2=[
-          {
-              path:"/dashinputhistory",
-              name:"เพิ่มประวัติ",
-              icon:<FaShoppingBag/>
-          },
-      ]
-      const menuItem=[
-          {
-              path:"/dashupdatepay",
-              name:"ตรวจสอบการชำระเงิน",
-              icon:<FaThList/>
-          }
-      ]
+    ]
+    const menuItem3=[
+        
+        {
+            path:"/adminuserdash",
+            name:"รายชื่อผู้ใช้ทั่วไป",
+            icon:<FaUserAlt/>
+        },
+        {
+            path:"/admindash",
+            name:"รายชื่อผู้ดูแลระบบ",
+            icon:<FaUsersCog/>
+        },
+        {
+            path:"/dashinputhistory",
+            name:"เพิ่มประวัติ",
+            icon:<FaFolderPlus/>
+        }
+        
+    ]
+    const menuItem2=[
+        {
+            path:"/dashinputhistory",
+            name:"เพิ่มประวัติ",
+            icon:<FaFolderPlus/>
+        }
+        
+    ]
+    const menuItem=[
+        {
+            path:"/dashupdatepay",
+            name:"ตรวจสอบการชำระเงิน",
+            icon:<FaCoins/>
+        }
+    ]
       
-    console.log(inputs)
+    console.log(isStrength)
     return (
         <div>
             <div id="wrapper" style={{fontFamily:"Athiti"}}>
@@ -250,33 +336,33 @@ const Dashuserregister = () => {
                             <div key={key} >
                             { datas.statusadmin === "1" ? (
                                 <div >
-                                {menuItem.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link  " activeclassName="active" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                                        <div className="icon ">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):(datas.statusadmin === "2" ? (
                                 <div>
-                                {menuItem2.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3 mt-2">{item.name}</div>
-                                    </Link>
+                                    {menuItem2.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }   
                                 </div>
                             ):(datas.statusadmin === "3" ? (
                                 <div>
-                                {menuItem3.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="text-white" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem3.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):( datas.statusadmin === "4" ? (
                                 <div>
@@ -335,7 +421,7 @@ const Dashuserregister = () => {
                                             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
                                             {datas.fname} {datas.lname}
                                             </span>
-                                            <Image src={"http://localhost:3333/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-newupdate.onrender.com/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
                                         </div>
                                     } >
                                     <Dropdown.Item href="/adminprofile">ข้อมูลส่วนตัว</Dropdown.Item>
@@ -451,24 +537,76 @@ const Dashuserregister = () => {
                             <Row>
                                 <Col>
                                     <TextField
+                                    margin="normal"
                                     required
                                     fullWidth
+                                    id="password" 
                                     name="password"
                                     label="รหัสผ่าน"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="new-password"
-                                    onChange={handleChange}
-                                    />
+                                    type={visible ? "text" :"password"}
+                                    
+                                    onChange={handleChangePassword}
+                                    InputProps={{ // <-- This is where the toggle button is added.
+                                        endAdornment: <Endadorment visible={visible} setVisible={setVisible}/>
+                                    }}
+                                    
+                                />
+                                <PasswordStrength password={inputs.password} actions={dataHandler}/>
                                 </Col> 
+                                {err !== null && (
+                                <Alert key={"danger"} variant={"danger"}>
+                                    <label htmlFor="password">
+                                        <p className="errors m-1" > {err}</p>
+                                    </label>
+                                </Alert>
+                                )}
+                                
                             </Row>
-                            <br/>
+                            <Row>
+                            <Col>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="conpassword"
+                                    label="ยืนยันรหัสผ่าน"
+                                    type={visiblecon ? "text" :"password"}
+                                    
+                                    onChange={(e) => {
+                                        setconpassword(e.target.value);
+                                    }}
+                                    InputProps={{ // <-- This is where the toggle button is added.
+                                        endAdornment: <Endadormentcon visiblecon={visiblecon} setVisiblecon={setVisiblecon}/>
+                                    }}
+                                />
+                            </Col>
+                            </Row>
                             
-                            <div className='d-flex justify-content-end mt-3'>
-                            <Button className='text-black' style={{background:'green'}} onClick={handleClick}>
-                                ยืนยัน
-                            </Button>
-                        </div>
+                            {error !== null && (
+                            <Alert key={"danger"} variant={"danger"} className='my-4'>
+                                <label htmlFor="password">
+                                    <p className="errors m-1" > {error && error}</p>
+                                </label>
+                            </Alert>
+                            )}
+                            <br/>
+                            {isStrength === 'Strong' && conpassword===inputs.password ? (
+                                <Row className=" m-1 d-flex justify-content-end">
+                                    <Col className='d-flex justify-content-end'>
+                                        <Button  className='bg-secondary text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }}>
+                                        <p className='m-2' style={{fontFamily:"Athiti"}} >ยืนยัน</p> 
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            ):(
+                                <Row className=" m-1 mb-2 d-flex justify-content-end">
+                                    <Col className='d-flex justify-content-end'>
+                                        <Button  className='bg-secondary-800 text-white fs-5' type="submit" variant="contained" onClick={handleClick} sx={{ mt: 3, }} disabled>
+                                        <p className='m-2' style={{fontFamily:"Athiti"}} >ยืนยัน</p> 
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            )}
                         </Box>
                     </div>
                     {/* Content Row */}

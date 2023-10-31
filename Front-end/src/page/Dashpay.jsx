@@ -62,7 +62,7 @@ const Dashpay = () => {
     }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/history/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/history/${userid}`);
             setUser(response.data);
         } catch (err) {
             console.log(err);

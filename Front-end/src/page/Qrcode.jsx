@@ -17,6 +17,7 @@ import { Card, Image } from 'react-bootstrap';
 import qr from '../image/qrcode.jpg'
 import {useNavigate} from "react-router-dom"
 import Swal from 'sweetalert2';
+import { key } from 'localforage';
 const Qrcode = () => {
     const { id }  = useParams();
     const [user ,setUser] = useState([]);
@@ -26,7 +27,7 @@ const Qrcode = () => {
           title: 'สำเร็จ',
           text: 'ชำระเงินเสร็จสิ้นรอการตรวจสอบการชำระเงิน',
           confirmButtonColor: '#D3D3D3',
-          confirmButtonText: 'ไปหน้าตรวจประวัติ',
+          confirmButtonText: '  ไปหน้าแจ้งการชำระเงิน',
 
       }).then((result) => {
           if (result.isConfirmed) {
@@ -35,18 +36,44 @@ const Qrcode = () => {
       });
         
     }
-    const getdata = async ()=>{
+    const getcheck = async () =>{
       try{
-          const response = await axios.get(`http://localhost:3333/profilehistory/${id}`);
-          setUser(response.data);
+        if(user[0].status ==''){
+          window.location='/login'
+          localStorage.removeItem('token');
+        }else{
+          
+        }
+        
       } catch (err) {
           console.log(err);
       }
     }
+    const [data,setData]=useState([]);
+    const gethistory = async ()=>{
+        try{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/gethistory/${id}`);
+            setData(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const getdata = async ()=>{
+      try{
+          const response = await axios.get(`https://back-end-newupdate.onrender.com/profilehistory/${id}`);
+          setUser(response.data);
+          getcheck();
+      } catch (err) {
+          console.log(err);
+      }
+    }
+    const updatepay = async ()=>{
+      popups();
+    }
     const token = async () =>{
       const token = localStorage.getItem('token');
       try{
-          const response = await axios.get(`http://localhost:3333/token`,{
+          const response = await axios.get(`https://back-end-newupdate.onrender.com/token`,{
               headers: {
               Authorization: 'Bearer ' + token //the token is a variable which holds the token
           }})
@@ -63,24 +90,11 @@ const Qrcode = () => {
     useEffect(() => {
         token();    
         getdata();
+        gethistory();
        
     }, []);
     const navigate = useNavigate()
-    const updatepay = async (e)=> {
-      e.preventDefault();
-      try{
-          await axios.post(`http://localhost:3333/pay/${id}`)
-          .then((response) => {
-          if (response.data.error) {
-              alert(response.data.error);
-          }else{
-            popups();
-          }
-          });
-      }catch (err) {
-          console.log(err);
-      }
-    };
+    
     const navStyle = {
       lineHeight: "1.5",
       border: "none",
@@ -92,6 +106,8 @@ const Qrcode = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
+    console.log(user);
+    console.log(data);
     return (
       <div style={{fontFamily:"Athiti"}}>
         {user.map((users,key4)=>
@@ -113,7 +129,7 @@ const Qrcode = () => {
               </LinkContainer>
               <LinkContainer to={`/profile/${users.id}`}  >
                 <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                  <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                  <Image src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                 </Nav.Link>
               </LinkContainer>
                
@@ -137,9 +153,12 @@ const Qrcode = () => {
                 ) : (
                   data=data+100;
                 )} */}
-                <Row>
-                  <p className='d-flex justify-content-center fs-6'>จำนวนที่ต้องชำระ :  100 </p>                   
-                </Row>
+                {data.map((datas,key)=>
+                  <Row key={key}>
+                    <p className='d-flex justify-content-center fs-6'>จำนวนที่ต้องชำระ :  {datas.amountpaid} </p>                   
+                  </Row>
+                )}
+                
                 <Row className='d-flex justify-content-center'>
                  
                     <Button  className='bg-secondary text-white fs-5 ' type="submit"  variant="contained" style={{width:'12rem'}} onClick={updatepay} >

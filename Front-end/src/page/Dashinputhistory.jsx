@@ -50,9 +50,38 @@ const Dashinputhistory = () => {
     const [data ,setData] = useState([]);
     const [user ,setUser] = useState([]);
     const token = localStorage.getItem('token');
+    const getcheckadmin = async () =>{
+        try{
+          if(data[0].status=='1'){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            if(data[0].statusadmin == '4'){
+             
+              
+            }else{
+                if(data[0].statusadmin == '3'){
+                    
+                }else{
+                    if(data[0].statusadmin == '2'){
+                    
+                    }else{
+                        window.location='/login'
+                        localStorage.removeItem('token');
+                    
+                    }
+                    
+                }
+            }
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+      }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/selecthistory`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/selecthistory`);
             setUser(response.data);
         } catch (err) {
             console.log(err);
@@ -60,12 +89,13 @@ const Dashinputhistory = () => {
     }
     const getadmin = async ()=>{
         try{
-            const response = await axios.get(`http://localhost:3333/adminuserprofile`, {
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/adminuserprofile`, {
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
                 }
             })
             setData(response.data);
+            getcheckadmin();
         } catch (err) {
             console.log(err);
             window.location='/login'
@@ -113,32 +143,33 @@ const Dashinputhistory = () => {
         {
             path:"/adminuserdash",
             name:"รายชื่อผู้ใช้ทั่วไป",
-            icon:<FaRegChartBar/>
+            icon:<FaUserAlt/>
         },
         {
-            path:"/dashupdatepay",
+            path:"/admindash",
             name:"รายชื่อผู้ดูแลระบบ",
-            icon:<FaCommentAlt/>
+            icon:<FaUsersCog/>
         },
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
         
     ]
     const menuItem2=[
         {
             path:"/dashinputhistory",
             name:"เพิ่มประวัติ",
-            icon:<FaShoppingBag/>
-        },
+            icon:<FaFolderPlus/>
+        }
+        
     ]
     const menuItem=[
         {
             path:"/dashupdatepay",
             name:"ตรวจสอบการชำระเงิน",
-            icon:<FaThList/>
+            icon:<FaCoins/>
         }
     ]
     const logout =(event)=>{
@@ -163,33 +194,33 @@ const Dashinputhistory = () => {
                             <div key={key} >
                             { datas.statusadmin === "1" ? (
                                 <div >
-                                {menuItem.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link  " activeclassName="active" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                                        <div className="icon ">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):(datas.statusadmin === "2" ? (
                                 <div>
-                                {menuItem2.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3 mt-2">{item.name}</div>
-                                    </Link>
+                                    {menuItem2.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }   
                                 </div>
                             ):(datas.statusadmin === "3" ? (
                                 <div>
-                                {menuItem3.map((item, index)=>(
-                                    <Link to={item.path} key={index} className="text-white" activeclassName="active" style={{ textDecoration: 'none' }}>
-                                        <div className="icon">{item.icon}</div>
-                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-3">{item.name}</div>
-                                    </Link>
+                                    {menuItem3.map((item, index)=>(
+                                        <Link to={item.path} key={index} className="link" activeclassName="active" style={{ textDecoration: 'none' }}>
+                                        <div className="icon mb-4">{item.icon}</div>
+                                        <div style={{display: isOpen ? "block" : "none"}} className="link_text fs-5 mb-4 mt-1">{item.name}</div>
+                                        </Link>
                                     ))
-                                }
+                                    }
                                 </div>
                             ):( datas.statusadmin === "4" ? (
                                 <div>
@@ -247,7 +278,7 @@ const Dashinputhistory = () => {
                                             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
                                             {datas.fname} {datas.lname}
                                             </span>
-                                            <Image src={"http://localhost:3333/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
+                                            <Image src={"https://back-end-newupdate.onrender.com/"+datas.profilepic}roundedCircle  style={{width : '3rem'}} />
                                         </div>
                                     } >
                                     <Dropdown.Item href="/adminprofile">ข้อมูลส่วนตัว</Dropdown.Item>
@@ -267,20 +298,20 @@ const Dashinputhistory = () => {
                     </nav>
                     {/* End of Topbar */}
                     {/* Begin Page Content */}
-                    <div className="container-fluid">
+                    <div className="container-fluid mt-3 px-5">
                     {/* Page Heading */}
-                    <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                    <div className="d-sm-flex align-items-center justify-content-between mb-4 px-5">
                         <h1 className="h3 mb-0 text-gray-800">เพิ่มประวัติ</h1>
                     
                     </div>
                     {/* Content Row */}
                     {user.map((users,key)=>
               
-                        <div className='px-5 ' key={key}>
+                        <div className='px-5 mx-5' key={key}>
                             <div className=" mb-4">
                             { users.pay === "ชำระเงินเสร็จสิ้น" ? (
                                 <div>
-                                    <Link to={`/dashhistory/${users.idhistory}`} className="card border-left-secondary shadow h-100  py-2" style={{ textDecoration: 'none'}} >
+                                    <Link to={`/dashistoryuserdetail/${users.idhistory}`} className="card border-left-secondary shadow h-100  py-2" style={{ textDecoration: 'none'}} >
                                     <div className="card-body">
                                     <div className="row no-gutters align-items-center">
                                     
@@ -293,15 +324,7 @@ const Dashinputhistory = () => {
                                             {users.fname} {users.lname}
                                         </div>
                                         </div>
-                                        <div className="col mr-2">
-                                        <div className="text-xs col-md-13 font-weight-bold text-secondary text-uppercase mb-2">
-                                            หมายเลขประจำตัวประชาชน
-                                        </div>
                                         
-                                        <div className="h5 mb-0 col-md-13 font-weight-bold text-gray-800">
-                                            {users.idcard}
-                                        </div>
-                                        </div>
                                         <div className="col mr-2">
                                             <div className="text-xs col-md-13 font-weight-bold text-secondary text-uppercase mb-2">
                                                 สถานะการตรวจประวัติ
@@ -322,7 +345,7 @@ const Dashinputhistory = () => {
                                 </div>
                             ):( users.pay === "กำลังตรวจสอบ" ? (
                                 <div>
-                                    <Link to={`/dashhistory/${users.idhistory}`} className="card border-left-secondary shadow h-100  py-2" style={{ textDecoration: 'none'}} >
+                                    <Link to={`/dashistoryuserdetail/${users.idhistory}`} className="card border-left-secondary shadow h-100  py-2" style={{ textDecoration: 'none'}} >
                                     <div className="card-body">
                                     <div className="row no-gutters align-items-center">
                                     
@@ -335,15 +358,7 @@ const Dashinputhistory = () => {
                                             {users.fname} {users.lname}
                                         </div>
                                         </div>
-                                        <div className="col mr-2">
-                                        <div className="text-xs col-md-13 font-weight-bold text-secondary text-uppercase mb-2">
-                                            หมายเลขประจำตัวประชาชน
-                                        </div>
-                                        
-                                        <div className="h5 mb-0 col-md-13 font-weight-bold text-gray-800">
-                                            {users.idcard}
-                                        </div>
-                                        </div>
+                                       
                                         <div className="col mr-2">
                                             <div className="text-xs col-md-13 font-weight-bold text-secondary text-uppercase mb-2">
                                                 สถานะการตรวจประวัติ

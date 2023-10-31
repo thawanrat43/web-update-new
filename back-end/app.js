@@ -12,13 +12,13 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const multer = require('multer')
-const { createProxyMiddleware } = require('http-proxy-middleware');
+
 const mysql = require('mysql2');
 const nodemailer = require("nodemailer");
 // create the connection to database
 // const connection = require('./db')
 // const { process } = require('ipaddr.js');
-const connection =mysql.createConnection(process.env.DATABASE_URL);
+const connection = mysql.createConnection(process.env.DATABASE_URL)
 // const connection = mysql.createConnection({
 //   host: 'localhost',
 //   user: 'root',
@@ -65,7 +65,7 @@ app.use(cookieParser());
 // http://lambent-donut-b06776.netlify.app
 // https://64f7ff2936356b307e42dcee--venerable-axolotl-d1d4fd.netlifye4s.app
 app.use(cors({
-  origin: ["https://64f99b4f4a4e9a5b938ce0dd--startling-narwhal-35864e.netlify.app","http://localhost:3000","https://64fe8726ea09c4201a237bf8--majestic-alfajores-9ccab9.netlify.app","https://650291076cfc3a12da215377--deft-gaufre-e9ad20.netlify.app"],
+  origin: ["https://65407bdfdde71c4b54c5b20d--stately-cupcake-1c1083.netlify.app","http://localhost:3000","https://6540afbc6d707c6ce43bda33--reliable-snickerdoodle-c3acc9.netlify.app","https://650291076cfc3a12da215377--deft-gaufre-e9ad20.netlify.app"],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -170,9 +170,11 @@ app.post('/register', function (req, res, next) {
           return res.status(500).json("This E-mail already exists.");
         else{
           bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+            const date = new Date()
+            const result = date.toLocaleString('th-TH')
             connection.execute(
-              'INSERT INTO users(email,password,fname,lname,username,phonenum,status,statusadmin,profilepic) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-              [req.body.email, hash,req.body.fname,req.body.lname,req.body.username,req.body.phonenum,status,statusadmin,img],
+              'INSERT INTO users(email,password,fname,lname,username,phonenum,status,statusadmin,profilepic,createdate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+              [req.body.email, hash,req.body.fname,req.body.lname,req.body.username,req.body.phonenum,status,statusadmin,img,result],
               function(err, results, fields) {
                 if (err) return res.status(500).json(err);
                 return res.status(200).json("User has been created.");
@@ -208,53 +210,51 @@ app.post('/login', function (req, res, next) {
               return res.status(500).json('wrong password');
             }
             if(islogin) {
-              const token = jwt.sign({ id :users[0].id},process.env.TOKEN_KEY,{expiresIn:"2h"});
+              const token = jwt.sign({ id :users[0].email},process.env.TOKEN_KEY,{expiresIn:"2h"});
               const status = users[0].status;
               console.log(status)
-              // const otp = otpGenerator.generate(6, {
-              //   upperCaseAlphabets: true,
-              //   specialChars: false,
-              // });
-              // console.log(otp)
-              // const transporter = nodemailer.createTransport({
-              //   service: 'gmail',
-              //   host: "smtp.mailtrap.io",
-              //   port: 2525,
-              //   auth: {
-              //     user: 'seen6083@gmail.com', // your email
-              //     pass: 'zeyxuvkqffsvanhh' // your email password
-              //   }
-              // });
-              // let mailOptions = {
-              //   from: 'seen6083@gmail.com',                
-              //   to: users[0].email,                
-              //   subject: "OTP form Callback Coding",
-              //   text: `Your OTP is: ${otp}`,  
-              // };
-              // transporter.sendMail(mailOptions, function (error, info) {
-              //   if (error) {
-              //     return res.status(500).json("error")
-              //   } else {
-              //     console.log(info);
-              //     console.log("Email sent successfully!");
-              //     bcrypt.hash(otp, saltRounds, function(err, hasheotp) {
-              //       if(err){
-              //         return res.status(500).json("error");
-              //       }else{
-              //         console.log(hasheotp)
-              //         connection.execute("UPDATE users SET OTP= ? WHERE =? ",[hasheotp,users[0].id],(err,updatedata) =>  {
-              //           if (err) { return res.status(500).json("error")}
-              //           else{
-              //            return res.status(200).json("ok")
-              //           }
-                         
-              //         });
-              //       }
+              
+              const otp = otpGenerator.generate(6, {
+                upperCaseAlphabets: true,
+                specialChars: false,
+              });
+              console.log(otp)
+              const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                host: "smtp.mailtrap.io",
+                port: 2525,
+                auth: {
+                  user: 'seen6083@gmail.com', // your email
+                  pass: 'zeyxuvkqffsvanhh' // your email password
+                }
+              });
+              let mailOptions = {
+                from: 'seen6083@gmail.com',                
+                to: 'thawanrat.so@ku.th',                
+                subject: "OTP form Callback Coding",
+                text: `Your OTP is: ${otp}`,  
+              };
+              transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log(info);
+                  console.log("Email sent successfully!");
+                  bcrypt.hash(otp, saltRounds, function(err, hasheotp) {
+                    if(err){
+                      return res.status(403).json("error");
+                    }else{
+                      console.log(hasheotp)
+                      connection.query("UPDATE users SET OTP= ? WHERE email=? ",[hasheotp,req.body.email],(err,updatedata) =>  {
+                        if (err) return res.send(err);
+                        return res.json({message:'login success',token})
+                      })
+                    }
                     
-              //     });
-              //   }
-              // });
-              return res.json({message:'login success',token})
+                  });
+                }
+              });
+              
             }else{
               return res.status(500).json('wrong password');
             }
@@ -273,7 +273,7 @@ app.get('/profile/:id',function (req, res, next) {
   const userid = req.params.id;
   
   try{
-    connection.execute("SELECT username,lname,fname,email,phonenum,profilepic,id  FROM users WHERE id=? ",[userid],(err,data) =>  {
+    connection.execute("SELECT *  FROM users WHERE id=? ",[userid],(err,data) =>  {
       if (err) return res.send(err);
       return res.json(data);
     })
@@ -505,8 +505,10 @@ app.post('/home', function (req, res, next) {
         connection.query("SELECT * FROM users WHERE id = ?", [userInfo.id], (err, data) => {
           if (err) return res.status(500).send(err);
           else{
-            connection.execute("INSERT INTO history(fname,lname,idcard,userid,type_id,criminal,bankrupt,credit,penalty,global,other_text,pay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [req.body.fname,req.body.lname,req.body.idcard,data[0].id,req.body.type_id,req.body.criminal,req.body.bankrupt,req.body.credit,req.body.penalty,req.body.global,req.body.other_text,pay_id],
+            const date = new Date()
+            const result = date.toLocaleString('th-TH')
+            connection.execute("INSERT INTO history(fname,lname,idcard,userid,type_id,criminal,bankrupt,credit,penalty,global,other_text,pay,createdate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [req.body.fname,req.body.lname,req.body.idcard,data[0].id,req.body.type_id,req.body.criminal,req.body.bankrupt,req.body.credit,req.body.penalty,req.body.global,req.body.other_text,pay_id,result],
               function(err, results, fields) {
                 if(err) {
                   res.json({status:'error',message:err})
@@ -585,28 +587,39 @@ app.post('/registeradmin/:id', function (req, res, next) {
                     jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
                       if (err) return res.status(500).json("Token is not valid!");
                       else{
-                        const doing = 'เพิ่มผู้ใช้';
-                        const date = new Date();
-                        connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,userInfo.id,date,userid],function(err, results, fields) {
-                          if(err) {
-                            res.json({status:'error',message:err})
-                            return
-                          }else{
-                            console.log('ok5');
-                            const img = 'user-6820232_640.webp';
-                            const status ='';
-                            connection.execute(
-                              'INSERT INTO users(email,password,fname,lname,username,phonenum,status,statusadmin,profilepic) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                              [req.body.email, hash,req.body.fname,req.body.lname,req.body.username,req.body.phonenum,status,req.body.statusadmin,img],
-                              function(err, results, fields) {
-                                if (err) return res.status(500).json(err);
-                                return res.status(200).json("User has been created.");
-                    
-                    
+                        connection.execute("SELECT fname FROM users WHERE id=? ",[userid],(err,data) =>  {
+                          if (err) return res.send(err);
+                          else{
+                            const doing = 'เพิ่มผู้ดูแลระบบ';
+                            const date = new Date()
+                            const result = date.toLocaleString('th-TH')
+                            console.log(data[0].fname)
+                            console.log(req.body.fname)
+                            connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,data[0].fname,result,req.body.fname],function(err, results, fields) {
+                              if(err) {
+                                res.json({status:'error',message:err})
+                                return
+                              }else{
+                                console.log('ok5');
+                                const img = 'user-6820232_640.webp';
+                                const status ='';
+                                
+                                connection.execute(
+                                  'INSERT INTO users(email,password,fname,lname,username,phonenum,status,statusadmin,profilepic,createdate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                                  [req.body.email, hash,req.body.fname,req.body.lname,req.body.username,req.body.phonenum,status,req.body.statusadmin,img,result],
+                                  function(err, results, fields) {
+                                    if (err) return res.status(500).json(err);
+                                    return res.status(200).json("User has been created.");
+                        
+                        
+                                  }
+                                );
                               }
-                            );
+                            })
+
                           }
                         })
+                        
                       }
                     })
                   }
@@ -651,29 +664,39 @@ app.post('/registeradminuser/:id', function (req, res, next) {
                     jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
                       if (err) return res.status(500).json("Token is not valid!");
                       else{
-                        const doing = 'เพิ่มผู้ใช้';
-                        const date = new Date();
-                        connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,userInfo.id,date,userid],function(err, results, fields) {
-                          if(err) {
-                            res.json({status:'error',message:err})
-                            return
-                          }else{
-                            console.log('ok5');
-                            const img = 'user-6820232_640.webp';
-                            const status ='1';
-                            const statusadmin ='';
-                            connection.execute(
-                              'INSERT INTO users(email,password,fname,lname,username,phonenum,status,statusadmin,profilepic) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                              [req.body.email, hash,req.body.fname,req.body.lname,req.body.username,req.body.phonenum,status,statusadmin,img],
-                              function(err, results, fields) {
-                                if (err) return res.status(500).json(err);
-                                return res.status(200).json("User has been created.");
-                    
-                    
+                        connection.execute("SELECT fname FROM users WHERE id=? ",[userid],(err,data) =>  {
+                          if (err) return res.send(err);
+                          else{
+                            const doing = 'เพิ่มผู้ใช้';
+                            const date = new Date()
+                            const result = date.toLocaleString('th-TH')
+                            console.log(data[0].fname)
+                            console.log(req.body.fname)
+                            connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,data[0].fname,result,req.body.fname],function(err, results, fields) {
+                              if(err) {
+                                res.json({status:'error',message:err})
+                                return
+                              }else{
+                                console.log('ok5');
+                                const img = 'user-6820232_640.webp';
+                                const status ='1';
+                                const statusadmin ='';
+                                connection.execute(
+                                  'INSERT INTO users(email,password,fname,lname,username,phonenum,status,statusadmin,profilepic,createdate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                                  [req.body.email, hash,req.body.fname,req.body.lname,req.body.username,req.body.phonenum,status,statusadmin,img,result],
+                                  function(err, results, fields) {
+                                    if (err) return res.status(500).json(err);
+                                    return res.status(200).json("User has been created.");
+                        
+                        
+                                  }
+                                );
                               }
-                            );
+                            })
+
                           }
                         })
+                        
                       }
                     })
                   }
@@ -714,22 +737,30 @@ app.get('/admindelete/:id',function (req, res, next){
       else{
         const doing = 'ระงับผู้ใช้';
         const date = new Date();
-        connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,userInfo.id,date,userid],function(err, results, fields) {
-          if(err) {
-            return res.json({status:'error',message:err})
-          }else{
-            connection.query("DELETE FROM users WHERE `id`=? ",[userid],(err,deletedata) =>  {
+        const result = date.toLocaleString('th-TH')
+        connection.execute("SELECT fname FROM users WHERE id=? ",[userInfo.id],(err,data) =>  {
+          if (err) return res.send(err);
+          else{
+            connection.execute("SELECT fname FROM users WHERE id=? ",[userid],(err,datauser) =>  {
               if (err) return res.send(err);
               else{
-                return res.json(deletedata);
+                connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,data[0].fname,result,datauser[0].fname],function(err, results, fields) {
+                  if(err) {
+                    return res.json({status:'error',message:err})
+                  }else{
+                    connection.query("DELETE FROM users WHERE `id`=? ",[userid],(err,deletedata) =>  {
+                      if (err) return res.send(err);
+                      else{
+                        return res.json(deletedata);
+                      }
+                    })
+                  }
+                })
               }
             })
           }
         })
-               
-        
-        
-        
+
       }    
     })
   }
@@ -750,7 +781,7 @@ app.get('/pagestatus/:id',upload.single('file'),function (req, res, next) {
   }
 })
 const adminhis =()=>{
-  const token = req.headers.authorization.split(' ')[1];
+  const token = req.body.token;
   if (!token) {
     return res.status(500).json("Not authenticated!");
   }
@@ -783,6 +814,8 @@ const adminhis =()=>{
 app.post('/adminhistory/:id',function (req, res, next) {
   const userid = req.params.id;
   const token = req.headers.authorization.split(' ')[1];
+  
+  console.log(token)
   if (!token) {
     return res.status(500).json("Not authenticated!");
   }
@@ -790,27 +823,47 @@ app.post('/adminhistory/:id',function (req, res, next) {
     jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
       if (err) return res.status(500).json("Token is not valid!");
       else{
+        console.log("ok1")
         const doing = 'เพิ่มประวัติผู้ใช้';
         const date = new Date();
+        const result = date.toLocaleString('th-TH')
         console.log(date);
-        connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,userInfo.id,date,userid],function(err, results, fields) {
-          if(err) {
-            res.json({status:'error',message:err})
-            return
-          }else{
-            connection.execute("INSERT INTO historydetails(id,birthday,father,mother,religion,criminal,bankrupt,credit,penalty,global,other) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [userid,req.body.birthday,req.body.father,req.body.mother,req.body.religion,req.body.criminal,req.body.bankrupt,req.body.credit,req.body.penalty,req.body.global,req.body.other],
-            function(err, results, fields) {
-              if(err) {
-                res.json({status:'error',message:err})
-                return
-              }else{
-                return res.json(results);
-          
-                }
+        console.log(userInfo.id)
+        connection.execute("SELECT fname FROM users WHERE id=? ",[userInfo.id],(err,datauser) =>  {
+          if (err) return res.send(err);
+          else{
+            
+            connection.execute("SELECT fname FROM history WHERE idhistory=? ",[userid],(err,data) =>  {
+              if (err) return res.send(err);
+              else{
+                
+                
+                    console.log(req.body.address)
+                    connection.execute("INSERT INTO historydetails(id,birthday,father,mother,address,criminal,bankrupt,credit,penalty,global,other) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [userid,req.body.birthday,req.body.father,req.body.mother,req.body.address,req.body.criminal,req.body.bankrupt,req.body.credit,req.body.penalty,req.body.global,req.body.other],
+                    function(err, results, fields) {
+                      if(err) {
+                        res.json({status:'error',message:err})
+                        return
+                      }else{
+                        console.log("ok5")
+                        connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,datauser[0].fname,result,data[0].fname],function(err, results, fields) {
+                          if(err) {
+                            res.json({status:'error',message:err})
+                            return
+                          }else{
+                            return res.json(results);
+                          }
+                        })
+                  
+                      }
+                    })
+                 
+              }
             })
           }
         })
+        
       }    
     })
   }
@@ -860,7 +913,7 @@ app.get('/finish/:id',function (req, res, next) {
 app.get('/historydetail/:id',function (req, res, next) {
   const userid = req.params.id;
   try{
-    connection.execute("SELECT birthday,father,mother,religion,criminal,bankrupt,credit,penalty,global,other FROM historydetails WHERE id=? ",[userid],(err,data) =>  {
+    connection.execute("SELECT * FROM historydetails WHERE id=? ",[userid],(err,data) =>  {
       if (err) return res.send(err);
       return res.json(data);
     })
@@ -961,10 +1014,23 @@ app.post('/paystatus/:id',function (req, res, next){
             res.json({status:'error',message:err})
             return
           }else{
-            connection.query("UPDATE history SET pay= ? WHERE idhistory=? ",[req.body.pay,userid],(err,updatedata) =>  {
-              if (err) return res.send(err);
-              return res.json(updatedata);
-            })
+            if(req.body.pay == "พบข้อผิดพลาดในการชำระเงิน"){
+              connection.query("DELETE FROM imgpay WHERE `idhistory`=? ",[userid],(err,deletedata) =>  {
+                if (err) return res.send(err);
+                else{
+                  connection.query("UPDATE history SET pay= ? WHERE idhistory=? ",[req.body.pay,userid],(err,updatedata) =>  {
+                    if (err) return res.send(err);
+                    return res.json(updatedata);
+                  })
+                }
+              })
+            }else{
+              connection.query("UPDATE history SET pay= ? WHERE idhistory=? ",[req.body.pay,userid],(err,updatedata) =>  {
+                if (err) return res.send(err);
+                return res.json(updatedata);
+              })
+            }
+            
           }
         })
       }    
@@ -983,15 +1049,47 @@ const storageimg = multer.diskStorage({
 const uploadsimg =multer({
   storage: storageimg
 })
-app.post('/imgpay/:id',uploads.single('file'),function (req, res, next){
-  console.log(req.file)
+app.post('/imgpay/:id',uploads.array('file'),function (req, res, next){
+   // Logs form body values
+  console.log(req.files.length);
+  const num = req.files.length;
   try {
       // code
       const userid = req.params.id
-      connection.query("UPDATE history SET picpay= ? WHERE idhistory=? ",[req.file.filename,userid],(err,updatedata) =>  {
-        if (err) return res.send(err);
-        return res.json(updatedata);
-      })
+      console.log(req.body.input)
+    
+      // for(let i =0; i < num; i++) {
+        //console.log(req.files[i])
+        connection.execute("INSERT INTO imgpay(picpay,idhistory) VALUES (?, ?)",[req.files[0].filename,userid],function(err, results, fields) {
+          if(err) {
+            res.json({status:'error',message:err})
+            return
+          }else{
+            if(num == 1){
+              return res.json({status:'ok'});
+            }
+            else{
+              connection.execute("INSERT INTO imgpay(picpay,idhistory) VALUES (?, ?)",[req.files[1].filename,userid],function(err, results, fields) {
+                if(err) {
+                  res.json({status:'error',message:err})
+                  return
+                }else{
+                  
+                  return res.json({status:'ok'});
+                }
+              })
+            }
+            
+            
+            
+         }
+        })
+      // }
+      
+      // connection.query("UPDATE history SET picpay= ? WHERE idhistory=? ",[req.file.filename,userid],(err,updatedata) =>  {
+      //   if (err) return res.send(err);
+      //   return res.json(updatedata);
+      // })
       // const updated = await Product
       //     .findOneAndUpdate({ _id: id }, newData, { new: true })
       //     .exec()
@@ -1010,7 +1108,14 @@ app.post('/amount/:id',function (req, res, next){
       // code
       const userid = req.params.id
       console.log(req.body.date)
-      connection.query("UPDATE history SET amount= ?,date=? WHERE idhistory=? ",[req.body.amount,req.body.date,userid],(err,updatedata) =>  {
+      const date =new Date()
+      const result = date.toLocaleString('en-GB', { timeZone: 'UTC' })
+      //console.log( )
+      // connection.execute("SELECT * FROM imgpay WHERE idhistory=? ",[userid],(err,data) =>  {
+      //   if (err) return res.send(err);
+      //   return res.json(data);
+      // })
+      connection.query("UPDATE imgpay SET amount= ?,datecreate=? WHERE idhistory=? ",[req.body.amount,req.body.date,userid],(err,updatedata) =>  {
         if (err) return res.send(err);
         return res.json(updatedata);
       })
@@ -1044,9 +1149,83 @@ app.get('/otp',function (req, res, next){
     jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
       if (err) return res.status(403).json("Token is not valid!");
       else{
-        connection.execute("SELECT * FROM users WHERE id=? ",[userInfo.id],(err,data) =>  {
+        console.log(userInfo)
+        connection.execute("SELECT * FROM users WHERE email=? ",[userInfo.id],(err,data) =>  {
           if (err) return res.send(err);   
           else{
+            console.log('ok')
+            const status = data[0].status;
+            const otp = otpGenerator.generate(6, {
+              upperCaseAlphabets: true,
+              specialChars: false,
+            });
+            console.log(otp)
+            const transporter = nodemailer.createTransport({
+              service: 'gmail',
+              host: "smtp.mailtrap.io",
+              port: 2525,
+              auth: {
+                user: 'seen6083@gmail.com', // your email
+                pass: 'zeyxuvkqffsvanhh' // your email password
+              }
+            });
+            let mailOptions = {
+              from: 'seen6083@gmail.com',                
+              to: data[0].email,                
+              subject: "OTP form Callback Coding",
+              text: `Your OTP is: ${otp}`,  
+            };
+            transporter.sendMail(mailOptions, function (error, info) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log(info);
+                console.log("Email sent successfully!");
+                bcrypt.hash(otp, saltRounds, function(err, hasheotp) {
+                  if(err){
+                    return res.status(403).json("error");
+                  }else{
+                    console.log(hasheotp)
+                    connection.query("UPDATE users SET OTP= ? WHERE email=? ",[hasheotp,userInfo.id],(err,updatedata) =>  {
+                      if (err) return res.send(err);
+                      return res.json({message:'otp success',status})
+                    })
+                  }
+                  
+                });
+              }
+            });
+            
+          }
+        })
+        
+        
+        
+        
+        // connection.query("SELECT phonenum FROM users WHERE id = ?", [userInfo.id], (err, data) => {
+        //   if (err) return res.send(err);
+        //   else{
+            
+        //   }
+        // })
+      
+      }
+    })
+
+  }
+})
+app.get('/otplogin',function (req, res, next){
+  const token = req.headers.authorization.split(' ')[1];  
+  if (!token) return res.status(401).json("Not authenticated!");
+  else{
+    jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
+      if (err) return res.status(403).json("Token is not valid!");
+      else{
+        console.log(userInfo)
+        connection.execute("SELECT * FROM users WHERE email=? ",[userInfo.id],(err,data) =>  {
+          if (err) return res.send(err);   
+          else{
+            console.log('ok')
             const status = data[0].status;
             const otp = otpGenerator.generate(6, {
               upperCaseAlphabets: true,
@@ -1079,7 +1258,7 @@ app.get('/otp',function (req, res, next){
                     return res.status(403).json("error");
                   }else{
                     console.log(hasheotp)
-                    connection.query("UPDATE users SET OTP= ? WHERE id=? ",[hasheotp,userInfo.id],(err,updatedata) =>  {
+                    connection.query("UPDATE users SET OTP= ? WHERE email=? ",[hasheotp,userInfo.id],(err,updatedata) =>  {
                       if (err) return res.send(err);
                       return res.json({message:'otp success',status})
                     })
@@ -1114,10 +1293,13 @@ app.post('/otpvverification',function (req, res, next){
     jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
       if (err) return res.status(403).json("Token is not valid!");
       else{
-          connection.execute("SELECT * FROM users WHERE id=? ",[userInfo.id],(err,data) =>  {
+        console.log(userInfo)
+          connection.execute("SELECT * FROM users WHERE email=? ",[userInfo.id],(err,data) =>  {
             if (err) return res.send(err);   
             else{
               const status = data[0].status
+              console.log(data[0].OTP)
+              console.log(req.body.OTP)
               bcrypt.compare(req.body.OTP, data[0].OTP, function(err, otp) { 
                 if(err){
                   console.log(req.body.OTP)
@@ -1177,7 +1359,7 @@ app.post('/sendemail',function (req, res, next){
                   connection.query("UPDATE users SET OTP= ? WHERE id=? ",[hasheotp,data[0].id],(err,updatedata) =>  {
                     if (err) return res.send(err);
                     else{
-                      const token = jwt.sign({ id :data[0].id},process.env.TOKEN_KEY,{expiresIn:"2h"});
+                      const token = jwt.sign({ id :data[0].email},process.env.TOKEN_KEY,{expiresIn:"2h"});
                       return res.json({message:'otp send',token})
                     }
                     
@@ -1205,14 +1387,14 @@ app.post('/forgotpassword',function (req, res, next) {
   else{
     console.log(token)
     jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
-      connection.query("SELECT password FROM users WHERE id=? ",[userInfo.id],(err,data) =>  {
+      connection.query("SELECT password FROM users WHERE email=? ",[userInfo.id],(err,data) =>  {
         if(data){ 
               if(conpassword==newpassword){
                 bcrypt.hash(newpassword, saltRounds, function(err, hash) {
                   if(err){
                     return res.status(500).json('update error');
                   }
-                  connection.query("UPDATE users SET password= ? WHERE id=? ",[hash,userInfo.id],(err,updatedata) =>  {
+                  connection.query("UPDATE users SET password= ? WHERE email=? ",[hash,userInfo.id],(err,updatedata) =>  {
                     if (err) return res.send(err);
                     return res.json(updatedata);
                   })
@@ -1280,21 +1462,39 @@ app.post('/updatelevel/:id',function (req, res, next){
       jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
         if (err) return res.status(500).json("Token is not valid!");
         else{
-          connection.query("UPDATE users SET statusadmin= ? WHERE id=? ",[req.body.statusadmin,userid],(err,updatedata) =>  {
+          connection.execute("SELECT fname FROM users WHERE id=? ",[userInfo.id],(err,data) =>  {
             if (err) return res.send(err);
             else{
-              const doing = 'แก้ไขระดับผู้ดูแลระบบ';
-              const date = new Date();
-              connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,userInfo.id,date,userid],function(err, results, fields) {
-                if(err) {
-                  res.json({status:'error',message:err})
-                  return
-                }else{
-                  return res.json(results);
+              connection.execute("SELECT * FROM users WHERE id=? ",[userid],(err,datauser) =>  {
+                if (err) return res.send(err);
+                else{
+                  const doing = 'เปลี่ยนระดับผู้ดูแลระบบ จากระดับ '+datauser[0].statusadmin+' เป็น ระดับ '+req.body.statusadmin;
+                  console.log(doing)
+                  const date = new Date()
+                  const result = date.toLocaleString('th-TH')
+                  console.log(data[0].fname)
+                  console.log(datauser[0].fname)
+                  connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,data[0].fname,result,datauser[0].fname],function(err, results, fields) {
+                    if(err) {
+                      res.json({status:'error',message:err})
+                      return
+                    }else{
+                      console.log('ok5');
+                      connection.query("UPDATE users SET statusadmin= ? WHERE id=? ",[req.body.statusadmin,userid],(err,updatedata) =>  {
+                        if (err) return res.send(err);
+                        else{
+                          return res.json(updatedata);
+                        }
+                      })
+                    }
+                  })
                 }
               })
+              
+
             }
           })
+          
         }
       }) 
   } 
@@ -1499,6 +1699,282 @@ app.get('/piechart',function (req, res, next){
         })
       }
     })
+
+  } catch (err) {
+      // error
+      console.log(err)
+      res.status(500).send('Server Error')
+  }
+})
+app.get('/amountpaid/:id',function (req, res, next){
+  try {
+    const userid = req.params.id;
+    let paid = 0;
+    const hundred = 100;
+ 
+    const paying ='กำลังตรวจสอบการชำระเงิน';
+    connection.query("SELECT * FROM history WHERE idhistory = ?",[userid],(err,data) =>  {
+      if(err) {
+        res.json({status:'error',message:err})
+        return
+      }else{
+        if(data[0].criminal =='1'){
+          paid = paid+hundred  ;
+        }
+        if(data[0].bankrupt =='1'){
+          paid = paid+hundred  ;
+        }
+        if(data[0].credit =='1'){
+          paid = paid+hundred  ;
+        }
+        if(data[0].penalty =='1'){
+          paid = paid+hundred  ;
+        }
+        if(data[0].global =='1'){
+          paid = paid+hundred  ;
+        }
+        if(data[0].other_text !=''){
+          paid = paid+hundred  ;
+        }
+        console.log(paid)
+        connection.query("UPDATE history SET amountpaid = ? WHERE idhistory=?",[paid,userid],(err,data) =>  {
+          if(err) {
+            res.json({status:'error',message:err})
+            return
+          }else{
+            return res.json(data)
+          }
+        })
+        // const numpaying= data[0].num;
+        // const history ='เสร็จสิ้น';
+        // connection.query("SELECT COUNT(idhistory) as num FROM history WHERE pay = ?",[history],(err,data) =>  {
+        //   if(err) {
+        //     res.json({status:'error',message:err})
+        //     return
+        //   }else{
+        //     console.log(data[0].num)
+        //     const numhistory= data[0].num;
+        //     const errpay = "พบข้อผิดพลาดในการชำระเงิน";
+        //     connection.query("SELECT COUNT(idhistory) as num FROM history WHERE pay = ?",[errpay],(err,data) =>  {
+        //       if(err) {
+        //         res.json({status:'error',message:err})
+        //         return
+        //       }else{
+        //         console.log(data[0].num)
+        //         const numerrpay= data[0].num;
+        //         const historying ='กำลังตรวจสอบ';
+        //         connection.query("SELECT COUNT(idhistory) as num FROM history WHERE pay = ?",[historying],(err,data) =>  {
+        //           if(err) {
+        //             res.json({status:'error',message:err})
+        //             return
+        //           }else{
+        //             console.log(data[0].num)
+        //             const numhistorying = data[0].num;
+        //             const pay ='ชำระเงินเสร็จสิ้น';
+        //             connection.query("SELECT COUNT(idhistory) as num FROM history WHERE pay = ?",[pay],(err,data) =>  {
+        //               if(err) {
+        //                 res.json({status:'error',message:err})
+        //                 return
+        //               }else{
+        //                 console.log(data[0].num)
+        //                 const numpay = data[0].num;
+        //                 const nopay ='ยังไม่ชำระเงิน';
+        //                 connection.query("SELECT COUNT(idhistory) as num FROM history WHERE pay = ?",[nopay],(err,data) =>  {
+        //                   if(err) {
+        //                     res.json({status:'error',message:err})
+        //                     return
+        //                   }else{
+        //                     console.log(data[0].num)
+        //                     const numnopay = data[0].num;
+        //                     return res.json({message:'num ok',numerrpay,numhistory,numhistorying,numpay,numpaying,numnopay})
+        //                   }
+        //                 })
+        //               }
+        //             })
+        //           }
+        //         })
+        //       }
+        //     })
+        //   }
+        // })
+      }
+    })
+
+  } catch (err) {
+      // error
+      console.log(err)
+      res.status(500).send('Server Error')
+  }
+})
+app.get('/gethistory/:id',function (req, res, next) {
+  const userid = req.params.id;
+  
+  try{
+    connection.execute("SELECT * FROM history WHERE idhistory=? ",[userid],(err,data) =>  {
+      if (err) return res.send(err);
+      return res.json(data);
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
+  }
+})
+app.get('/usergethistory/:id',function (req, res, next) {
+  const userid = req.params.id;
+  
+  try{
+    connection.execute("SELECT * FROM history WHERE userid=? ",[userid],(err,data) =>  {
+      if (err) return res.send(err);
+      return res.json(data);
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
+  }
+})
+app.get('/profileotp',  function (req, res, next) {
+  const token = req.headers.authorization.split(' ')[1];
+  if (!token) return res.status(401).json("Not authenticated!");
+  jwt.verify(token,process.env.TOKEN_KEY, (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+    else{
+      connection.query("SELECT id FROM users WHERE email = ?", [userInfo.id], (err, data) => {
+        if (err) return res.send(err);
+        return res.json(data);
+      })
+     
+    }
+  })
+})
+app.get('/deleteotp/:id',function (req, res, next) {
+  const userid = req.params.id;
+
+  const deleteotp = '';
+  try{
+    connection.query("UPDATE users SET OTP= ? WHERE id=? ",[deleteotp,userid],(err,updatedata) =>  {
+      if (err) return res.send(err);
+      return res.json(updatedata);
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
+  }
+})
+app.get('/updatehi/:id',function (req, res, next) {
+  const userid = req.params.id;
+  const doing = 'เพื่ิมผู้ใช้'
+  const date = new Date()
+  const result = date.toLocaleString('th-TH')
+  try{
+    connection.query("SELECT * FROM users WHERE id = ? ",[userid],(err,data) =>  {
+      if (err) return res.send(err);
+      else{
+        connection.execute("INSERT INTO historyadmin(doing,idadmin,date,userid) VALUES (?, ?, ?, ?)",[doing,data[0].fname,result,req.body.fname],function(err, results, fields) {
+          if(err) {
+            res.json({status:'error',message:err})
+            return
+          }else{
+            res.json({status:'ok'})
+            return
+          }
+        })
+      }
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
+  }
+})
+app.get('/getpiccheckpay/:id',function (req, res, next) {
+  const userid = req.params.id;
+  
+  try{
+    connection.execute("SELECT * FROM imgpay WHERE idhistory=? ",[userid],(err,data) =>  {
+      if (err) return res.send(err);
+      return res.json(data);
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
+  }
+})
+app.get('/updatecheckpay/:id',function (req, res, next) {
+  const userid = req.params.id;
+  const pay = 'กำลังตรวจสอบ';
+  try{
+    connection.query("UPDATE history SET pay= ? WHERE idhistory=? ",[pay,userid],(err,updatedata) =>  {
+      if (err) return res.send(err);
+      else{
+        return res.json(updatedata);
+      }
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
+  }
+})
+app.get('/updatecheckhidtory/:id',function (req, res, next) {
+  const userid = req.params.id;
+  const pay = 'เสร็จสิ้น';
+  try{
+    connection.query("UPDATE history SET pay= ? WHERE idhistory=? ",[pay,userid],(err,updatedata) =>  {
+      if (err) return res.send(err);
+      else{
+        return res.json(updatedata);
+      }
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
+  }
+})
+const storages = multer.diskStorage({
+  destination: function(req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  }
+});
+const uploadss =multer({
+  storage: storage
+})
+app.post('/filehistory/:id',uploadss.single('file'),function (req, res, next){
+  console.log(req.file)
+  try {
+      // code
+      const userid = req.params.id
+      if(req.file == undefined){
+        const file = ''
+        connection.query("UPDATE historydetails SET filehistory= ? WHERE id=? ",[file,userid],(err,updatedata) =>  {
+          if (err) return res.send(err);
+          else{
+            console.log('ok')
+            return 
+          }
+          
+        })
+      }else{
+        connection.query("UPDATE historydetails SET filehistory= ? WHERE id=? ",[req.file.filename,userid],(err,updatedata) =>  {
+          if (err) return res.send(err);
+          else{
+            console.log('ok')
+            return res.json(updatedata);
+          }
+          
+        })
+      }
+      connection.query("UPDATE historydetails SET filehistory= ? WHERE id=? ",[req.file.filename,userid],(err,updatedata) =>  {
+        if (err) return res.send(err);
+        else{
+          console.log('ok')
+          return res.json(updatedata);
+        }
+        
+      })
+      // const updated = await Product
+      //     .findOneAndUpdate({ _id: id }, newData, { new: true })
+      //     .exec()
 
   } catch (err) {
       // error

@@ -1,0 +1,2 @@
+
+0e2f2b9e03670ecec87f442c152136736b8fb81a	{"key":"make-fetch-happen:request-cache:http://registry.npmjs.org/jquery-ui-dist","integrity":null,"time":1698293673038,"size":"0","metadata":{"time":1698293673038,"url":"http://registry.npmjs.org/jquery-ui-dist","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/plain;charset=UTF-8","date":"Thu, 26 Oct 2023 04:14:33 GMT","location":"https://registry.npmjs.org/jquery-ui-dist","vary":"Accept-Encoding"},"options":{"compress":true},"status":301}}

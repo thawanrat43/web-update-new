@@ -34,10 +34,24 @@ const Profile = ({}) => {
         localStorage.removeItem('token');
         window.location='/login'
     }
+    const getcheck = async () =>{
+        try{
+          if(user[0].status==''){
+            window.location='/login'
+            localStorage.removeItem('token');
+          }else{
+            
+          }
+          
+        } catch (err) {
+            console.log(err);
+        }
+    }
     const getdata = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/profile/${userid}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/profile/${userid}`);
             setUser(response.data);
+            getcheck();
         } catch (err) {
             console.log(err);
         }
@@ -45,7 +59,7 @@ const Profile = ({}) => {
     const token = async () =>{
         const token = localStorage.getItem('token');
         try{
-            const response = await axios.get(`https://back-end-nr6u.onrender.com/token`,{
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/token`,{
                 headers: {
                 Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }})
@@ -72,6 +86,7 @@ const Profile = ({}) => {
     }
     
     console.log(user); 
+    console.log(user);
     return (
         <div>
         {user.map((users,i)=>(   
@@ -94,7 +109,7 @@ const Profile = ({}) => {
                             </LinkContainer>
                             <LinkContainer to={`/profile/${userid}`}  >
                                     <Nav.Link eventKey="4" className='ml-2 mr-3 '>
-                                        <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
+                                        <Image className='mt-2' src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '3rem'}} />
                                 </Nav.Link>
                             </LinkContainer>
                                     
@@ -109,8 +124,8 @@ const Profile = ({}) => {
                             <Card style={{ width: '18rem'  }} className='m-5 '>
                                 <Card.Body>
                                     <Row className=''>
-                                        <Col className='justify-content-center m-5' > 
-                                            <Image src={"https://back-end-nr6u.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%'}} />
+                                        <Col className='justify-content-center m-5' style={{position:'relative'}}> 
+                                            <Image className=''  src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%' ,lineHeight:1.5,verticalAlign:'middle'}} />
                                         </Col>
                                     </Row>
                                     <Row className='p-3'>
