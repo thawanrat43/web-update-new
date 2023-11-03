@@ -49,6 +49,8 @@ import Dashuserdelete from './page/Dashuserdelete';
 import Adminprofile from './page/Adminprofile';
 import Dashuserhistory from './page/Dashuserhistory';
 import Dashistoryuserdetail from './page/Dashistoryuserdetail';
+import Qrcodegenpay from './page/Qrcodegenpay';
+import Payqr from './page/Payqr';
 function App() {
   const [login,setlogin] = useState(null)
   function handlelogin(){
@@ -109,6 +111,8 @@ function App() {
           <Route path='/adminprofile' element={<Adminprofile/>}/>
           <Route path='/dashuserhistory/:userid' element={<Dashuserhistory/>}/>
           <Route path='/dashistoryuserdetail/:userid' element={<Dashistoryuserdetail/>}/>
+          <Route path='/qrcodegenpay/:userid' element={<Qrcodegenpay/>}/>
+          <Route path='/payqr/:userid' element={<Payqr/>}/>
         </Routes>
       </Router>
     

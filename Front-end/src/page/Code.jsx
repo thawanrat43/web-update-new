@@ -237,7 +237,7 @@ const Code = () => {
                                     <Card.Body >
                                         <Row>
                                             <Col  className='justify-content-center m-5'> 
-                                                <Image src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%'}} />
+                                                <Image className='img-fluid' src={"https://back-end-newupdate.onrender.com/"+users.profilepic}  />
                                             </Col>
                                         </Row>
                                         <Row className='p-3'>

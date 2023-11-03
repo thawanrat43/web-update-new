@@ -201,7 +201,7 @@ const Profileupdate = () => {
                                     </Row>
                                     <Row>
                                         <Col className='d-flex justify-content-center m-5'>
-                                            <Image className='mt-3' src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%' }} />
+                                            <Image className='mt-3 img-fluid' src={"https://back-end-newupdate.onrender.com/"+users.profilepic}  />
                                         </Col>
                                     </Row>
                                         

@@ -65,7 +65,7 @@ app.use(cookieParser());
 // http://lambent-donut-b06776.netlify.app
 // https://64f7ff2936356b307e42dcee--venerable-axolotl-d1d4fd.netlifye4s.app
 app.use(cors({
-  origin: ["https://65407bdfdde71c4b54c5b20d--stately-cupcake-1c1083.netlify.app","http://localhost:3000","https://6540afbc6d707c6ce43bda33--reliable-snickerdoodle-c3acc9.netlify.app","https://650291076cfc3a12da215377--deft-gaufre-e9ad20.netlify.app"],
+  origin: ["https://65407bdfdde71c4b54c5b20d--stately-cupcake-1c1083.netlify.app","http://localhost:3000","https://654476ce5636ae40e9ffcdf5--super-croquembouche-d3c0d8.netlify.app","https://650291076cfc3a12da215377--deft-gaufre-e9ad20.netlify.app","https://654471ce5636ae3cdfffd223--bright-caramel-220f17.netlify.app","https://6544729d20f77c3f5d78f944--gentle-dasik-8d4dd1.netlify.app","https://654477e3bf589d4302e23255--leafy-lebkuchen-bcad3a.netlify.app","https://654479bb5636ae426dffcf31--jazzy-gnome-845f28.netlify.app"],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -1980,6 +1980,146 @@ app.post('/filehistory/:id',uploadss.single('file'),function (req, res, next){
       // error
       console.log(err)
       res.status(500).send('Server Error')
+  }
+})
+app.post('/getcheckpayqr/:id',function (req, res, next) {
+  const userid = req.params.id;
+  console.log(req.body.userid)
+  
+  try{
+    connection.query("UPDATE history SET pay= ? WHERE idhistory=? ",[req.body.qrcheck,req.body.userid],(err,updatedata) =>  {
+        if (err) return res.send(err);
+        else{
+          console.log('ok')
+          return res.json(updatedata);
+        }
+        
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
+  }
+})
+app.get('/checkidcard/:id',function (req, res, next) {
+  const userid = req.params.id;
+  const check = [];
+ 
+  try{
+    connection.execute("SELECT * FROM history WHERE userid=? ",[userid],(err,user) =>  {
+      const numuser = user.length
+      const endfor = numuser-1
+      console.log(user[6])
+      console.log(endfor)
+        for(let i = 0; i < numuser; i++) {
+          console.log('numi',i)
+          if(i == endfor){
+            console.log('endfor')
+            const numcheck = check.length
+            if(check[numcheck-1].idcard != user[i].idcard){
+              console.log("สุดท้าย")
+              check[numcheck] = user[i]
+              console.log('0',i)
+            } 
+          }else{
+            for(let j = i+1; j < numuser; j++) {
+              
+                if(user[i].idcard == user[j].idcard){
+                  if(check[0] == undefined){
+                    check[0] = user[i]
+                    console.log('1',i)
+                    
+                  }else{
+                    for(let k =0; k < check.length; k++) {
+                      if(check[k].idcard == user[i].idcard){
+                        console.log('2',i)
+                        
+                      }else{
+                        if(check[k+1] == undefined){
+                          check[k+1] = user[i]
+                          console.log('4',i)
+                          
+                        }
+                        
+                      }
+                      k+1;
+                    }
+                  }
+                }else{
+                  if(check[0]==undefined){
+                    check[0] = user[i]
+                    console('5',i)
+                  }else{
+                    for(let f=0; f < check.length; f++) {
+                      
+                      if(check[f].idcard == user[i].idcard){
+                        console.log('3',i)
+                        
+                      }else{
+                        if(check[f+1]==undefined){
+                          check[f+1] = user[i]
+                          console.log('4',i)
+                          
+                        }
+                        
+                      }
+                      f+1;
+                    }
+                  }
+                  
+                
+              }
+              j+1;
+            } 
+          }
+          i+1;  
+        }  
+        console.log(check.length)
+        return res.json(check);
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
+  }
+})
+app.get('/gethistoryidcard/:id',function (req, res, next) {
+  const userid = req.params.id;
+  let historyuser = [];
+  try{
+    connection.execute("SELECT * FROM history WHERE idhistory=? ",[userid],(err,data) =>  {
+      if (err) return res.send(err);
+      else{
+        
+        connection.execute("SELECT * FROM history WHERE idcard=? and userid = ? ",[data[0].idcard,data[0].userid],(err,history) =>  {
+          if (err) return res.send(err);
+          else{
+            if(history.length == 1){
+              return res.json(history);
+            }else{
+              
+              const num = historyuser.length
+              console.log(history.idhistory)
+              for(let i = 0; i < history.length; i++) {
+                connection.query("SELECT * FROM historydetails WHERE id=?",[history.idhistory],(err,user) =>  {
+                    if (err) return res.send(err);
+                    
+                    historyuser[num] = user[0];
+                    console.log(num)
+                    console.log(historyuser)
+                    return res.json(historyuser);
+                  })
+                i+1;
+              }
+              
+            }
+            
+          }
+        })
+      }
+      
+    })
+  }catch(err){
+    console.log(err);
+    return res.status(500).send();
   }
 })
 // app.listen(process.env.PROST || 3000)

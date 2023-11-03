@@ -22,18 +22,32 @@ const Pagestatus = () => {
     const { id }  =useParams();
     const [user ,setUser] = useState([]);
     const [profile,setProfile] =useState([]);
-   
+    const [check ,setCheck] = useState([]);
+    let numrepeat = 0;
+    const checkidcard = async ()=>{
+        numrepeat = 0;
+        for(let i =0; i < user.length; i++) {
+            for(let j =0; j < user.length; j++) {
+                if(user[i].idcard == user[j].idcard){
+                    check[i] = user[i]
+                    j++;
+                }
+            } 
+        }  
+        console.log(check)
+    }
     const getdata = async ()=>{
         try{
             const response = await axios.get(`https://back-end-newupdate.onrender.com/pagestatus/${id}`);
             setUser(response.data);
+            
         } catch (err) {
             console.log(err);
         }
     }
     const getcheck = async () =>{
         try{
-          if(data[0].status==''){
+          if(profile[0].status==''){
             window.location='/login'
             localStorage.removeItem('token');
           }else{
@@ -98,7 +112,10 @@ const Pagestatus = () => {
         localStorage.removeItem('token');
         window.location='/login'
     }
+    
     console.log(user)
+    console.log(profile)
+    
     return (
         <div>
             
@@ -146,31 +163,36 @@ const Pagestatus = () => {
                                     <div  className=' mb-3 p-1 rounded' style= { headlineStyle }>
                                     <Container className='m-2 fs-6 ' >
                                             <div>
+
                                                 {users.pay === 'เสร็จสิ้น'  ? (
-                                                    <Link to={`/history/${users.idhistory}`} style={{color: "#708090" ,textDecoration: 'none'}}>
-                                                        <Row className='mt-3 ml-3 fs-6' style={{fontFamily:"Athiti"}}>
-                                                            <Col>
-                                                                <p >ชื่อ-นามสกุล</p>
-                                                            </Col>
-                                                            <Col>
-                                                                <p>หมายเลขประจำตัวประชาชน</p>
-                                                            </Col>
-                                                            <Col>
-                                                                <p>สถานะ</p>
-                                                            </Col>
-                                                        </Row>
-                                                        <Row className='m ml-3 mb-3 text-black fs-6' style={{fontFamily:"Athiti"}}>
-                                                            <Col>
-                                                                <p>{users.type_id} {users.fname} {users.lname} </p>
-                                                            </Col>
-                                                            <Col>
-                                                                <p>{users.idcard}</p>
-                                                            </Col>
-                                                            <Col >
-                                                                <p>{users.pay}</p>
-                                                            </Col>
-                                                        </Row>
-                                                    </Link>        
+                                                     <div>
+                                                            <Link to={`/history/${users.idhistory}`} style={{color: "#708090" ,textDecoration: 'none'}}>
+                                                            <Row className='mt-3 ml-3 fs-6' style={{fontFamily:"Athiti"}}>
+                                                                <Col>
+                                                                    <p >ชื่อ-นามสกุล</p>
+                                                                </Col>
+                                                                <Col>
+                                                                    <p>หมายเลขประจำตัวประชาชน</p>
+                                                                </Col>
+                                                                <Col>
+                                                                    <p>สถานะ</p>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row className='m ml-3 mb-3 text-black fs-6' style={{fontFamily:"Athiti"}}>
+                                                                <Col>
+                                                                    <p>{users.type_id} {users.fname} {users.lname} </p>
+                                                                </Col>
+                                                                <Col>
+                                                                    <p>{users.idcard}</p>
+                                                                </Col>
+                                                                <Col >
+                                                                    <p>{users.pay}</p>
+                                                                </Col>
+                                                            </Row>
+                                                        </Link>  
+                                                        
+                                                    </div>
+                                                          
 
                                                 ) : users.pay === "กำลังตรวจสอบการชำระเงิน" ?(
                                                     <div style={{color: "#708090" ,textDecoration: 'none'}}>

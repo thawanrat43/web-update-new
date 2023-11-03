@@ -18,8 +18,10 @@ import qr from '../image/qrcode.jpg'
 import {useNavigate} from "react-router-dom"
 import Swal from 'sweetalert2';
 import { key } from 'localforage';
-const Qrcode = () => {
-    const { id }  = useParams();
+import ReactDOM from "react-dom";
+import QRCode from "react-qr-code";
+function Qrcodegenpay() {
+    const { userid }  = useParams();
     const [user ,setUser] = useState([]);
     const popups = async ()=>{
       Swal.fire({
@@ -29,11 +31,12 @@ const Qrcode = () => {
           confirmButtonColor: '#D3D3D3',
           confirmButtonText: '  ไปหน้าแจ้งการชำระเงิน',
 
-      }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = `/imgpay/${id}`
-          }
-      });
+      })
+    //   .then((result) => {
+    //       if (result.isConfirmed) {
+    //         window.location.href = `/imgpay/${i}`
+    //       }
+    //   });
         
     }
     const getcheck = async () =>{
@@ -52,7 +55,7 @@ const Qrcode = () => {
     const [data,setData]=useState([]);
     const gethistory = async ()=>{
         try{
-            const response = await axios.get(`https://back-end-newupdate.onrender.com/gethistory/${id}`);
+            const response = await axios.get(`https://back-end-newupdate.onrender.com/gethistory/${userid}`);
             setData(response.data);
         } catch (err) {
             console.log(err);
@@ -60,7 +63,7 @@ const Qrcode = () => {
     }
     const getdata = async ()=>{
       try{
-          const response = await axios.get(`https://back-end-newupdate.onrender.com/profilehistory/${id}`);
+          const response = await axios.get(`https://back-end-newupdate.onrender.com/profilehistory/${userid}`);
           setUser(response.data);
           getcheck();
       } catch (err) {
@@ -108,8 +111,9 @@ const Qrcode = () => {
     }
     console.log(user);
     console.log(data);
+    const qrurl = 'https://654477e3bf589d4302e23255--leafy-lebkuchen-bcad3a.netlify.app/payqr/'+userid
     return (
-      <div style={{fontFamily:"Athiti"}}>
+        <div style={{fontFamily:"Athiti"}}>
         {user.map((users,key4)=>
         <div  key={key4}>
           <Navbar collapseOnSelect expand="lg" className="bg-wh" style={{fontFamily:"Athiti"}}>
@@ -145,14 +149,17 @@ const Qrcode = () => {
                 <Row>
                   <p className='d-flex justify-content-center fs-3'>ชำระเงิน</p>                 
                 </Row>
-                <Row className='d-flex justify-content-center m-3'>
-                   <Image src={qr}   className='img-fluid'/>               
+                {data.map((datas,key)=>
+                <Row key={key} className='d-flex justify-content-center '>
+                   {/* <Image src={"https://promptpay.io/0897386083/"+datas.amountpaid} style={{height:"50%",width:'70%'}}/>                */}
+                    <QRCode
+                        size={400} 
+                        bgColor='white'
+                        fgColor='black'
+                        value= {qrurl}
+                    />
                 </Row>
-                {/* {users.criminal === '' ? (
-                  data=data+0;
-                ) : (
-                  data=data+100;
-                )} */}
+                )}
                 {data.map((datas,key)=>
                   <Row key={key}>
                     <p className='d-flex justify-content-center fs-6'>จำนวนที่ต้องชำระ :  {datas.amountpaid} </p>                   
@@ -182,4 +189,4 @@ const Qrcode = () => {
     )
 }
 
-export default Qrcode
+export default Qrcodegenpay

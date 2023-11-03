@@ -377,7 +377,7 @@ const Adminprofile = () => {
                                     <Card.Body className='my-auto'>
                                         <Row className='mt-5' style={{}} >
                                             
-                                                <Image className='img-fluid mt-4' src={"https://back-end-newupdate.onrender.com/"+datas.profilepic}roundedCircle  />
+                                                <Image className='img-fluid mt-4' src={"https://back-end-newupdate.onrender.com/"+datas.profilepic} />
                                             
                                         </Row>
                                         

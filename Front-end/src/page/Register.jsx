@@ -107,6 +107,7 @@ const Register = () => {
     };
     
     const navigate = useNavigate()
+    
     const handleClick = async (e) => {
         e.preventDefault();
     

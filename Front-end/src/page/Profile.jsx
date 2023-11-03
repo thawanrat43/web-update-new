@@ -125,7 +125,7 @@ const Profile = ({}) => {
                                 <Card.Body>
                                     <Row className=''>
                                         <Col className='justify-content-center m-5' style={{position:'relative'}}> 
-                                            <Image className=''  src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle style={{width : '100%' ,lineHeight:1.5,verticalAlign:'middle'}} />
+                                            <Image className='img-fluid'  src={"https://back-end-newupdate.onrender.com/"+users.profilepic}roundedCircle  />
                                         </Col>
                                     </Row>
                                     <Row className='p-3'>

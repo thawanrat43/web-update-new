@@ -125,7 +125,7 @@ const Pay = () => {
         
         
         
-        <Card className='m-5 p-5 justify-content-start' style={{fontFamily:"Athiti" ,width:"40%",height:'60%'}} >
+        <Card className='m-5 p-5 justify-content-start' style={{fontFamily:"Athiti" ,width:"60%",height:'60%'}} >
             <p className='fs-2 mb-5'>ช่องทางการชำระเงิน</p>
             <div>
             {user.map((userss,k11)=>
@@ -140,6 +140,18 @@ const Pay = () => {
                   </Button>
                   
                 </Link>
+                <Row>
+                <Link to={`/qrcodegenpay/${id}`} className=''>
+                  <Button className='bg-secondary text-white fs-6 mt-3'  variant="primary" size="lg" onClick={amountpaid}>
+                    <div className='mt-1 d-flex'>
+                      
+                      <p className='ml-3 mt-1 bi bi-qr-code-scan fs-5' style={{fontFamily:"Athiti"}}>  QRcode ตรวจสอบการชำระเงินอัตโนมัติ</p>
+                    </div>
+                    
+                  </Button>
+                  
+                </Link>
+                </Row>
               </div>
             )}
                 
